@@ -8,6 +8,11 @@ updates:
       interval: weekly
       day: monday
     open-pull-requests-limit: 5
+    ignore:
+      # TypeScript 7 aún no es compatible con las herramientas de Astro (@astrojs/check).
+      # Quitar esta regla cuando lo sea.
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
     groups:
       # Las actualizaciones menores y de parches llegan juntas en una sola PR.
       menores:
