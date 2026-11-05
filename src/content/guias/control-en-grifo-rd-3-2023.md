@@ -16,12 +16,12 @@ draft: false
 | Grupo                            | Parámetros                                                                  |
 | -------------------------------- | --------------------------------------------------------------------------- |
 | Microbiología                    | E. coli, recuento de colonias a 22 °C                                       |
-| Organolépticos y físico-químicos | Color, turbidez, conductividad, pH                                          |
+| Organolépticos y físico-químicos | Color, turbidez, conductividad, pH, cloro libre residual                    |
 | Metales                          | Plomo; cobre, cromo, níquel y hierro si la instalación interior es metálica |
 
 ## Edificios prioritarios
 
-En hoteles, residencias, hospitales y otros edificios prioritarios, el control en grifo se completa con **Legionella** y, en hospitales, con _Pseudomonas aeruginosa_. Por eso lo ofrecemos como un único paquete.
+En los edificios prioritarios (anexo VIII: hoteles de 500 plazas, residencias y hospitales de 200 camas, entre otros) el control en grifo se completa con **Legionella** y, en las unidades de cuidados aumentados de los hospitales, con _Pseudomonas aeruginosa_ y la temperatura del agua. El número de análisis al año depende de los puntos de acceso al agua: puedes calcularlo en la [calculadora](/calculadora/). Por eso lo ofrecemos como un único paquete.
 
 ## Qué se hace en el laboratorio y qué se subcontrata
 

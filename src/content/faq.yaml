@@ -21,7 +21,7 @@
 - id: muestras
   order: 50
   q: ¿Quién toma las muestras?
-  a: Normalmente las toma tu equipo y nos las envía con la etiqueta QR del pedido. La toma por nuestro equipo llegará en 2028.
+  a: Hasta el 1 de enero de 2030 puede tomarlas personal de tu empresa siguiendo el anexo VI del RD 487/2022, y nos las envías con la etiqueta QR del pedido. Desde esa fecha, la toma para el cultivo de Legionella tendrá que hacerla una entidad acreditada. Nuestra toma de muestras llegará en 2028.
 - id: api
   order: 60
   q: ¿Tenéis API para integrarlo con nuestro software?

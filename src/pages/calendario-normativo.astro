@@ -1,0 +1,153 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import Icon from '@/components/Icon.astro';
+import { hitos } from '@/data/calendario';
+import { formatDate } from '@/lib/content';
+
+const today = new Date();
+const items = hitos
+  .map((h) => ({ ...h, d: new Date(h.date + 'T00:00:00') }))
+  .sort((a, b) => a.d.valueOf() - b.d.valueOf());
+const nextIndex = items.findIndex((h) => h.d >= today);
+---
+
+<BaseLayout
+  title="Calendario normativo de Legionella y agua de consumo"
+  description="Fechas clave del RD 487/2022, el RD 614/2024 y el RD 3/2023 hasta 2030: acreditación de laboratorios, toma de muestras acreditada y edificios prioritarios."
+  breadcrumbs={[{ name: 'Calendario normativo', href: '/calendario-normativo/' }]}
+>
+  <PageHeader
+    eyebrow="Calendario normativo"
+    icon="clock"
+    title="Lo que cambia hasta 2030"
+    summary="La gran fecha es el 1 de enero de 2030: desde entonces la toma de muestras de Legionella solo podrá hacerla una entidad acreditada. Antes, en 2028, se exige la acreditación a más laboratorios de agua de consumo."
+  />
+
+  <section class="section">
+    <div class="container">
+      <ol class="timeline">
+        {items.map((h, i) => (
+          <li class:list={['hito', { 'hito--past': h.d < today, 'hito--next': i === nextIndex }]}>
+            <div class="hito__date">
+              <time datetime={h.date}>{formatDate(h.d)}</time>
+              {i === nextIndex && <span class="chip">Próxima fecha</span>}
+              {h.d < today && <span class="chip chip--ok">En vigor</span>}
+            </div>
+            <div class="hito__body">
+              <p class="hito__who">{h.who}</p>
+              <h2>{h.title}</h2>
+              <p>{h.text}</p>
+              <a class="hito__source" href={h.sourceUrl} rel="noopener" target="_blank">
+                {h.source}
+              </a>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="note">
+        <Icon name="shield" />
+        <span>
+          Fechas verificadas en los textos consolidados del BOE y en la FAQ del Ministerio de
+          Sanidad. Para el fin del periodo transitorio de la toma de Legionella, el BOE dice «hasta
+          el 1 de enero de 2030» y la tabla de fechas de Sanidad indica el 2 de enero de 2030.
+        </span>
+      </p>
+    </div>
+  </section>
+
+  <CtaBanner
+    title="¿Llegas a 2030 con la toma de muestras resuelta?"
+    text="Te ayudamos a planificarlo: hasta entonces tu equipo puede seguir tomando las muestras, y te preparamos para el cambio."
+  />
+</BaseLayout>
+
+<style>
+  .timeline {
+    list-style: none;
+    padding: 0;
+    position: relative;
+    max-width: 56rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.45rem;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 2px;
+    background: var(--color-border);
+  }
+  .hito {
+    position: relative;
+    display: grid;
+    gap: 0.5rem 2rem;
+    padding: 0 0 var(--space-5) 2.25rem;
+  }
+  @media (min-width: 800px) {
+    .hito {
+      grid-template-columns: 12rem 1fr;
+    }
+  }
+  .hito::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.35rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: var(--color-bg);
+    border: 2px solid var(--color-accent);
+  }
+  .hito--past::before {
+    background: var(--color-accent);
+  }
+  .hito--next::before {
+    box-shadow: 0 0 0 5px var(--color-accent-soft);
+  }
+  .hito__date {
+    display: grid;
+    gap: 0.4rem;
+    justify-items: start;
+    align-content: start;
+    font-weight: 500;
+  }
+  .hito--past .hito__body {
+    opacity: 0.75;
+  }
+  .hito__who {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-accent-strong);
+  }
+  .hito h2 {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-top: 0.2rem;
+  }
+  .hito p {
+    margin-top: 0.3rem;
+    color: var(--color-text-muted);
+  }
+  .hito__source {
+    display: inline-block;
+    margin-top: 0.4rem;
+    font-size: 0.85rem;
+  }
+  .note {
+    display: flex;
+    gap: 0.75rem;
+    max-width: 56rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+  .note :global(svg) {
+    flex: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--color-accent-strong);
+  }
+</style>

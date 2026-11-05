@@ -111,6 +111,7 @@ export const mainNav = [
   { label: 'Servicios', href: '/servicios/' },
   { label: 'Partners', href: '/partners/' },
   { label: 'Planes', href: '/planes/' },
+  { label: 'Calculadora', href: '/calculadora/' },
   { label: 'Cómo trabajamos', href: '/como-trabajamos/' },
   { label: 'Guías', href: '/guias/' },
 ] as const;
@@ -125,6 +126,7 @@ export const resourcesNav = [
   { label: 'Cambiar de laboratorio', href: '/cambiar-de-laboratorio/' },
   { label: 'Reservar una demo', href: '/demo/' },
   { label: 'Glosario', href: '/glosario/' },
+  { label: 'Calendario normativo', href: '/calendario-normativo/' },
   { label: 'Preguntas frecuentes', href: '/preguntas-frecuentes/' },
 ] as const;
 

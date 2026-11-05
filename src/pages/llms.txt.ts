@@ -77,6 +77,17 @@ export const GET: APIRoute = async () => {
       '/como-trabajamos/',
       'portal, API, plazos máximos e informes en co-marca',
     ),
+    link(
+      'Calculadora de muestras',
+      '/calculadora/',
+      'muestras al año según RD 487/2022 (anexo V), RD 3/2023 y RD 742/2013, con la tabla de frecuencias',
+    ),
+    link(
+      'Calendario normativo',
+      '/calendario-normativo/',
+      'fechas clave hasta 2030 con su fuente en el BOE',
+    ),
+    link('Glosario', '/glosario/', 'términos de análisis de agua y Legionella'),
     link('Programa Partner', '/partners/', 'condiciones para empresas que revenden el análisis'),
     link(
       'Informe de ejemplo',

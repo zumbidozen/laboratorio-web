@@ -1,0 +1,715 @@
+---
+/**
+ * Calculadora de muestras al año según el RD 487/2022 (anexo V), el RD 3/2023 (anexo II)
+ * y el RD 742/2013. Los datos están en src/data/frecuencias.ts.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import Icon from '@/components/Icon.astro';
+import Faq from '@/components/Faq.astro';
+import { BOE, tabla2, tabla3, tabla13, edificiosPrioritarios, perYear } from '@/data/frecuencias';
+import { faqPage } from '@/lib/schema';
+
+const label = (f: string | null) => (f ? f.charAt(0).toUpperCase() + f.slice(1) : '—');
+const data = { tabla2, tabla13, perYear };
+
+const faq = [
+  {
+    q: '¿Cada cuánto hay que analizar Legionella en agua caliente sanitaria?',
+    a: 'Trimestralmente, según la tabla 3 del anexo V del RD 487/2022, en el depósito, el acumulador, el retorno y los puntos terminales que marca la tabla 2.',
+  },
+  {
+    q: '¿Y en una torre de refrigeración?',
+    a: 'Legionella y hierro cada mes, aerobios cada trimestre, y conductividad mensual, en al menos un punto: el retorno o, si no, el depósito o la balsa.',
+  },
+  {
+    q: '¿Estas frecuencias son obligatorias en todos los casos?',
+    a: 'Son los mínimos cuando la instalación sigue un plan de prevención y control (PPCL). Con un plan sanitario frente a Legionella (PSL) o por criterio de la autoridad sanitaria pueden cambiar.',
+  },
+  {
+    q: '¿Después de una desinfección hay que volver a analizar?',
+    a: 'Sí. El RD 487/2022 pide una determinación de Legionella en puntos representativos entre 15 y 30 días después de la limpieza y desinfección.',
+  },
+];
+---
+
+<BaseLayout
+  title="Calculadora de muestras de Legionella al año"
+  description="Calcula cuántas muestras de Legionella, aerobios, hierro, piscina y control en grifo te tocan al año según el RD 487/2022, el RD 3/2023 y el RD 742/2013."
+  breadcrumbs={[{ name: 'Calculadora', href: '/calculadora/' }]}
+  schema={[faqPage(faq)]}
+>
+  <PageHeader
+    eyebrow="Calculadora"
+    icon="gauge"
+    title="¿Cuántas muestras te tocan al año?"
+    summary="Indica tus instalaciones y te calculamos los análisis mínimos al año según el RD 487/2022, el RD 3/2023 y el RD 742/2013. Después, pide tarifa con esos datos en un clic."
+  />
+
+  <section class="section section--tight">
+    <div class="container calc" data-calc>
+      <script type="application/json" id="calc-data" set:html={JSON.stringify(data)} />
+      <div class="calc__inputs">
+        <!-- Agua sanitaria -->
+        <fieldset class="block">
+          <legend>
+            <span class="icon-tile">
+              <Icon name="droplet" />
+            </span>
+            <span>
+              <strong>Agua sanitaria (caliente y fría)</strong>
+              <small>Un bloque por edificio. Legionella y aerobios cada trimestre.</small>
+            </span>
+          </legend>
+          <div data-buildings></div>
+          <button type="button" class="btn btn--ghost btn--sm" data-add-building>
+            <Icon name="plus" /> Añadir edificio
+          </button>
+          <p class="hint">
+            Cuenta como punto terminal cada grifo o ducha (un mezclador cuenta como uno de caliente
+            y uno de fría). En hoteles y residencias, todos los puntos de una habitación cuentan
+            como uno.
+          </p>
+        </fieldset>
+
+        <!-- Torres -->
+        <fieldset class="block">
+          <legend>
+            <span class="icon-tile">
+              <Icon name="factory" />
+            </span>
+            <span>
+              <strong>Torres de refrigeración y condensadores</strong>
+              <small>Legionella y hierro cada mes, aerobios cada trimestre.</small>
+            </span>
+          </legend>
+          <label class="num">
+            <span>Número de torres o condensadores</span>
+            <input type="number" min="0" max="999" value="0" data-in="torres" inputmode="numeric" />
+          </label>
+        </fieldset>
+
+        <!-- Spa -->
+        <fieldset class="block">
+          <legend>
+            <span class="icon-tile">
+              <Icon name="waves" />
+            </span>
+            <span>
+              <strong>Spa e hidromasaje (agua climatizada con aerosolización)</strong>
+              <small>Legionella y aerobios cada mes.</small>
+            </span>
+          </legend>
+          <div class="row">
+            <label class="num">
+              <span>Con recirculación</span>
+              <input
+                type="number"
+                min="0"
+                max="999"
+                value="0"
+                data-in="spaRecirc"
+                inputmode="numeric"
+              />
+            </label>
+            <label class="num">
+              <span>Sin recirculación</span>
+              <input
+                type="number"
+                min="0"
+                max="999"
+                value="0"
+                data-in="spaSin"
+                inputmode="numeric"
+              />
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Piscinas -->
+        <fieldset class="block">
+          <legend>
+            <span class="icon-tile">
+              <Icon name="waves" />
+            </span>
+            <span>
+              <strong>Piscinas de uso público</strong>
+              <small>Control inicial antes de abrir y control mensual mientras está abierta.</small>
+            </span>
+          </legend>
+          <div class="row">
+            <label class="num">
+              <span>Número de vasos</span>
+              <input
+                type="number"
+                min="0"
+                max="999"
+                value="0"
+                data-in="vasos"
+                inputmode="numeric"
+              />
+            </label>
+            <label class="num">
+              <span>Meses abiertos al año</span>
+              <input type="number" min="1" max="12" value="4" data-in="meses" inputmode="numeric" />
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Edificio prioritario -->
+        <fieldset class="block">
+          <legend>
+            <span class="icon-tile">
+              <Icon name="building" />
+            </span>
+            <span>
+              <strong>Control en grifo de edificios prioritarios (RD 3/2023)</strong>
+              <small>Incluye Legionella. Un número por edificio, separados por comas.</small>
+            </span>
+          </legend>
+          <label class="num num--wide">
+            <span>Puntos de acceso al agua de cada edificio</span>
+            <input
+              type="text"
+              placeholder="Ej.: 80, 240"
+              data-in="prioritarios"
+              inputmode="numeric"
+            />
+          </label>
+        </fieldset>
+
+        <!-- Otras -->
+        <fieldset class="block">
+          <legend>
+            <span class="icon-tile">
+              <Icon name="layers" />
+            </span>
+            <span>
+              <strong>Otras instalaciones</strong>
+              <small>Fuentes ornamentales, lavado de vehículos, riego por aspersión…</small>
+            </span>
+          </legend>
+          <div class="row">
+            <label class="num">
+              <span>Con depósito y recirculación</span>
+              <input
+                type="number"
+                min="0"
+                max="999"
+                value="0"
+                data-in="otrasRecirc"
+                inputmode="numeric"
+              />
+            </label>
+            <label class="num">
+              <span>Sin recirculación</span>
+              <input
+                type="number"
+                min="0"
+                max="999"
+                value="0"
+                data-in="otrasSin"
+                inputmode="numeric"
+              />
+            </label>
+          </div>
+        </fieldset>
+      </div>
+
+      <aside class="calc__result" aria-live="polite">
+        <p class="eyebrow">Resultado</p>
+        <p class="total">
+          <span data-out="total">0</span> <small>muestras al año</small>
+        </p>
+        <p class="muted">
+          ≈ <span data-out="mes">0</span> al mes de media
+        </p>
+        <table class="breakdown">
+          <tbody data-out="rows"></tbody>
+        </table>
+        <button type="button" class="btn" data-quote disabled>
+          Pide tarifa con estos datos <Icon name="arrow-right" />
+        </button>
+        <p class="fine">
+          Mínimos para instalaciones con plan de prevención y control (PPCL). Con un PSL o por
+          criterio de la autoridad sanitaria pueden variar. Confírmalo con el plan de cada
+          instalación.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Referencia normativa (visible para buscadores y asistentes de IA) -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Referencia</p>
+        <h2>Frecuencias mínimas del RD 487/2022</h2>
+        <p class="lead">
+          Tabla 3 del anexo V, parámetros que se analizan en laboratorio. pH, temperatura, turbidez
+          y biocida se miden in situ con más frecuencia.
+          <a href={BOE.rd487AnexoV} rel="noopener" target="_blank">
+            Ver en el BOE
+          </a>
+          .
+        </p>
+      </div>
+      <div class="prose wide">
+        <table>
+          <thead>
+            <tr>
+              <th>Instalación</th>
+              <th>Legionella</th>
+              <th>Aerobios</th>
+              <th>Hierro</th>
+              <th>Nota</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tabla3.map((r) => (
+              <tr>
+                <td>{r.instalacion}</td>
+                <td>{label(r.legionella)}</td>
+                <td>{label(r.aerobios)}</td>
+                <td>{label(r.hierro)}</td>
+                <td>{r.nota}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="refs">
+        <div class="prose">
+          <h3>Puntos terminales por muestreo (tabla 2)</h3>
+          <p>
+            Agua sanitaria de uso colectivo. Además: depósito, acumulador y retorno, si existen.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Puntos terminales</th>
+                <th>Caliente</th>
+                <th>Fría</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tabla2.map((r, i) => (
+                <tr>
+                  <td>{i === 0 ? `Hasta ${r.max}` : `${tabla2[i - 1].max + 1}–${r.max}`}</td>
+                  <td>{r.caliente}</td>
+                  <td>{r.fria}</td>
+                </tr>
+              ))}
+              <tr>
+                <td>Más de 350</td>
+                <td colspan="2">Aumentar proporcionalmente</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="prose">
+          <h3>Edificios prioritarios (RD 3/2023)</h3>
+          <p>
+            Anexo VIII. Hacen control en grifo con Legionella:
+            <a href={BOE.rd3} rel="noopener" target="_blank">
+              ver en el BOE
+            </a>
+            .
+          </p>
+          <ul>
+            {edificiosPrioritarios.map((e) => (
+              <li>{e}</li>
+            ))}
+          </ul>
+          <p>
+            Análisis al año (anexo II, tabla 13): {tabla13[0].analisis} con menos de 50 puntos de
+            acceso; {tabla13[1].analisis} entre 50 y 100; {tabla13[2].analisis} entre 100 y 200; y
+            por encima de 200, uno más por cada 100 puntos o fracción.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <Faq items={faq} split />
+    </div>
+  </section>
+</BaseLayout>
+
+<template id="building-tpl">
+  <div class="building">
+    <div class="building__head">
+      <strong>
+        Edificio <span data-n></span>
+      </strong>
+      <button type="button" class="building__remove" data-remove aria-label="Quitar edificio">
+        ✕
+      </button>
+    </div>
+    <div class="row">
+      <label class="num">
+        <span>Puntos terminales de agua caliente</span>
+        <input type="number" min="0" max="5000" value="0" data-b="caliente" inputmode="numeric" />
+      </label>
+      <label class="num">
+        <span>Puntos terminales de agua fría</span>
+        <input type="number" min="0" max="5000" value="0" data-b="fria" inputmode="numeric" />
+      </label>
+    </div>
+    <div class="checks">
+      <label>
+        <input type="checkbox" data-b="deposito" /> Depósito
+      </label>
+      <label>
+        <input type="checkbox" data-b="acumulador" checked /> Acumulador
+      </label>
+      <label>
+        <input type="checkbox" data-b="retorno" checked /> Circuito de retorno
+      </label>
+      <label>
+        <input type="checkbox" data-b="hierro" /> Tuberías con hierro
+      </label>
+    </div>
+  </div>
+</template>
+
+<script>
+  type Tramo2 = { max: number; caliente: number; fria: number };
+  type Tramo13 = { max: number; analisis: number };
+  const data = JSON.parse(document.getElementById('calc-data')!.textContent!) as {
+    tabla2: Tramo2[];
+    tabla13: Tramo13[];
+    perYear: Record<string, number>;
+  };
+  const root = document.querySelector<HTMLElement>('[data-calc]')!;
+  const list = root.querySelector<HTMLElement>('[data-buildings]')!;
+  const tpl = document.getElementById('building-tpl') as HTMLTemplateElement;
+  const num = (v: string | null | undefined) => Math.max(0, Math.floor(Number(v) || 0));
+  const val = (k: string) => num(root.querySelector<HTMLInputElement>(`[data-in="${k}"]`)?.value);
+
+  /** Puntos terminales a muestrear según la tabla 2 (por encima de 350, proporcional). */
+  function terminales(n: number, tipo: 'caliente' | 'fria') {
+    if (n <= 0) return 0;
+    const tramo = data.tabla2.find((t) => n <= t.max);
+    if (tramo) return tramo[tipo];
+    const last = data.tabla2[data.tabla2.length - 1];
+    return Math.ceil((n * last[tipo]) / last.max);
+  }
+
+  /** Análisis de control en grifo al año según la tabla 13 del RD 3/2023. */
+  function grifo(puntos: number) {
+    if (puntos <= 0) return 0;
+    const tramo = data.tabla13.find((t) => puntos <= t.max);
+    if (tramo) return tramo.analisis;
+    return 6 + Math.ceil((puntos - 200) / 100);
+  }
+
+  function addBuilding() {
+    const node = tpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+    list.append(node);
+    renumber();
+    calc();
+  }
+  function renumber() {
+    list.querySelectorAll('[data-n]').forEach((el, i) => (el.textContent = String(i + 1)));
+  }
+
+  let summary = '';
+  function calc() {
+    const rows: [string, number, string][] = [];
+    // Agua sanitaria
+    let sanL = 0;
+    let sanFe = 0;
+    list.querySelectorAll<HTMLElement>('.building').forEach((b) => {
+      const q = (k: string) => b.querySelector<HTMLInputElement>(`[data-b="${k}"]`)!;
+      const puntos =
+        (q('deposito').checked ? 1 : 0) +
+        (q('acumulador').checked ? 1 : 0) +
+        (q('retorno').checked ? 1 : 0) +
+        terminales(num(q('caliente').value), 'caliente') +
+        terminales(num(q('fria').value), 'fria');
+      sanL += puntos * 4;
+      if (q('hierro').checked) sanFe += puntos * 4;
+    });
+    if (sanL) rows.push(['Agua sanitaria · Legionella + aerobios', sanL, 'trimestral']);
+    if (sanFe) rows.push(['Agua sanitaria · hierro', sanFe, 'misma muestra']);
+
+    const torres = val('torres');
+    if (torres) {
+      rows.push(['Torres · Legionella + hierro', torres * 12, 'mensual']);
+      rows.push(['Torres · aerobios', torres * 4, 'trimestral, misma muestra']);
+    }
+    const spa = val('spaRecirc') * 2 + val('spaSin');
+    if (spa) rows.push(['Spa · Legionella + aerobios', spa * 12, 'mensual']);
+
+    const vasos = val('vasos');
+    const meses = Math.min(12, Math.max(1, val('meses') || 1));
+    if (vasos)
+      rows.push(['Piscinas · controles', vasos * (meses + 1), `inicial + ${meses} mensuales`]);
+
+    const prio = (root.querySelector<HTMLInputElement>('[data-in="prioritarios"]')?.value ?? '')
+      .split(/[,;\s]+/)
+      .map(num)
+      .filter(Boolean)
+      .reduce((s, p) => s + grifo(p), 0);
+    if (prio) rows.push(['Control en grifo con Legionella', prio, 'según puntos de acceso']);
+
+    const otras = val('otrasRecirc') + val('otrasSin');
+    if (otras) rows.push(['Otras · Legionella', otras, 'anual']);
+    if (val('otrasRecirc')) rows.push(['Otras · aerobios', val('otrasRecirc') * 2, 'semestral']);
+
+    // Muestras = tomas (aerobios y hierro salen de la misma muestra que la Legionella)
+    const total = sanL + torres * 12 + spa * 12 + vasos * (meses + 1) + prio + otras;
+    root.querySelector('[data-out="total"]')!.textContent = total.toLocaleString('es-ES');
+    root.querySelector('[data-out="mes"]')!.textContent = Math.round(total / 12).toLocaleString(
+      'es-ES',
+    );
+    const tbody = root.querySelector('[data-out="rows"]')!;
+    tbody.innerHTML = '';
+    for (const [name, n, freq] of rows) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${name}<small>${freq}</small></td><td>${n.toLocaleString('es-ES')}</td>`;
+      tbody.append(tr);
+    }
+    root.querySelector<HTMLButtonElement>('[data-quote]')!.disabled = total === 0;
+    summary = [
+      `Cálculo de la web: ${total} muestras al año (≈ ${Math.round(total / 12)} al mes).`,
+      ...rows.map(([name, n, freq]) => `- ${name}: ${n} al año (${freq})`),
+    ].join('\n');
+  }
+
+  root.addEventListener('input', calc);
+  root.addEventListener('change', calc);
+  root.querySelector('[data-add-building]')!.addEventListener('click', addBuilding);
+  list.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest('[data-remove]');
+    if (btn) {
+      btn.closest('.building')?.remove();
+      renumber();
+      calc();
+    }
+  });
+  root.querySelector('[data-quote]')!.addEventListener('click', () => {
+    try {
+      sessionStorage.setItem('ensayum-calculo', summary);
+    } catch {
+      /* sin almacenamiento */
+    }
+    location.href = '/contacto/?calculo=1';
+  });
+  addBuilding();
+</script>
+
+<style>
+  .calc {
+    display: grid;
+    gap: var(--space-5);
+    align-items: start;
+  }
+  @media (min-width: 1000px) {
+    .calc {
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: var(--space-6);
+    }
+    .calc__result {
+      position: sticky;
+      top: 6.5rem;
+    }
+  }
+  .calc__inputs {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .block {
+    display: grid;
+    gap: 0.9rem;
+    margin: 0;
+    padding: 1.4rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg);
+  }
+  legend {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    float: left;
+    width: 100%;
+    padding: 0;
+  }
+  legend + * {
+    clear: both;
+  }
+  legend span:last-child {
+    display: grid;
+  }
+  legend strong {
+    font-weight: 500;
+  }
+  legend small {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+  .row {
+    display: grid;
+    gap: 0.9rem;
+  }
+  @media (min-width: 640px) {
+    .row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .num {
+    display: grid;
+    gap: 0.3rem;
+    font-size: 0.9rem;
+  }
+  .num input {
+    width: 100%;
+    max-width: 10rem;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font: inherit;
+  }
+  .num--wide input {
+    max-width: 22rem;
+  }
+  .num input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-soft);
+  }
+  :global(.building) {
+    display: grid;
+    gap: 0.8rem;
+    padding: 1rem;
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    margin-bottom: 0.6rem;
+  }
+  :global(.building__head) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  :global(.building__head strong) {
+    font-weight: 500;
+  }
+  :global(.building__remove) {
+    border: 0;
+    background: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  :global(.building .checks) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  :global(.building .checks input) {
+    accent-color: var(--color-brand);
+  }
+  :global(.building .num) {
+    display: grid;
+    gap: 0.3rem;
+    font-size: 0.9rem;
+  }
+  :global(.building .num input) {
+    width: 100%;
+    max-width: 10rem;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font: inherit;
+  }
+  :global(.building .row) {
+    display: grid;
+    gap: 0.9rem;
+  }
+  @media (min-width: 640px) {
+    :global(.building .row) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .btn--sm {
+    padding: 0.55rem 1rem;
+    font-size: 0.9rem;
+    justify-self: start;
+  }
+  .hint {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+  }
+  .calc__result {
+    display: grid;
+    gap: 0.8rem;
+    padding: 1.75rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-bg);
+    box-shadow: var(--shadow-lg);
+  }
+  .total {
+    font-size: clamp(2.6rem, 6vw, 3.6rem);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .total small {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0;
+  }
+  .breakdown {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  .breakdown :global(td) {
+    padding: 0.55rem 0;
+    border-top: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+  .breakdown :global(td:last-child) {
+    text-align: right;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .breakdown :global(small) {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+  }
+  .calc__result .btn[disabled] {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  .fine {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+  }
+  .wide {
+    max-width: none;
+  }
+  .refs {
+    display: grid;
+    gap: var(--space-5);
+    margin-top: var(--space-5);
+  }
+  @media (min-width: 900px) {
+    .refs {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

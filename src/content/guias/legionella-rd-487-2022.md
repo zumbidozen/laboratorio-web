@@ -28,12 +28,12 @@ A los titulares de instalaciones que pueden dispersar agua contaminada en forma 
 
 ## Frecuencias habituales
 
-| Instalación                                      | Frecuencia de Legionella           | Análisis que suelen acompañarla   |
-| ------------------------------------------------ | ---------------------------------- | --------------------------------- |
-| Torre de refrigeración / condensador evaporativo | Mensual                            | Aerobios, hierro y físico-químico |
-| Agua caliente y fría sanitaria                   | Trimestral, en los puntos del plan | Aerobios                          |
+| Instalación                                      | Frecuencia de Legionella           | Análisis que suelen acompañarla                          |
+| ------------------------------------------------ | ---------------------------------- | -------------------------------------------------------- |
+| Torre de refrigeración / condensador evaporativo | Mensual                            | Hierro y conductividad mensuales; aerobios trimestrales  |
+| Agua caliente y fría sanitaria                   | Trimestral, en los puntos del plan | Aerobios trimestrales; hierro si hay tuberías con hierro |
 
-La frecuencia exacta y los puntos los fija el plan de cada instalación.
+La frecuencia exacta y los puntos los fija el plan de cada instalación. Para calcular cuántas muestras te tocan al año, usa la [calculadora](/calculadora/).
 
 ## Qué hacer ante un positivo
 

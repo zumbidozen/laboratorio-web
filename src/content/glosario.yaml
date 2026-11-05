@@ -37,7 +37,7 @@
   def: Equipo de refrigeración que, como la torre, enfría por evaporación de agua y puede dispersar aerosoles. Tiene las mismas obligaciones de control de Legionella que las torres.
 - id: control-en-grifo
   term: Control en grifo
-  def: Análisis del agua en el punto donde se consume, que pide el RD 3/2023. Incluye E. coli, recuento a 22 °C, color, turbidez, conductividad, pH y plomo.
+  def: Análisis del agua en el punto donde se consume, que pide el RD 3/2023. Incluye E. coli, recuento a 22 °C, color, turbidez, conductividad, pH, cloro libre residual y plomo.
   link: /guias/control-en-grifo-rd-3-2023/
 - id: decreto-99-2024
   term: Decreto 99/2024
@@ -48,8 +48,8 @@
   def: Bacteria intestinal que indica contaminación fecal reciente. Es el indicador microbiológico principal del agua de consumo y de las piscinas.
 - id: edificio-prioritario
   term: Edificio prioritario
-  def: Edificio con usuarios vulnerables o mucha afluencia, como hospitales, residencias u hoteles, al que el RD 3/2023 pide controles adicionales del agua.
-  link: /sectores/hoteles-y-residencias/
+  def: Gran edificio con muchos usuarios que el RD 3/2023 lista en su anexo VIII, como hoteles de 500 plazas o residencias y hospitales de 200 camas. Su control en grifo incluye Legionella.
+  link: /calculadora/
 - id: enac
   term: ENAC
   def: Entidad Nacional de Acreditación. Evalúa y acredita a los laboratorios según la norma UNE-EN ISO/IEC 17025 para ensayos concretos; su buscador muestra qué acredita cada laboratorio.

@@ -10,7 +10,7 @@ faq:
   - q: ¿Hay que cerrar la instalación?
     a: Depende del nivel detectado y del tipo de instalación. El plan de prevención y control y el RD 487/2022 fijan qué medidas corresponden a cada nivel, desde revisar el tratamiento hasta parar la instalación.
   - q: ¿Cuándo se repite el análisis?
-    a: Después de aplicar las medidas correctoras, en el plazo que indique el plan. La qPCR permite saber en uno o dos días si la desinfección ha funcionado, antes del resultado del cultivo.
+    a: Entre 15 y 30 días después de la limpieza y desinfección, según el anexo V del RD 487/2022. La qPCR permite saber antes, en uno o dos días, si la desinfección ha funcionado.
 ---
 
 > Guía de divulgación. Las medidas concretas las fija el plan de prevención y control de cada instalación y el [RD 487/2022](https://www.boe.es/buscar/act.php?id=BOE-A-2022-10297).
@@ -19,13 +19,24 @@ faq:
 
 Mira el recuento (UFC/L), el punto de muestreo y el valor de referencia del plan. No es lo mismo un recuento bajo en un punto terminal que uno alto en el depósito o en una torre.
 
+### Niveles de actuación del RD 487/2022 (anexo VIII)
+
+| Instalación               | Nivel (UFC/L)            | Qué implica                                            |
+| ------------------------- | ------------------------ | ------------------------------------------------------ |
+| Agua sanitaria            | Menos de 100             | Se mantienen los programas del plan                    |
+| Agua sanitaria            | De 100 a menos de 1.000  | Medidas según el porcentaje de muestras positivas      |
+| Agua sanitaria            | 1.000 o más              | Revisión inmediata del plan, y limpieza y desinfección |
+| Torres y condensadores    | De 100 a menos de 10.000 | Medidas correctoras crecientes según el nivel          |
+| Torres y condensadores    | 10.000 o más             | Parada de la instalación                               |
+| Spa y otras instalaciones | 1.000 o más              | Parada de la instalación                               |
+
 ## 2. Aplica las medidas correctoras del plan
 
 El plan de cada instalación dice qué hacer en cada nivel: revisar el tratamiento y la temperatura, purgar, limpiar y desinfectar o parar la instalación. Comprueba también si ese nivel obliga a comunicarlo a la autoridad sanitaria.
 
 ## 3. Repite el análisis
 
-Tras la limpieza o desinfección, vuelve a muestrear los puntos afectados en el plazo que marque el plan. Si el resultado sigue siendo positivo, revisa de nuevo el tratamiento.
+Tras la limpieza y desinfección, el RD 487/2022 pide una nueva determinación de Legionella en puntos representativos de la instalación **entre 15 y 30 días después** del tratamiento. Si el resultado sigue siendo positivo, revisa de nuevo el tratamiento.
 
 ## 4. Identifica la cepa
 
