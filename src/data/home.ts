@@ -12,36 +12,22 @@ export const stats = [
   { value: '1', label: 'factura al mes, con detalle por instalación' },
 ] as const;
 
-export const promises: { icon: IconName; title: string; text: string }[] = [
-  {
-    icon: 'receipt',
-    title: 'Tarifa profesional',
-    text: 'Precio por muestra pensado para quien revende el análisis, con descuento por volumen.',
-  },
-  {
-    icon: 'qr',
-    title: 'Pedidos sin papel',
-    text: 'Pedido online o por API y etiqueta QR en cada envase. Se acabaron las hojas de custodia a mano.',
-  },
-  {
-    icon: 'activity',
-    title: 'Estado en tiempo real',
-    text: 'Sabes en qué punto está cada muestra y te avisamos en cuanto algo sale fuera de límite.',
-  },
-  {
-    icon: 'file',
-    title: 'Informes con tu marca',
-    text: 'Tu logotipo en la portada y los datos listos para entregar al titular de la instalación.',
-  },
+/** Las tres ventajas de la franja bajo la portada. */
+export const highlights: { icon: IconName; title: string; text: string }[] = [
   {
     icon: 'timer',
     title: 'Plazos por contrato',
-    text: 'Plazos máximos firmados para cada análisis, con un objetivo de cumplimiento del 95 % mensual.',
+    text: 'Plazo máximo firmado para cada análisis y aviso por teléfono si algo sale fuera de límite.',
   },
   {
-    icon: 'code',
-    title: 'Integración por API',
-    text: 'Los resultados entran solos en tu software de mantenimiento. Sin copiar ni pegar.',
+    icon: 'qr',
+    title: 'Sin papeles',
+    text: 'Pedido online o por API, etiqueta QR y estado de cada muestra en tiempo real.',
+  },
+  {
+    icon: 'file',
+    title: 'Tu marca, una factura',
+    text: 'Informes con tu logotipo y una sola factura mensual con detalle por instalación.',
   },
 ];
 

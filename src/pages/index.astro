@@ -4,7 +4,7 @@ import Card from '@/components/Card.astro';
 import CtaBanner from '@/components/CtaBanner.astro';
 import Icon from '@/components/Icon.astro';
 import Faq from '@/components/Faq.astro';
-import PortalMock from '@/components/PortalMock.astro';
+import HeroVisual from '@/components/HeroVisual.astro';
 import { site, primaryCta } from '@/config/site';
 import {
   getServicios,
@@ -17,7 +17,7 @@ import {
   guiaUrl,
 } from '@/lib/content';
 import { faqPage } from '@/lib/schema';
-import { promises, steps, stats, comparison } from '@/data/home';
+import { highlights, steps, stats, comparison } from '@/data/home';
 
 const servicios = (await getServicios()).filter((s) => s.data.category === 'analisis');
 const sectores = await getSectores();
@@ -35,40 +35,32 @@ const soon = (s: (typeof servicios)[number]) =>
   <section class="hero">
     <div class="container hero__grid">
       <div class="hero__copy">
-        <p class="eyebrow">
-          <span class="dot" aria-hidden="true"></span>
-          Laboratorio de aguas · {site.contact.address.region}
+        <p class="hero__kicker">
+          <span>Laboratorio de aguas</span>
+          <span class="hero__line" aria-hidden="true"></span>
+          <span>{site.contact.address.region}</span>
         </p>
-        <h1>{site.tagline}</h1>
+        <h1>
+          Análisis de agua, <em>sin papeles</em> ni esperas.
+        </h1>
         <p class="lead">
-          Analizamos Legionella, agua de consumo, piscinas y torres para empresas de mantenimiento y
-          control de Legionella. Pides online o por API, sigues cada muestra en tiempo real y
-          entregas el informe con tu logotipo.
+          Legionella, agua de consumo, piscinas y torres para empresas de mantenimiento. Pides
+          online o por API, sigues cada muestra en tiempo real y entregas el informe con tu
+          logotipo.
         </p>
         <div class="hero__actions">
           <a class="btn" href={primaryCta.href}>
             {primaryCta.label} <Icon name="arrow-right" />
           </a>
-          <a class="btn btn--ghost" href="/servicios/">
-            Ver análisis
+          <a class="btn btn--ghost" href="/como-trabajamos/">
+            Cómo trabajamos
           </a>
         </div>
-        <ul class="hero__norms" aria-label="Normativa que cubrimos">
-          <li>RD 487/2022</li>
-          <li>RD 3/2023</li>
-          <li>RD 742/2013</li>
-          <li>Decreto 99/2024</li>
-          <li>ISO 11731</li>
-        </ul>
       </div>
-      <PortalMock />
+      <HeroVisual />
     </div>
-  </section>
-
-  <!-- Cifras -->
-  <section class="stats" aria-label="Compromisos">
     <div class="container">
-      <dl class="stats__grid">
+      <dl class="hero__stats">
         {stats.map((s) => (
           <div>
             <dt>{s.label}</dt>
@@ -79,11 +71,28 @@ const soon = (s: (typeof servicios)[number]) =>
     </div>
   </section>
 
+  <!-- Tres ventajas -->
+  <section class="highlights" aria-label="Ventajas">
+    <div class="container highlights__grid">
+      {highlights.map((h) => (
+        <article class="highlight reveal">
+          <span class="icon-tile">
+            <Icon name={h.icon} />
+          </span>
+          <div>
+            <h2>{h.title}</h2>
+            <p>{h.text}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
   <!-- Análisis -->
   <section class="section">
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">Análisis</p>
+        <p class="eyebrow">01 — Análisis</p>
         <h2>Los análisis obligatorios, con la norma al día</h2>
         <p class="lead">
           Cultivo y físico-químico en nuestro laboratorio. La química avanzada (metales, PFAS,
@@ -111,32 +120,11 @@ const soon = (s: (typeof servicios)[number]) =>
     </div>
   </section>
 
-  <!-- Ventajas -->
-  <section class="section section--alt">
-    <div class="container">
-      <div class="section-head section-head--center">
-        <p class="eyebrow">Por qué trabajar con nosotros</p>
-        <h2>El análisis lo marca la norma. Todo lo demás, lo hacemos mejor</h2>
-      </div>
-      <ul class="features">
-        {promises.map((p) => (
-          <li class="reveal">
-            <span class="icon-tile">
-              <Icon name={p.icon} />
-            </span>
-            <h3>{p.title}</h3>
-            <p>{p.text}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
   <!-- Comparativa -->
   <section class="section">
     <div class="container compare">
       <div class="section-head">
-        <p class="eyebrow">Para empresas de servicios</p>
+        <p class="eyebrow">02 — Para empresas de servicios</p>
         <h2>Lo que cambia en tu día a día</h2>
         <p class="lead">
           Pensado para quien toma las muestras en hoteles, residencias, comunidades e industria y
@@ -171,7 +159,7 @@ const soon = (s: (typeof servicios)[number]) =>
   <section class="section section--alt">
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">Cómo funciona</p>
+        <p class="eyebrow">03 — Cómo funciona</p>
         <h2>De la toma al informe, sin una sola llamada</h2>
       </div>
       <ol class="steps">
@@ -198,7 +186,7 @@ const soon = (s: (typeof servicios)[number]) =>
   <section class="section">
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">Planes</p>
+        <p class="eyebrow">04 — Planes</p>
         <h2>Una cuota fija y te olvidas del calendario</h2>
         <p class="lead">
           Paquetes por instalación o por centro que incluyen los análisis que exige la norma, el
@@ -229,7 +217,7 @@ const soon = (s: (typeof servicios)[number]) =>
   <section class="section section--alt">
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">Para quién</p>
+        <p class="eyebrow">05 — Para quién</p>
         <h2>Trabajamos con quien mantiene las instalaciones</h2>
       </div>
       <div class="grid">
@@ -245,7 +233,7 @@ const soon = (s: (typeof servicios)[number]) =>
     <section class="section">
       <div class="container">
         <div class="section-head">
-          <p class="eyebrow">Guías</p>
+          <p class="eyebrow">06 — Guías</p>
           <h2>La normativa, explicada en corto</h2>
         </div>
         <div class="grid">
@@ -283,134 +271,138 @@ const soon = (s: (typeof servicios)[number]) =>
   .hero {
     position: relative;
     overflow: hidden;
-    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(3rem, 6vw, 5rem);
+    padding-block: clamp(2rem, 5vw, 4rem) 0;
     background:
-      radial-gradient(48rem 28rem at 92% 0%, var(--color-brand-soft), transparent 70%),
-      radial-gradient(
-        36rem 24rem at 0% 100%,
-        color-mix(in srgb, var(--color-accent) 12%, transparent),
-        transparent 70%
-      );
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(
-      color-mix(in srgb, var(--color-brand) 18%, transparent) 1px,
-      transparent 1px
-    );
-    background-size: 22px 22px;
-    mask-image: linear-gradient(180deg, #000 0%, transparent 70%);
-    pointer-events: none;
+      radial-gradient(60rem 36rem at 85% 10%, var(--color-accent-soft), transparent 65%),
+      linear-gradient(180deg, var(--color-brand-tint), var(--color-bg) 85%);
   }
   .hero__grid {
-    position: relative;
     display: grid;
-    gap: var(--space-5);
+    gap: var(--space-4);
     align-items: center;
   }
   @media (min-width: 1000px) {
     .hero__grid {
-      grid-template-columns: 1.05fr 1fr;
-      gap: var(--space-6);
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--space-5);
     }
   }
   .hero__copy > * + * {
     margin-top: var(--space-4);
   }
-  .hero h1 {
-    max-width: 16ch;
+  .hero__kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
   }
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--color-accent);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 25%, transparent);
+  .hero__line {
+    width: 3.5rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.5;
+  }
+  @media (max-width: 640px) {
+    .hero__kicker {
+      letter-spacing: 0.18em;
+      font-size: 0.7rem;
+    }
+    .hero__line,
+    .hero__kicker span:last-child {
+      display: none;
+    }
+  }
+  .hero h1 {
+    font-size: clamp(2.8rem, 6.6vw, 5.4rem);
+    font-weight: 300;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    max-width: 12ch;
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--color-accent-strong);
+  }
+  .hero .lead {
+    max-width: 34rem;
   }
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
   }
-  .hero__norms {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 1.25rem;
-    padding: var(--space-3) 0 0;
-    list-style: none;
-    border-top: 1px solid var(--color-border);
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--color-text-muted);
-  }
-
-  /* Cifras */
-  .stats {
-    border-block: 1px solid var(--color-border);
-    background: var(--color-bg);
-  }
-  .stats__grid {
+  .hero__stats {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    margin-top: var(--space-5);
+    border-top: 1px solid var(--color-border);
   }
   @media (min-width: 900px) {
-    .stats__grid {
+    .hero__stats {
       grid-template-columns: repeat(4, 1fr);
     }
   }
-  .stats__grid > div {
+  .hero__stats > div {
     display: flex;
     flex-direction: column-reverse;
     justify-content: flex-end;
-    gap: 0.35rem;
-    padding: var(--space-4) var(--space-2);
+    gap: 0.3rem;
+    padding: var(--space-4) var(--space-3) var(--space-4) 0;
   }
   @media (min-width: 900px) {
-    .stats__grid > div + div {
-      border-left: 1px solid var(--color-border);
+    .hero__stats > div + div {
       padding-left: var(--space-4);
+      border-left: 1px solid var(--color-border);
     }
   }
-  .stats dd {
-    font-family: var(--font-display);
+  .hero__stats dd {
     font-weight: 300;
-    font-size: clamp(2rem, 3.6vw, 2.6rem);
-    letter-spacing: -0.02em;
+    font-size: clamp(1.9rem, 3.2vw, 2.4rem);
     line-height: 1;
-    color: var(--color-text);
+    letter-spacing: -0.02em;
   }
-  .stats dt {
-    font-size: 0.92rem;
+  .hero__stats dt {
+    font-size: 0.9rem;
     color: var(--color-text-muted);
-    max-width: 16rem;
+    max-width: 15rem;
+  }
+
+  /* Tres ventajas */
+  .highlights {
+    padding-block: var(--space-5) var(--space-3);
+  }
+  .highlights__grid {
+    display: grid;
+    gap: var(--space-3);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  }
+  .highlight {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-bg);
+    box-shadow: var(--shadow);
+  }
+  .highlight h2 {
+    font-size: 1.15rem;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+  .highlight p {
+    margin-top: 0.3rem;
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
   }
 
   .more {
     margin-top: var(--space-5);
-  }
-
-  /* Ventajas */
-  .features {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    gap: var(--space-3);
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
-  }
-  .features li {
-    padding: 1.6rem;
-    border-radius: var(--radius);
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-  }
-  .features h3 {
-    margin-top: var(--space-3);
-  }
-  .features p {
-    margin-top: var(--space-2);
-    color: var(--color-text-muted);
   }
 
   /* Comparativa */
