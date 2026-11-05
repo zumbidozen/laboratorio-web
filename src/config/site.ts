@@ -22,8 +22,8 @@ export const site = {
   /** TODO: CIF cuando esté la sociedad constituida. */
   taxId: '',
 
-  /** TODO: dominio definitivo, con https y sin barra final. */
-  url: 'https://www.example.com',
+  /** TODO: cambiar por el dominio definitivo (con https y sin barra final). */
+  url: 'https://ensayum.netlify.app',
 
   /**
    * Interruptor de lanzamiento.
