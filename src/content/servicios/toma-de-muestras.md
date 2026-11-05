@@ -1,6 +1,7 @@
 ---
 title: Toma de muestras de agua en la Comunidad de Madrid
 name: Toma de muestras
+icon: truck
 description: Recogida de muestras de agua por nuestro equipo en la Comunidad de Madrid, con cadena de custodia y transporte refrigerado registrado.
 summary: Nuestro equipo recoge las muestras en la instalación, con cadena de custodia y transporte refrigerado registrado, para quien no quiera o no pueda tomarlas.
 category: servicio

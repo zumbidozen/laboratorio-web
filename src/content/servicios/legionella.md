@@ -1,6 +1,8 @@
 ---
 title: Análisis de Legionella (ISO 11731) en Madrid
 name: Legionella
+icon: microscope
+turnaround: '10 días o menos (negativos)'
 description: Recuento de Legionella por cultivo ISO 11731 en agua sanitaria, torres y condensadores, con aerobios, hierro y serogrupado. Para cumplir el RD 487/2022.
 summary: Analizamos Legionella por cultivo (ISO 11731) en agua caliente y fría sanitaria, torres de refrigeración y condensadores evaporativos, solo o en combo con aerobios, hierro y físico-químico, para cumplir el RD 487/2022.
 category: analisis

@@ -1,0 +1,128 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import Icon from '@/components/Icon.astro';
+import { primaryCta } from '@/config/site';
+import { getPlanes } from '@/lib/content';
+import { service } from '@/lib/schema';
+
+const planes = await getPlanes();
+---
+
+<BaseLayout
+  title="Planes por cuota para Legionella, torres y piscinas"
+  description="Planes con cuota fija por instalación o por centro: Legionella, torres de refrigeración, edificios prioritarios y piscinas, con registro digital y alertas."
+  breadcrumbs={[{ name: 'Planes', href: '/planes/' }]}
+  schema={planes.map((p) =>
+    service({
+      name: `Plan ${p.data.name}`,
+      description: `${p.data.audience}. ${p.data.includes.join('. ')}.`,
+      href: `/planes/#${p.id}`,
+      audience: p.data.audience,
+    }),
+  )}
+>
+  <PageHeader
+    eyebrow="Planes"
+    icon="layers"
+    title="Una cuota fija y el calendario de muestreo resuelto"
+    summary="Agrupamos los análisis que exige la norma para cada tipo de instalación en una cuota fija, con registro digital y alertas. La cuota exacta depende del número de instalaciones y de puntos."
+  />
+
+  <section class="section">
+    <div class="container plans">
+      {planes.map((p) => (
+        <article id={p.id} class:list={['plan', 'reveal', { 'plan--featured': p.data.featured }]}>
+          <header>
+            <span class="icon-tile">
+              <Icon name={p.data.icon} />
+            </span>
+            {p.data.featured && <span class="chip">Para empresas de servicios</span>}
+          </header>
+          <h2>{p.data.name}</h2>
+          <p class="plan__audience">{p.data.audience}</p>
+          <p class="plan__billing">{p.data.billing}</p>
+          <ul class="checklist">
+            {p.data.includes.map((i) => (
+              <li>
+                <Icon name="check" />
+                <span>{i}</span>
+              </li>
+            ))}
+            {p.data.soon.map((s) => (
+              <li class="plan__soon">
+                <Icon name="clock" />
+                <span>
+                  {s.item} <span class="chip chip--soon">desde {s.from}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+          <a class:list={['btn', { 'btn--ghost': !p.data.featured }]} href={primaryCta.href}>
+            Pedir propuesta <Icon name="arrow-right" />
+          </a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <CtaBanner
+    title="¿No encaja ningún plan?"
+    text="Lo montamos a medida de tus instalaciones: cuéntanos qué mantienes y cuántos puntos muestreas al año."
+  />
+</BaseLayout>
+
+<style>
+  .plans {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+  }
+  .plan {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: 1.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg);
+    scroll-margin-top: 7rem;
+  }
+  .plan:target {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px var(--color-brand-soft);
+  }
+  .plan--featured {
+    border-color: var(--color-brand);
+    background: linear-gradient(180deg, var(--color-brand-tint), var(--color-bg) 50%);
+    box-shadow: var(--shadow);
+  }
+  .plan header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .plan h2 {
+    font-size: 1.5rem;
+  }
+  .plan__audience {
+    color: var(--color-text-muted);
+  }
+  .plan__billing {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .plan .checklist {
+    flex: 1;
+  }
+  .plan__soon :global(svg) {
+    color: var(--color-warn);
+  }
+  .plan .btn {
+    align-self: flex-start;
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 title: Curso de Legionella de 25 horas y reciclaje de 10 horas
 name: Formación en Legionella
+icon: graduation
 description: Curso de 25 horas y reciclaje de 10 horas para el personal que mantiene instalaciones de riesgo de Legionella, para empresas de servicios.
 summary: Formamos al personal que mantiene instalaciones con riesgo de Legionella con el curso inicial de 25 horas y el reciclaje de 10 horas.
 category: servicio

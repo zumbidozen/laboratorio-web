@@ -10,7 +10,7 @@ export default defineConfig({
   integrations: [
     sitemap({
       // Las páginas legales y la 404 no aportan nada en el sitemap.
-      filter: (page) => !/\/(aviso-legal|privacidad|cookies|404)\/?$/.test(page),
+      filter: (page) => !/\/(aviso-legal|privacidad|cookies|404|contacto\/gracias)\/?$/.test(page),
     }),
   ],
   prefetch: { prefetchAll: true },

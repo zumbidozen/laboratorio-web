@@ -4,14 +4,15 @@
  */
 import type { APIRoute } from 'astro';
 import { site, absoluteUrl } from '@/config/site';
-import { getServicios, getSectores, getGuias, getFaq } from '@/lib/content';
+import { getServicios, getSectores, getGuias, getFaq, getPlanes } from '@/lib/content';
 
 export const GET: APIRoute = async () => {
-  const [servicios, sectores, guias, faq] = await Promise.all([
+  const [servicios, sectores, guias, faq, planes] = await Promise.all([
     getServicios(),
     getSectores(),
     getGuias(),
     getFaq(),
+    getPlanes(),
   ]);
   const link = (title: string, path: string, note: string) =>
     `- [${title}](${absoluteUrl(path)}): ${note}`;
@@ -39,6 +40,16 @@ export const GET: APIRoute = async () => {
           (s.data.status === 'proximamente'
             ? ` (próximamente${s.data.availableFrom ? `, ${s.data.availableFrom}` : ''})`
             : ''),
+      ),
+    ),
+    '',
+    '## Planes por cuota',
+    '',
+    ...planes.map((p) =>
+      link(
+        p.data.name,
+        `/planes/#${p.id}`,
+        `${p.data.audience}. ${p.data.billing}. Incluye: ${p.data.includes.join('; ')}.`,
       ),
     ),
     '',

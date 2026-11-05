@@ -1,6 +1,7 @@
 ---
 title: Laboratorio para mantenedores y empresas de Legionella
 name: Empresas de servicios
+icon: shield
 description: 'Laboratorio de aguas para empresas de Legionella, plagas, mantenimiento y facility services en Madrid: tarifa por volumen, API e informes en tu marca.'
 summary: 'Si tomas muestras para tus clientes y revendes el análisis, trabajamos para ti: tarifa profesional por volumen, pedidos online o por API, informes con tu logotipo y una sola factura mensual.'
 order: 10

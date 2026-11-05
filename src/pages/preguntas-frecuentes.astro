@@ -15,9 +15,16 @@ const faq = (await getFaq()).map((e) => e.data);
   breadcrumbs={[{ name: 'Preguntas frecuentes', href: '/preguntas-frecuentes/' }]}
   schema={[faqPage(faq)]}
 >
-  <PageHeader eyebrow="Ayuda" title="Preguntas frecuentes" />
-  <div class="container">
-    <Faq items={faq} title="Lo que más nos preguntan" />
-  </div>
+  <PageHeader
+    eyebrow="Ayuda"
+    icon="sparkles"
+    title="Preguntas frecuentes"
+    summary="Lo que suelen preguntarnos las empresas de mantenimiento y los responsables de instalaciones."
+  />
+  <section class="section">
+    <div class="container">
+      <Faq items={faq} title="Lo que más nos preguntan" split />
+    </div>
+  </section>
   <CtaBanner title="¿No está tu pregunta?" text="Escríbenos y te respondemos." />
 </BaseLayout>

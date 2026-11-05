@@ -1,22 +1,55 @@
 ---
 /** Cabecera de página: antetítulo, H1 y respuesta directa (resumen). */
+import Icon from '@/components/Icon.astro';
 export interface Props {
   title: string;
   eyebrow?: string;
   summary?: string;
+  icon?: string;
 }
-const { title, eyebrow, summary } = Astro.props;
+const { title, eyebrow, summary, icon } = Astro.props;
 ---
 
-<header class="container page-header stack">
-  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-  <h1>{title}</h1>
-  {summary && <p class="lead">{summary}</p>}
-  <slot />
+<header class="page-header">
+  <div class="container page-header__inner">
+    {(eyebrow || icon) && (
+      <p class="eyebrow">
+        {icon && (
+          <span class="icon-tile page-header__icon">
+            <Icon name={icon} />
+          </span>
+        )}
+        {eyebrow}
+      </p>
+    )}
+    <h1>{title}</h1>
+    {summary && <p class="lead">{summary}</p>}
+    <slot />
+  </div>
 </header>
 
 <style>
   .page-header {
     padding-block: var(--space-4) var(--space-5);
+    background:
+      radial-gradient(50rem 22rem at 85% -30%, var(--color-brand-soft), transparent 70%),
+      linear-gradient(var(--color-bg), var(--color-bg));
+    border-bottom: 1px solid var(--color-border);
+  }
+  .page-header__inner > * + * {
+    margin-top: var(--space-3);
+  }
+  h1 {
+    max-width: 22ch;
+    font-size: clamp(2rem, 4.4vw, 3.25rem);
+  }
+  .page-header__icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 10px;
+  }
+  .page-header__icon :global(svg) {
+    width: 1.15rem;
+    height: 1.15rem;
   }
 </style>

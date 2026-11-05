@@ -1,6 +1,8 @@
 ---
 title: Análisis de agua de consumo humano (RD 3/2023)
 name: Agua de consumo
+icon: droplet
+turnaround: '5 días o menos'
 description: Control en grifo, autocontrol de depósitos y análisis de control del RD 3/2023 para edificios prioritarios, hoteles, residencias y comunidades.
 summary: 'Hacemos los análisis de agua de consumo del RD 3/2023 que necesitan los edificios: control en grifo, el paquete de edificio prioritario con Legionella, el autocontrol de depósitos y parámetros sueltos.'
 category: analisis

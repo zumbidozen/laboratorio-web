@@ -19,7 +19,7 @@ const path = Astro.url.pathname;
   breadcrumbs={[{ name: frontmatter.title, href: path }]}
 >
   <PageHeader title={frontmatter.title} />
-  <article class="container prose">
+  <article class="container prose section">
     <slot />
   </article>
 </BaseLayout>

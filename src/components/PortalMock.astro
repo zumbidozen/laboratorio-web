@@ -1,0 +1,309 @@
+---
+/**
+ * Maqueta ilustrativa del portal de clientes para la portada.
+ * Los datos son de ejemplo; está marcado como tal para lectores de pantalla.
+ */
+import Icon from '@/components/Icon.astro';
+
+const rows = [
+  {
+    id: 'LG-2041',
+    point: 'Hotel · Torre de refrigeración 2',
+    test: 'Legionella + aerobios + Fe',
+    status: 'Fuera de límite',
+    tone: 'alert',
+  },
+  {
+    id: 'LG-2038',
+    point: 'Residencia · ACS retorno',
+    test: 'Legionella',
+    status: 'Incubando · día 6/10',
+    tone: 'brand',
+    progress: 60,
+  },
+  {
+    id: 'GR-0917',
+    point: 'Hotel · Grifo de cocina',
+    test: 'Control en grifo',
+    status: 'Informe listo',
+    tone: 'ok',
+  },
+  {
+    id: 'PS-0332',
+    point: 'Centro deportivo · Vaso exterior',
+    test: 'Piscina mensual',
+    status: 'Recibida',
+    tone: 'muted',
+  },
+] as const;
+---
+
+<figure
+  class="mock"
+  role="img"
+  aria-label="Ejemplo ilustrativo del portal: lista de muestras con su estado y un aviso de resultado fuera de límite"
+>
+  <div class="mock__window" aria-hidden="true">
+    <div class="mock__bar">
+      <span></span>
+      <span></span>
+      <span></span>
+      <p>portal · Muestras</p>
+    </div>
+    <div class="mock__body">
+      <div class="mock__head">
+        <div>
+          <p class="mock__title">Muestras de esta semana</p>
+          <p class="mock__sub">12 instalaciones · 38 muestras</p>
+        </div>
+        <span class="mock__btn">
+          <Icon name="qr" /> Nuevo pedido
+        </span>
+      </div>
+      <ul class="mock__list">
+        {rows.map((r) => (
+          <li>
+            <div class="mock__main">
+              <p class="mock__id">{r.id}</p>
+              <p class="mock__point">{r.point}</p>
+              <p class="mock__test">{r.test}</p>
+            </div>
+            <div class="mock__state">
+              <span class={`chip mock__chip mock__chip--${r.tone}`}>{r.status}</span>
+              {'progress' in r && (
+                <span class="mock__progress">
+                  <span style={`width:${r.progress}%`} />
+                </span>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+  <div class="mock__toast" aria-hidden="true">
+    <span class="mock__toast-icon">
+      <Icon name="bell" />
+    </span>
+    <div>
+      <p class="mock__toast-title">Aviso enviado al responsable</p>
+      <p class="mock__toast-text">
+        LG-2041 · Torre 2 supera el límite del plan. Llamada hecha a las 9:14.
+      </p>
+    </div>
+  </div>
+  <div class="mock__api" aria-hidden="true">
+    <Icon name="code" />
+    <code>GET /v1/muestras/LG-2041</code>
+  </div>
+</figure>
+
+<style>
+  .mock {
+    position: relative;
+    margin: 0;
+    padding: 1.5rem 0 2.5rem;
+  }
+  .mock__window {
+    border-radius: var(--radius-lg);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+  .mock__bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.7rem 1rem;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .mock__bar span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-border);
+  }
+  .mock__bar p {
+    margin-left: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+  .mock__body {
+    padding: 1.1rem 1.1rem 0.6rem;
+  }
+  .mock__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  .mock__title {
+    font-family: var(--font-display);
+    font-weight: 800;
+  }
+  .mock__sub {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+  .mock__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    background: var(--color-brand);
+    color: var(--color-on-brand);
+    white-space: nowrap;
+  }
+  .mock__btn :global(svg) {
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+  .mock__list {
+    list-style: none;
+    padding: 0;
+  }
+  .mock__list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .mock__id {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+  .mock__point {
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
+  .mock__test {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+  }
+  .mock__state {
+    display: grid;
+    justify-items: end;
+    gap: 0.35rem;
+  }
+  .mock__chip {
+    font-size: 0.72rem;
+  }
+  .mock__chip--alert {
+    background: var(--color-alert-soft);
+    color: var(--color-alert);
+  }
+  .mock__chip--ok {
+    background: var(--color-ok-soft);
+    color: var(--color-ok);
+  }
+  .mock__chip--muted {
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+  }
+  .mock__progress {
+    width: 6.5rem;
+    height: 4px;
+    border-radius: 4px;
+    background: var(--color-brand-soft);
+    overflow: hidden;
+  }
+  .mock__progress span {
+    display: block;
+    height: 100%;
+    background: var(--color-brand);
+  }
+  .mock__toast {
+    position: absolute;
+    left: -1.25rem;
+    bottom: 0;
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    max-width: 19rem;
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-lg);
+  }
+  .mock__toast-icon {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    flex: none;
+    border-radius: 10px;
+    background: var(--color-alert-soft);
+    color: var(--color-alert);
+  }
+  .mock__toast-icon :global(svg) {
+    width: 1rem;
+    height: 1rem;
+  }
+  .mock__toast-title {
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .mock__toast-text {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+  .mock__api {
+    position: absolute;
+    right: -0.75rem;
+    top: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 10px;
+    background: var(--color-ink-2);
+    color: var(--color-on-ink);
+    font-size: 0.75rem;
+    box-shadow: var(--shadow-lg);
+  }
+  .mock__api :global(svg) {
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-accent);
+  }
+  @media (max-width: 640px) {
+    .mock__toast {
+      left: 0.5rem;
+      right: 0.5rem;
+      max-width: none;
+    }
+    .mock__api {
+      right: 0.5rem;
+    }
+    .mock__test,
+    .mock__btn {
+      display: none;
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .mock__toast {
+      animation: pop 0.6s 0.8s var(--ease) both;
+    }
+    .mock__api {
+      animation: pop 0.6s 1.1s var(--ease) both;
+    }
+    @keyframes pop {
+      from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.97);
+      }
+    }
+  }
+</style>

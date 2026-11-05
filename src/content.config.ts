@@ -29,6 +29,10 @@ const servicios = defineCollection({
     ...seo,
     /** Nombre corto para tarjetas y menús. */
     name: z.string(),
+    /** Icono (ver la lista en src/components/Icon.astro). */
+    icon: z.string().default('droplet'),
+    /** Plazo máximo de entrega del resultado, si aplica (p. ej. "10 días o menos"). */
+    turnaround: z.string().optional(),
     /** Orden en los listados (menor = antes). */
     order: z.number().default(100),
     /** Agrupa los servicios en la página /servicios/. */
@@ -53,6 +57,7 @@ const sectores = defineCollection({
   schema: z.object({
     ...seo,
     name: z.string(),
+    icon: z.string().default('building'),
     order: z.number().default(100),
     /** Servicios que se destacan en la página del sector (nombre del archivo sin .md). */
     services: z.array(reference('servicios')).default([]),
@@ -85,4 +90,22 @@ const faq = defineCollection({
   }),
 });
 
-export const collections = { servicios, sectores, guias, faq };
+/** Planes por cuota: un único archivo YAML. */
+const planes = defineCollection({
+  loader: file('./src/content/planes.yaml'),
+  schema: z.object({
+    name: z.string(),
+    icon: z.string().default('layers'),
+    order: z.number().default(100),
+    /** Para quién es, en una línea. */
+    audience: z.string(),
+    /** Unidad de la cuota (sin precio): "Cuota mensual por instalación". */
+    billing: z.string(),
+    includes: z.array(z.string()),
+    /** Elementos que aún no están disponibles, con su año. */
+    soon: z.array(z.object({ item: z.string(), from: z.string() })).default([]),
+    featured: z.boolean().default(false),
+  }),
+});
+
+export const collections = { servicios, sectores, guias, faq, planes };

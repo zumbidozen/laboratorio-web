@@ -1,6 +1,7 @@
 ---
 title: Otros análisis de agua y superficies
 name: Otros análisis
+icon: test-tube
 description: Agua de pozo, agua de riego, agua residual básica y superficies APPCC por hisopo. También hemodiálisis y aire interior bajo consulta.
 summary: Además de Legionella, consumo y piscinas, analizamos agua de pozo, riego y residual básica, y superficies de cocina para el APPCC. Hemodiálisis y aire interior, bajo consulta.
 category: analisis

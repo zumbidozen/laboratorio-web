@@ -1,6 +1,8 @@
 ---
 title: Legionella por qPCR en 24–48 horas
 name: Legionella por qPCR
+icon: zap
+turnaround: '2 días laborables o menos'
 description: Detección rápida de Legionella spp. y L. pneumophila por qPCR (ISO/TS 12869) para cribados, brotes y comprobación tras desinfección.
 summary: La qPCR detecta Legionella en uno o dos días en lugar de las dos semanas del cultivo. Sirve como complemento para cribar instalaciones, actuar ante un brote o comprobar una desinfección.
 category: analisis

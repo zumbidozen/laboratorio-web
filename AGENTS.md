@@ -11,10 +11,17 @@ Web estática en Astro de un laboratorio de análisis de aguas en Madrid que ven
 ## Dónde va cada cambio
 
 - Datos globales (nombre, dominio, contacto, menú, indexación, acreditación): solo `src/config/site.ts`. Nunca escribas el nombre, el email o el dominio a mano en una página o componente: léelos de `site`.
-- Contenido: `src/content/{servicios,sectores,guias}/*.md` y `src/content/faq.yaml`. Los esquemas están en `src/content.config.ts`; si añades un campo, añádelo allí.
+- Contenido: `src/content/{servicios,sectores,guias}/*.md`, `src/content/faq.yaml` y `src/content/planes.yaml`. Los esquemas están en `src/content.config.ts`; si añades un campo, añádelo allí.
 - Textos de bloques de la portada y de "Cómo trabajamos": `src/data/home.ts`.
 - Estilos: variables en `:root` de `src/styles/global.css`. Los componentes usan esas variables; no metas colores sueltos.
 - Una página nueva va en `src/pages/` usando `BaseLayout` con `title`, `description` (70–160 caracteres) y `breadcrumbs`. Si es contenido repetible, mejor crea una colección.
+
+## Diseño
+
+- Componentes reutilizables en `src/components/`: `Card`, `PageHeader`, `Faq`, `CtaBanner`, `Icon`, `Logo`, `PortalMock`. Úsalos antes de crear otros.
+- Iconos: `<Icon name="..." />` con los nombres del mapa de `Icon.astro` (Lucide). Para uno nuevo, impórtalo allí.
+- Clases globales en `global.css`: `.section`, `.section--alt`, `.section-head`, `.grid`, `.btn`, `.btn--ghost`, `.chip`, `.icon-tile`, `.checklist`, `.prose`, `.reveal`.
+- Revisa los cambios visuales en móvil (390 px) y escritorio, en modo claro y oscuro.
 
 ## Reglas que no se pueden saltar
 

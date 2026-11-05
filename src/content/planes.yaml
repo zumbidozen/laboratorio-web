@@ -1,0 +1,78 @@
+# Planes por cuota (página /planes/). Sin precios: la cuota se da en la propuesta.
+# `soon` lista lo que aún no está disponible, con el año en que llega.
+
+- id: partner
+  order: 10
+  name: Partner
+  icon: layers
+  featured: true
+  audience: Empresas de mantenimiento, control de Legionella y de plagas, y gestión de piscinas
+  billing: Tarifa por volumen con descuento escalonado
+  includes:
+    - Descuento creciente según las muestras al año
+    - Informes en co-marca con tu logotipo
+    - Portal y API sin coste
+    - Una factura mensual con detalle por instalación
+
+- id: legionella-esencial
+  order: 20
+  name: Legionella Esencial
+  icon: droplet
+  audience: Cualquier instalación con plan de control de Legionella
+  billing: Cuota mensual por instalación
+  includes:
+    - Muestreo según el RD 487/2022
+    - Cultivo de Legionella (ISO 11731)
+    - Registro digital de resultados
+    - Alertas inmediatas si algo sale fuera de límite
+
+- id: legionella-pro
+  order: 30
+  name: Legionella Pro
+  icon: hotel
+  audience: Hoteles y residencias
+  billing: Cuota mensual por centro
+  includes:
+    - Todo lo de Legionella Esencial
+    - Superficies de cocina para el APPCC
+    - Informe listo para inspección
+  soon:
+    - item: Revisión anual del plan de prevención (PPCL)
+      from: '2027'
+    - item: Una qPCR de urgencia al año
+      from: '2028'
+
+- id: torre
+  order: 40
+  name: Torre de refrigeración
+  icon: factory
+  audience: Torres y condensadores evaporativos
+  billing: Cuota mensual por torre
+  includes:
+    - Legionella mensual
+    - Físico-químico mensual
+    - Libro de registro digital
+
+- id: edificio-prioritario
+  order: 50
+  name: Edificio prioritario
+  icon: building
+  audience: Edificios prioritarios del RD 3/2023
+  billing: Cuota anual por edificio
+  includes:
+    - Campaña de control en grifo con plomo
+    - Legionella en agua caliente y fría
+  soon:
+    - item: Plan Sanitario del Agua
+      from: '2027'
+
+- id: piscina-temporada
+  order: 60
+  name: Piscina temporada
+  icon: waves
+  audience: Piscinas de uso público y comunidades
+  billing: Cuota mensual de mayo a septiembre
+  includes:
+    - Controles del RD 742/2013 y del Decreto 99/2024
+    - Libro de registro digital
+    - Capacidad reservada en verano

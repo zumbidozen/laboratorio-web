@@ -1,6 +1,7 @@
 ---
 title: Análisis de agua para hoteles y residencias en Madrid
 name: Hoteles y residencias
+icon: hotel
 description: Legionella, control en grifo de edificio prioritario y superficies APPCC para hoteles y residencias de la Comunidad de Madrid, en un solo pedido.
 summary: 'Hoteles y residencias son edificios prioritarios: necesitan Legionella en agua caliente y fría, control en grifo del RD 3/2023 y, si tienen cocina, superficies para el APPCC. Lo agrupamos en un solo pedido y una sola factura.'
 order: 20

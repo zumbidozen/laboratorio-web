@@ -57,12 +57,16 @@ export const site = {
       region: 'Comunidad de Madrid',
       country: 'ES',
     },
-    hours: 'Lunes a viernes, de 8:00 a 18:00',
+    /** TODO: horario de atención. Vacío = no se muestra. */
+    hours: '',
     /**
-     * URL a la que se envía el formulario de contacto (Formspree, Netlify Forms,
-     * Getform, un Worker propio…). Vacío = el formulario se sustituye por un enlace de email.
+     * Cómo se envía el formulario de contacto:
+     * - 'netlify': Netlify Forms (funciona solo si la web está alojada en Netlify;
+     *   los mensajes llegan al panel de Netlify y por email si se configura el aviso).
+     * - una URL (Formspree, Getform, un Worker propio…): el formulario se envía ahí.
+     * - '': no hay formulario; se muestra el email.
      */
-    formEndpoint: '',
+    form: 'netlify' as 'netlify' | (string & {}),
   },
 
   /** Zona de servicio (se usa en los datos estructurados). */
@@ -91,10 +95,10 @@ export const site = {
 /** Menú principal. El orden aquí es el orden en pantalla. */
 export const mainNav = [
   { label: 'Servicios', href: '/servicios/' },
+  { label: 'Planes', href: '/planes/' },
   { label: 'Para quién', href: '/sectores/' },
   { label: 'Cómo trabajamos', href: '/como-trabajamos/' },
   { label: 'Guías', href: '/guias/' },
-  { label: 'Preguntas', href: '/preguntas-frecuentes/' },
 ] as const;
 
 /** Llamada a la acción principal (botón de la cabecera). */

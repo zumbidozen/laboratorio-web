@@ -1,0 +1,24 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import Icon from '@/components/Icon.astro';
+---
+
+<BaseLayout
+  title="Mensaje recibido"
+  description="Hemos recibido tu solicitud de tarifa profesional. Te escribiremos para conocer tu volumen y prepararte una propuesta a medida."
+  noindex
+>
+  <PageHeader
+    eyebrow="Contacto"
+    icon="circle-check"
+    title="Mensaje recibido"
+    summary="Gracias. Te escribiremos para conocer tu volumen y prepararte una propuesta."
+  >
+    <p>
+      <a class="btn btn--ghost" href="/servicios/">
+        Ver los análisis <Icon name="arrow-right" />
+      </a>
+    </p>
+  </PageHeader>
+</BaseLayout>

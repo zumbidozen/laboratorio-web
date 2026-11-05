@@ -1,6 +1,8 @@
 ---
 title: Análisis de agua de piscinas y spas en Madrid
 name: Piscinas y spas
+icon: waves
+turnaround: '5 días o menos'
 description: Control inicial y mensual de piscinas según el RD 742/2013 y el Decreto 99/2024 de Madrid, con E. coli, Pseudomonas y Legionella en spas.
 summary: Analizamos el control inicial y el control mensual de piscinas que piden el RD 742/2013 y el Decreto 99/2024 de la Comunidad de Madrid, y añadimos Legionella en spas y vasos con aerosolización.
 category: analisis

@@ -4,19 +4,31 @@ import { render } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
 import Faq from '@/components/Faq.astro';
+import Card from '@/components/Card.astro';
 import CtaBanner from '@/components/CtaBanner.astro';
+import Icon from '@/components/Icon.astro';
+import { primaryCta } from '@/config/site';
 import { getServicios, servicioUrl, formatDate, isoDate } from '@/lib/content';
 import { service, faqPage } from '@/lib/schema';
 
 export const getStaticPaths = (async () => {
   const servicios = await getServicios();
-  return servicios.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+  return servicios.map((entry) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      related: servicios
+        .filter((s) => s.id !== entry.id && s.data.category === entry.data.category)
+        .slice(0, 3),
+    },
+  }));
 }) satisfies GetStaticPaths;
 
-const { entry } = Astro.props;
+const { entry, related } = Astro.props;
 const { data } = entry;
 const { Content } = await render(entry);
 const href = servicioUrl(entry);
+const soon = data.status === 'proximamente';
 ---
 
 <BaseLayout
@@ -38,55 +50,118 @@ const href = servicioUrl(entry);
     faqPage(data.faq),
   ]}
 >
-  <PageHeader eyebrow="Servicios" title={data.title} summary={data.summary}>
-    {data.status === 'proximamente' && (
+  <PageHeader
+    eyebrow={data.category === 'analisis' ? 'Análisis' : 'Servicio'}
+    icon={data.icon}
+    title={data.title}
+    summary={data.summary}
+  >
+    {soon && (
       <p>
         <span class="chip chip--soon">
-          Próximamente{data.availableFrom ? ` · disponible en ${data.availableFrom}` : ''}
+          <Icon name="clock" /> Próximamente
+          {data.availableFrom ? ` · disponible en ${data.availableFrom}` : ''}
         </span>
       </p>
     )}
-    {data.regulations.length > 0 && (
-      <ul class="chips" aria-label="Normativa">
-        {data.regulations.map((r) => (
-          <li class="chip">{r}</li>
-        ))}
-      </ul>
-    )}
   </PageHeader>
 
-  <div class="container layout">
+  <div class="container layout section section--tight">
     <article class="prose">
       {data.includes.length > 0 && (
-        <>
+        <section class="includes">
           <h2>Qué incluye</h2>
-          <ul>
+          <ul class="checklist">
             {data.includes.map((i) => (
-              <li>{i}</li>
+              <li>
+                <Icon name="circle-check" />
+                <span>{i}</span>
+              </li>
             ))}
           </ul>
-        </>
+        </section>
       )}
       <Content />
-      <p class="muted">
+      <p class="muted updated">
         Actualizado el <time datetime={isoDate(data.updated)}>{formatDate(data.updated)}</time>.
       </p>
     </article>
-    <aside class="aside stack">
-      {data.audience && (
-        <p>
-          <strong>Para quién:</strong> {data.audience}
-        </p>
-      )}
-      <a class="btn" href="/contacto/">
-        Pedir tarifa
+
+    <aside class="sheet" aria-label="Ficha del servicio">
+      <p class="sheet__title">Ficha</p>
+      <dl>
+        {data.turnaround && (
+          <div>
+            <dt>
+              <Icon name="timer" /> Plazo máximo
+            </dt>
+            <dd>{data.turnaround}</dd>
+          </div>
+        )}
+        {data.regulations.length > 0 && (
+          <div>
+            <dt>
+              <Icon name="shield" /> Normativa
+            </dt>
+            <dd>
+              <ul class="chips">
+                {data.regulations.map((r) => (
+                  <li class="chip">{r}</li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        )}
+        {data.audience && (
+          <div>
+            <dt>
+              <Icon name="building" /> Para quién
+            </dt>
+            <dd>{data.audience}</dd>
+          </div>
+        )}
+        <div>
+          <dt>
+            <Icon name="receipt" /> Precio
+          </dt>
+          <dd>Tarifa profesional según volumen</dd>
+        </div>
+      </dl>
+      <a class="btn" href={primaryCta.href}>
+        {soon ? 'Avísame cuando esté' : primaryCta.label}
+        <Icon name="arrow-right" />
       </a>
     </aside>
   </div>
 
-  <div class="container section">
-    <Faq items={data.faq} />
-  </div>
+  {data.faq.length > 0 && (
+    <section class="section section--alt">
+      <div class="container">
+        <Faq items={data.faq} split />
+      </div>
+    </section>
+  )}
+
+  {related.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>También te puede interesar</h2>
+        </div>
+        <div class="grid">
+          {related.map((s) => (
+            <Card
+              href={servicioUrl(s)}
+              title={s.data.name}
+              text={s.data.summary}
+              icon={s.data.icon}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
   <CtaBanner />
 </BaseLayout>
 
@@ -95,20 +170,83 @@ const href = servicioUrl(entry);
     display: grid;
     gap: var(--space-5);
   }
-  @media (min-width: 960px) {
+  @media (min-width: 1000px) {
     .layout {
-      grid-template-columns: minmax(0, 1fr) 18rem;
+      grid-template-columns: minmax(0, 1fr) 21rem;
+      gap: var(--space-6);
     }
-    .aside {
+    .sheet {
       position: sticky;
-      top: 6rem;
+      top: 6.5rem;
       align-self: start;
     }
   }
-  .aside {
-    padding: var(--space-4);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
+  .includes {
+    padding: 1.6rem;
+    border-radius: var(--radius-lg);
     background: var(--color-surface);
+    border: 1px solid var(--color-border);
+  }
+  .includes h2 {
+    margin: 0 0 var(--space-3);
+    font-size: 1.35rem;
+  }
+  .prose .checklist {
+    padding: 0;
+  }
+  .prose .checklist li + li {
+    margin-top: 0;
+  }
+  .updated {
+    font-size: 0.9rem;
+    margin-top: var(--space-5);
+  }
+  .sheet {
+    display: grid;
+    gap: var(--space-4);
+    padding: 1.6rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg);
+    box-shadow: var(--shadow);
+  }
+  .sheet__title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.1rem;
+  }
+  .sheet dl {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .sheet dl > div + div {
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+  }
+  .sheet dt {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+  .sheet dt :global(svg) {
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-brand);
+  }
+  .sheet dd {
+    margin-top: 0.35rem;
+    font-weight: 600;
+  }
+  .sheet .btn {
+    width: 100%;
+  }
+  .chip :global(svg) {
+    width: 0.9rem;
+    height: 0.9rem;
   }
 </style>

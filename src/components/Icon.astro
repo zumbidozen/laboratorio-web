@@ -1,0 +1,100 @@
+---
+/**
+ * Iconos (Lucide, licencia ISC) incrustados como SVG en el HTML: cero JavaScript
+ * y cero peticiones. Para añadir uno: búscalo en https://lucide.dev, impórtalo
+ * abajo con `?raw` y añádelo al mapa `icons`.
+ */
+import activity from 'lucide-static/icons/activity.svg?raw';
+import arrowRight from 'lucide-static/icons/arrow-right.svg?raw';
+import bellRing from 'lucide-static/icons/bell-ring.svg?raw';
+import building from 'lucide-static/icons/building-2.svg?raw';
+import check from 'lucide-static/icons/check.svg?raw';
+import circleCheck from 'lucide-static/icons/circle-check.svg?raw';
+import clipboard from 'lucide-static/icons/clipboard-list.svg?raw';
+import clock from 'lucide-static/icons/clock.svg?raw';
+import code from 'lucide-static/icons/code-xml.svg?raw';
+import droplet from 'lucide-static/icons/droplet.svg?raw';
+import factory from 'lucide-static/icons/factory.svg?raw';
+import fileText from 'lucide-static/icons/file-text.svg?raw';
+import flask from 'lucide-static/icons/flask-conical.svg?raw';
+import gauge from 'lucide-static/icons/gauge.svg?raw';
+import graduation from 'lucide-static/icons/graduation-cap.svg?raw';
+import hotel from 'lucide-static/icons/hotel.svg?raw';
+import layers from 'lucide-static/icons/layers.svg?raw';
+import mail from 'lucide-static/icons/mail.svg?raw';
+import mapPin from 'lucide-static/icons/map-pin.svg?raw';
+import microscope from 'lucide-static/icons/microscope.svg?raw';
+import phone from 'lucide-static/icons/phone.svg?raw';
+import plus from 'lucide-static/icons/plus.svg?raw';
+import qrCode from 'lucide-static/icons/qr-code.svg?raw';
+import receipt from 'lucide-static/icons/receipt-text.svg?raw';
+import shield from 'lucide-static/icons/shield-check.svg?raw';
+import sparkles from 'lucide-static/icons/sparkles.svg?raw';
+import testTube from 'lucide-static/icons/test-tube-diagonal.svg?raw';
+import timer from 'lucide-static/icons/timer.svg?raw';
+import truck from 'lucide-static/icons/truck.svg?raw';
+import waves from 'lucide-static/icons/waves.svg?raw';
+import wind from 'lucide-static/icons/wind.svg?raw';
+import x from 'lucide-static/icons/x.svg?raw';
+import zap from 'lucide-static/icons/zap.svg?raw';
+
+export const icons = {
+  activity,
+  'arrow-right': arrowRight,
+  bell: bellRing,
+  building,
+  check,
+  'circle-check': circleCheck,
+  clipboard,
+  clock,
+  code,
+  droplet,
+  factory,
+  file: fileText,
+  flask,
+  gauge,
+  graduation,
+  hotel,
+  layers,
+  mail,
+  'map-pin': mapPin,
+  microscope,
+  phone,
+  plus,
+  qr: qrCode,
+  receipt,
+  shield,
+  sparkles,
+  'test-tube': testTube,
+  timer,
+  truck,
+  waves,
+  wind,
+  x,
+  zap,
+} as const;
+
+export type IconName = keyof typeof icons;
+
+export const isIconName = (n: string): n is IconName => n in icons;
+
+export interface Props {
+  /** Nombre del mapa `icons`. Si no existe, se usa la gota y se avisa al compilar. */
+  name: IconName | (string & {});
+  /** Texto para lectores de pantalla. Sin él, el icono es decorativo. */
+  label?: string;
+  class?: string;
+}
+
+const { name, label, class: className } = Astro.props;
+if (!isIconName(name)) console.warn(`[Icon] "${name}" no existe en Icon.astro; uso "droplet".`);
+const attrs = `class="icon${className ? ` ${className}` : ''}" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true" focusable="false"'}`;
+// Solo se tocan los atributos de la etiqueta <svg> raíz; los de dentro (rect, circle…) se respetan.
+const svg = icons[isIconName(name) ? name : 'droplet']
+  .replace(/<!--[\s\S]*?-->/g, '')
+  .replace(/<svg\b[^>]*>/, (tag) =>
+    tag.replace(/\s(width|height|class)="[^"]*"/g, '').replace('<svg', `<svg ${attrs}`),
+  );
+---
+
+<Fragment set:html={svg} />

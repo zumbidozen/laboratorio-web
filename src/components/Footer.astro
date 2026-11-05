@@ -1,23 +1,28 @@
 ---
 import { site, mainNav, legalNav } from '@/config/site';
+import Logo from '@/components/Logo.astro';
+import Icon from '@/components/Icon.astro';
 const year = new Date().getFullYear();
 const { contact } = site;
 ---
 
 <footer class="footer">
   <div class="container footer__grid">
-    <div class="stack">
-      <p class="footer__brand">{site.name}</p>
-      <p class="muted">{site.description}</p>
+    <div class="footer__about">
+      <Logo inverted />
+      <p>{site.description}</p>
     </div>
     <nav aria-label="Secciones">
-      <p class="footer__title">Secciones</p>
+      <p class="footer__title">Web</p>
       <ul>
         {mainNav.map((i) => (
           <li>
             <a href={i.href}>{i.label}</a>
           </li>
         ))}
+        <li>
+          <a href="/preguntas-frecuentes/">Preguntas frecuentes</a>
+        </li>
         <li>
           <a href="/contacto/">Contacto</a>
         </li>
@@ -28,26 +33,35 @@ const { contact } = site;
       <ul>
         {contact.email && (
           <li>
+            <Icon name="mail" />
             <a href={`mailto:${contact.email}`}>{contact.email}</a>
           </li>
         )}
         {contact.phone && (
           <li>
+            <Icon name="phone" />
             <a href={`tel:${contact.phone}`}>{contact.phoneDisplay || contact.phone}</a>
           </li>
         )}
-        {contact.address.street && (
+        <li>
+          <Icon name="map-pin" />
+          <span>
+            {contact.address.street
+              ? `${contact.address.street}, ${contact.address.postalCode} ${contact.address.city}`
+              : contact.address.region}
+          </span>
+        </li>
+        {contact.hours && (
           <li>
-            {contact.address.street}, {contact.address.postalCode} {contact.address.city}
+            <Icon name="clock" />
+            <span>{contact.hours}</span>
           </li>
         )}
-        {!contact.address.street && <li>{contact.address.region}</li>}
-        <li class="muted">{contact.hours}</li>
       </ul>
     </address>
   </div>
   <div class="container footer__legal">
-    <p class="muted">
+    <p>
       © {year} {site.legalName}
     </p>
     <ul>
@@ -62,24 +76,37 @@ const { contact } = site;
 
 <style>
   .footer {
-    margin-top: var(--space-6);
-    padding-block: var(--space-5) var(--space-4);
-    background: var(--color-surface);
-    border-top: 1px solid var(--color-border);
+    padding-block: var(--space-6) var(--space-4);
+    background: var(--color-ink);
+    color: var(--color-on-ink-muted);
     font-size: 0.95rem;
+  }
+  .footer a {
+    color: var(--color-on-ink);
+    text-decoration: none;
+  }
+  .footer a:hover {
+    color: #fff;
+    text-decoration: underline;
   }
   .footer__grid {
     display: grid;
     gap: var(--space-5);
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
   }
-  .footer__brand {
-    font-weight: 700;
-    font-size: 1.1rem;
+  @media (min-width: 800px) {
+    .footer__grid {
+      grid-template-columns: 2fr 1fr 1.4fr;
+    }
+  }
+  .footer__about p {
+    margin-top: var(--space-3);
+    max-width: 26rem;
   }
   .footer__title {
-    font-weight: 600;
-    margin-bottom: var(--space-2);
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: var(--space-3);
   }
   address {
     font-style: normal;
@@ -88,19 +115,32 @@ const { contact } = site;
     list-style: none;
     padding: 0;
     display: grid;
-    gap: var(--space-1);
+    gap: 0.55rem;
+  }
+  address li {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+  }
+  address :global(svg) {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-top: 0.25em;
+    flex: none;
+    color: var(--color-accent);
   }
   .footer__legal {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: var(--space-3);
-    margin-top: var(--space-5);
-    padding-top: var(--space-3);
-    border-top: 1px solid var(--color-border);
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid rgb(255 255 255 / 0.1);
+    font-size: 0.875rem;
   }
   .footer__legal ul {
     display: flex;
-    gap: var(--space-3);
+    gap: var(--space-4);
   }
 </style>

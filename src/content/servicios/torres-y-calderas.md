@@ -1,6 +1,8 @@
 ---
 title: Físico-químico de torres de refrigeración y calderas
 name: Torres y calderas
+icon: gauge
+turnaround: '4 días o menos'
 description: Físico-químico de tratamiento para torres, condensadores y calderas con dureza, alcalinidad, cloruros, sílice e índices de Langelier y Ryznar.
 summary: Medimos los parámetros físico-químicos que necesitas para ajustar el tratamiento de torres, condensadores y calderas, incluidos los índices de Langelier y Ryznar para saber si el agua es incrustante o corrosiva.
 category: analisis

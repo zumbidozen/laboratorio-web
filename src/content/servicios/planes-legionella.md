@@ -1,6 +1,7 @@
 ---
 title: Planes de prevención de Legionella y Plan Sanitario
 name: Planes PPCL y PSA
+icon: clipboard
 description: Redactamos en marca blanca el plan de prevención y control de Legionella (PPCL) y el Plan Sanitario del Agua para que los entregues a tus clientes.
 summary: Redactamos en marca blanca el plan de prevención y control de Legionella (PPCL) y el Plan Sanitario del Agua de cada instalación, con su revisión anual, para que los entregues con tu marca.
 category: servicio

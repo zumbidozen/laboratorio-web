@@ -7,8 +7,16 @@ import { getServicios, servicioUrl } from '@/lib/content';
 
 const all = await getServicios();
 const groups = [
-  { title: 'Análisis', items: all.filter((s) => s.data.category === 'analisis') },
-  { title: 'Servicios', items: all.filter((s) => s.data.category === 'servicio') },
+  {
+    title: 'Análisis',
+    text: 'Cultivo y físico-químico en nuestro laboratorio; química avanzada con laboratorio colaborador acreditado.',
+    items: all.filter((s) => s.data.category === 'analisis'),
+  },
+  {
+    title: 'Servicios',
+    text: 'Lo que rodea al análisis: planes de prevención, formación y toma de muestras.',
+    items: all.filter((s) => s.data.category === 'servicio'),
+  },
 ];
 const badge = (s: (typeof all)[number]) =>
   s.data.status === 'proximamente'
@@ -23,22 +31,29 @@ const badge = (s: (typeof all)[number]) =>
 >
   <PageHeader
     eyebrow="Servicios"
+    icon="flask"
     title="Análisis de agua y servicios"
     summary="Cubrimos los análisis obligatorios de Legionella, agua de consumo, piscinas y torres, y los servicios que los rodean."
   />
-  {groups.map((g) => (
-    <section class="container section stack">
-      <h2>{g.title}</h2>
-      <div class="grid">
-        {g.items.map((s) => (
-          <Card
-            href={servicioUrl(s)}
-            title={s.data.name}
-            text={s.data.summary}
-            badge={badge(s)}
-            meta={s.data.regulations.join(' · ')}
-          />
-        ))}
+  {groups.map((g, i) => (
+    <section class:list={['section', { 'section--alt': i % 2 === 1 }]}>
+      <div class="container">
+        <div class="section-head">
+          <h2>{g.title}</h2>
+          <p class="lead">{g.text}</p>
+        </div>
+        <div class="grid">
+          {g.items.map((s) => (
+            <Card
+              href={servicioUrl(s)}
+              title={s.data.name}
+              text={s.data.summary}
+              icon={s.data.icon}
+              badge={badge(s)}
+              meta={s.data.regulations.slice(0, 3).join(' · ')}
+            />
+          ))}
+        </div>
       </div>
     </section>
   ))}

@@ -2,8 +2,33 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
 import CtaBanner from '@/components/CtaBanner.astro';
+import Icon from '@/components/Icon.astro';
+import PortalMock from '@/components/PortalMock.astro';
 import { steps, turnaround } from '@/data/home';
 import { site } from '@/config/site';
+
+const tech = [
+  {
+    icon: 'qr',
+    title: 'Código de barras de punta a punta',
+    text: 'Cada envase se identifica al pedir y se sigue en recepción, siembra, lectura e informe.',
+  },
+  {
+    icon: 'activity',
+    title: 'Estufas monitorizadas',
+    text: 'Las temperaturas de incubación se registran solas, sin anotaciones a mano.',
+  },
+  {
+    icon: 'file',
+    title: 'Informes y avisos automáticos',
+    text: 'Se generan solos a partir de los datos validados, siempre con revisión y firma de un técnico.',
+  },
+  {
+    icon: 'receipt',
+    title: 'Facturación automática',
+    text: 'Una factura mensual con el detalle por instalación, lista para repercutir a tus clientes.',
+  },
+] as const;
 ---
 
 <BaseLayout
@@ -13,73 +38,238 @@ import { site } from '@/config/site';
 >
   <PageHeader
     eyebrow="Cómo trabajamos"
-    title="Cómo trabajamos"
-    summary="Hacemos los mismos análisis que marca la norma; lo que cambia es todo lo que los rodea: pedido, seguimiento, informe y factura sin papel ni llamadas."
+    icon="sparkles"
+    title="El mismo análisis, sin papeles ni llamadas"
+    summary="Hacemos los análisis que marca la norma; lo que cambia es todo lo que los rodea: pedido, seguimiento, informe y factura."
   />
 
-  <div class="container prose">
-    <h2>Del pedido al informe</h2>
-    <ol>
-      {steps.map((s) => (
-        <li>
-          <strong>{s.title}.</strong> {s.text}
-        </li>
-      ))}
-    </ol>
-
-    <h2>Plazos máximos</h2>
-    <p>
-      Días naturales desde que recibimos la muestra en buen estado. Nuestro objetivo es cumplirlos
-      en al menos el 95 % de las muestras cada mes.
-    </p>
-    <table>
-      <thead>
-        <tr>
-          <th>Análisis</th>
-          <th>Plazo máximo</th>
-        </tr>
-      </thead>
-      <tbody>
-        {turnaround.map((t) => (
-          <tr>
-            <td>{t.analysis}</td>
-            <td>{t.time}</td>
-          </tr>
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Del pedido al informe</h2>
+      </div>
+      <ol class="flow">
+        {steps.map((s, i) => (
+          <li class="reveal">
+            <span class="icon-tile">
+              <Icon name={s.icon} />
+            </span>
+            <div>
+              <h3>
+                {i + 1}. {s.title}
+              </h3>
+              <p>{s.text}</p>
+            </div>
+          </li>
         ))}
-      </tbody>
-    </table>
-    <p>
-      Los resultados fuera de límite se avisan por teléfono en los plazos fijados por contrato: en
-      menos de 2 horas si una torre supera 10.000 UFC/L o el centro es un hospital o una residencia.
-    </p>
+      </ol>
+    </div>
+  </section>
 
-    <h2>Portal y API</h2>
-    <ul>
-      <li>Pedidos, cadena de custodia, estado de la muestra e informe en un solo sitio.</li>
-      <li>API para crear pedidos y recibir resultados en tu software de mantenimiento.</li>
-      <li>Calendario de muestreo por instalación para que no se pase ninguna fecha.</li>
-    </ul>
+  <section class="section section--alt">
+    <div class="container split">
+      <div class="stack">
+        <p class="eyebrow">Plazos</p>
+        <h2>Plazos máximos, firmados por contrato</h2>
+        <p class="lead">
+          Días naturales desde que recibimos la muestra en buen estado. Nuestro objetivo es
+          cumplirlos en al menos el 95 % de las muestras cada mes.
+        </p>
+        <p class="alert">
+          <Icon name="bell" />
+          <span>
+            Los resultados fuera de límite se avisan por teléfono: en menos de 2 horas si una torre
+            supera 10.000 UFC/L o el centro es un hospital o una residencia.
+          </span>
+        </p>
+      </div>
+      <dl class="times reveal">
+        {turnaround.map((t) => (
+          <div>
+            <dt>{t.analysis}</dt>
+            <dd>{t.time}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
 
-    <h2>Tecnología en el laboratorio</h2>
-    <p>
-      Trabajamos con LIMS y códigos de barras desde el primer día, registro automático de
-      temperaturas de las estufas y automatización de informes, avisos y facturación. Todo resultado
-      pasa por la revisión y firma de un técnico.
-    </p>
+  <section class="section">
+    <div class="container split">
+      <div class="stack">
+        <p class="eyebrow">Portal y API</p>
+        <h2>Todo en un sitio, y en tu propio software</h2>
+        <ul class="checklist">
+          <li>
+            <Icon name="check" />
+            <span>
+              Pedidos, cadena de custodia, estado de la muestra e informe en un solo sitio.
+            </span>
+          </li>
+          <li>
+            <Icon name="check" />
+            <span>
+              API para crear pedidos y recibir resultados en tu software de mantenimiento.
+            </span>
+          </li>
+          <li>
+            <Icon name="check" />
+            <span>Calendario de muestreo por instalación para que no se pase ninguna fecha.</span>
+          </li>
+          <li>
+            <Icon name="check" />
+            <span>
+              Informe en co-marca: tu logotipo en la portada y nuestro laboratorio como emisor.
+            </span>
+          </li>
+        </ul>
+      </div>
+      <PortalMock />
+    </div>
+  </section>
 
-    <h2>Quién realiza los ensayos</h2>
-    {site.accreditation.ownEnac ? (
-      <p>
-        Somos laboratorio de ensayo acreditado por ENAC con n.º {site.accreditation.enacNumber}. El
-        alcance de la acreditación se indica en cada informe.
-      </p>
-    ) : (
-      <p>
-        Los ensayos que requieren acreditación los realiza y firma un laboratorio acreditado por
-        ENAC para ese ensayo, identificado en cada informe. Tú trabajas solo con nosotros: un
-        pedido, un portal y una factura.
-      </p>
-    )}
-  </div>
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Laboratorio</p>
+        <h2>Automatizado donde ahorra errores; humano donde se firma</h2>
+      </div>
+      <ul class="tech">
+        {tech.map((t) => (
+          <li class="reveal">
+            <span class="icon-tile">
+              <Icon name={t.icon} />
+            </span>
+            <h3>{t.title}</h3>
+            <p>{t.text}</p>
+          </li>
+        ))}
+      </ul>
+      <div class="signer">
+        <Icon name="shield" />
+        <div>
+          <h3>Quién realiza los ensayos</h3>
+          {site.accreditation.ownEnac ? (
+            <p>
+              Somos laboratorio de ensayo acreditado por ENAC con n.º{' '}
+              {site.accreditation.enacNumber}. El alcance de la acreditación se indica en cada
+              informe.
+            </p>
+          ) : (
+            <p>
+              Los ensayos que requieren acreditación los realiza y firma un laboratorio acreditado
+              por ENAC para ese ensayo, identificado en cada informe. Tú trabajas solo con nosotros:
+              un pedido, un portal y una factura.
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
   <CtaBanner />
 </BaseLayout>
+
+<style>
+  .flow {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  }
+  .flow li {
+    display: flex;
+    gap: var(--space-3);
+    padding: 1.4rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+  .flow p,
+  .tech p {
+    margin-top: 0.35rem;
+    color: var(--color-text-muted);
+  }
+  .split {
+    display: grid;
+    gap: var(--space-5);
+    align-items: center;
+  }
+  @media (min-width: 1000px) {
+    .split {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+    }
+  }
+  .alert {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem 1.2rem;
+    border-radius: var(--radius);
+    background: var(--color-alert-soft);
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+  .alert :global(svg) {
+    flex: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: 0.15em;
+    color: var(--color-alert);
+  }
+  .times {
+    border-radius: var(--radius-lg);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .times div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: 1.1rem 1.4rem;
+  }
+  .times div + div {
+    border-top: 1px solid var(--color-border);
+  }
+  .times dt {
+    color: var(--color-text-muted);
+  }
+  .times dd {
+    font-family: var(--font-display);
+    font-weight: 800;
+    color: var(--color-brand);
+    white-space: nowrap;
+  }
+  .tech {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  }
+  .tech h3 {
+    margin-top: var(--space-3);
+  }
+  .signer {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+    padding: 1.6rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+  }
+  .signer > :global(svg) {
+    flex: none;
+    width: 2rem;
+    height: 2rem;
+    color: var(--color-brand);
+  }
+  .signer p {
+    margin-top: 0.35rem;
+    color: var(--color-text-muted);
+    max-width: 50rem;
+  }
+</style>

@@ -1,32 +1,45 @@
 ---
 import { site, mainNav, primaryCta } from '@/config/site';
+import Logo from '@/components/Logo.astro';
+import Icon from '@/components/Icon.astro';
 const current = Astro.url.pathname;
 const isActive = (href: string) => current.startsWith(href);
 ---
 
-<header class="header">
+<header class="header" data-header>
   <div class="container header__inner">
-    <a class="brand" href="/" aria-label={`${site.name}, inicio`}>
-      <img src="/favicon.svg" alt="" width="32" height="32" />
-      <span>{site.shortName}</span>
+    <a class="header__brand" href="/" aria-label={`${site.name}, inicio`}>
+      <Logo />
     </a>
-    <details class="menu">
-      <summary aria-label="Abrir menú">Menú</summary>
-      <nav aria-label="Principal">
-        <ul>
-          {mainNav.map((item) => (
-            <li>
-              <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </details>
-    <a class="btn header__cta" href={primaryCta.href}>
-      {primaryCta.label}
-    </a>
+    <button
+      class="header__toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="menu-principal"
+      data-toggle
+    >
+      <span class="visually-hidden">Menú</span>
+      <span class="header__bars" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </button>
+    <nav id="menu-principal" class="header__nav" aria-label="Principal">
+      <ul>
+        {mainNav.map((item) => (
+          <li>
+            <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a class="btn header__cta" href={primaryCta.href}>
+        {primaryCta.label}
+        <Icon name="arrow-right" />
+      </a>
+    </nav>
   </div>
 </header>
 
@@ -35,93 +48,132 @@ const isActive = (href: string) => current.startsWith(href);
     position: sticky;
     top: 0;
     z-index: 50;
-    background: color-mix(in srgb, var(--color-bg) 92%, transparent);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--color-border);
+    background: color-mix(in srgb, var(--color-bg) 85%, transparent);
+    backdrop-filter: saturate(1.6) blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .header[data-scrolled] {
+    border-bottom-color: var(--color-border);
   }
   .header__inner {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: var(--space-4);
-    min-height: 4rem;
+    min-height: 4.5rem;
   }
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    font-weight: 700;
-    font-size: 1.15rem;
-    color: var(--color-text);
+  .header__brand {
     text-decoration: none;
   }
-  .menu {
-    margin-left: auto;
-  }
-  .menu summary {
-    cursor: pointer;
-    list-style: none;
-    font-weight: 600;
-    padding: 0.4rem 0.8rem;
+  .header__toggle {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
     border: 1px solid var(--color-border);
-    border-radius: var(--radius);
+    border-radius: 12px;
+    background: var(--color-bg);
+    color: var(--color-text);
+    cursor: pointer;
   }
-  .menu summary::-webkit-details-marker {
+  .header__bars {
+    display: grid;
+    gap: 4px;
+  }
+  .header__bars span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition:
+      transform 0.2s var(--ease),
+      opacity 0.2s;
+  }
+  [aria-expanded='true'] .header__bars span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+  [aria-expanded='true'] .header__bars span:nth-child(2) {
+    opacity: 0;
+  }
+  [aria-expanded='true'] .header__bars span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+  .header__nav {
     display: none;
-  }
-  .menu nav {
     position: absolute;
-    left: 0;
-    right: 0;
-    top: 4rem;
+    inset: 4.5rem 0 auto;
+    padding: var(--space-3) 1.25rem var(--space-4);
     background: var(--color-bg);
     border-bottom: 1px solid var(--color-border);
-    padding: var(--space-3);
+    box-shadow: var(--shadow-lg);
   }
-  .menu ul {
+  .header__nav[data-open] {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .header__nav ul {
     list-style: none;
     padding: 0;
     display: grid;
-    gap: var(--space-2);
   }
-  .menu a {
+  .header__nav a:not(.btn) {
+    display: block;
+    padding: 0.7rem 0;
     color: var(--color-text);
+    font-family: var(--font-display);
+    font-weight: 600;
     text-decoration: none;
-    font-weight: 500;
+    border-bottom: 1px solid var(--color-border);
   }
-  .menu a[aria-current='page'] {
+  .header__nav a[aria-current='page'] {
     color: var(--color-brand);
   }
-  .header__cta {
-    display: none;
-  }
 
-  @media (min-width: 900px) {
-    .menu summary {
+  @media (min-width: 960px) {
+    .header__toggle {
       display: none;
     }
-    /* En escritorio el menú está siempre visible aunque <details> esté cerrado. */
-    .menu > nav {
-      display: block;
+    .header__nav {
+      display: flex;
+      align-items: center;
+      gap: var(--space-5);
       position: static;
-      border: 0;
       padding: 0;
       background: none;
+      border: 0;
+      box-shadow: none;
     }
-    .menu ul {
+    .header__nav ul {
       display: flex;
-      gap: var(--space-4);
+      gap: var(--space-1);
     }
-    .header__cta {
-      display: inline-flex;
+    .header__nav a:not(.btn) {
+      padding: 0.45rem 0.8rem;
+      border: 0;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      color: var(--color-text-muted);
+    }
+    .header__nav a:not(.btn):hover,
+    .header__nav a[aria-current='page'] {
+      color: var(--color-text);
+      background: var(--color-surface);
     }
   }
 </style>
 
 <script>
-  // En escritorio <details> debe estar abierto para que el menú se vea.
-  const menu = document.querySelector<HTMLDetailsElement>('.menu');
-  const mq = window.matchMedia('(min-width: 900px)');
-  const sync = () => menu && (menu.open = mq.matches);
-  sync();
-  mq.addEventListener('change', sync);
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-toggle]');
+  const nav = document.getElementById('menu-principal');
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    nav?.toggleAttribute('data-open', open);
+  });
+  const onScroll = () => header?.toggleAttribute('data-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
 </script>

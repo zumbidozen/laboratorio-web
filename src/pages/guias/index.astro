@@ -14,17 +14,22 @@ const guias = await getGuias();
 >
   <PageHeader
     eyebrow="Guías"
+    icon="file"
     title="Guías de normativa de aguas"
     summary="Explicamos en corto qué piden las normas de Legionella, agua de consumo y piscinas y cómo se traduce en análisis."
   />
-  <div class="container grid">
-    {guias.map((g) => (
-      <Card
-        href={guiaUrl(g)}
-        title={g.data.title}
-        text={g.data.description}
-        meta={formatDate(g.data.published)}
-      />
-    ))}
-  </div>
+  <section class="section">
+    <div class="container grid">
+      {guias.map((g) => (
+        <Card
+          href={guiaUrl(g)}
+          title={g.data.title}
+          text={g.data.description}
+          meta={formatDate(g.data.published)}
+          icon="file"
+          cta="Leer la guía"
+        />
+      ))}
+    </div>
+  </section>
 </BaseLayout>

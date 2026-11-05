@@ -14,7 +14,7 @@ const logo = await readFile(new URL('../public/favicon.svg', import.meta.url), '
 
 const html = `<!doctype html><html><body style="margin:0">
 <div style="width:1200px;height:630px;box-sizing:border-box;padding:80px;display:flex;flex-direction:column;justify-content:space-between;
-  background:linear-gradient(135deg,#0b6e8a,#075468);color:#fff;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif">
+  background:radial-gradient(900px 500px at 100% 0%,rgba(20,184,166,.45),transparent 60%),#0a1d26;color:#fff;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif">
   <div style="display:flex;align-items:center;gap:24px;font-size:40px;font-weight:700">
     <div style="width:88px;height:88px">${logo}</div>${name}
   </div>

@@ -1,22 +1,35 @@
 ---
-/** Tarjeta enlazada para servicios, sectores y guías. */
+/** Tarjeta enlazada para servicios, sectores y guías. Toda la tarjeta es clicable. */
+import Icon from '@/components/Icon.astro';
 export interface Props {
   href: string;
   title: string;
   text: string;
+  icon?: string;
   badge?: string;
   meta?: string;
+  cta?: string;
 }
-const { href, title, text, badge, meta } = Astro.props;
+const { href, title, text, icon, badge, meta, cta = 'Ver más' } = Astro.props;
 ---
 
-<article class="card">
-  {badge && <span class="chip chip--soon">{badge}</span>}
+<article class="card reveal">
+  <div class="card__top">
+    {icon && (
+      <span class="icon-tile">
+        <Icon name={icon} />
+      </span>
+    )}
+    {badge && <span class="chip chip--soon">{badge}</span>}
+  </div>
   <h3>
     <a href={href}>{title}</a>
   </h3>
-  <p>{text}</p>
+  <p class="card__text">{text}</p>
   {meta && <p class="card__meta">{meta}</p>}
+  <span class="card__more" aria-hidden="true">
+    {cta} <Icon name="arrow-right" />
+  </span>
 </article>
 
 <style>
@@ -24,34 +37,68 @@ const { href, title, text, badge, meta } = Astro.props;
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
-    padding: var(--space-4);
+    gap: 0.7rem;
+    padding: 1.6rem;
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
     background: var(--color-bg);
-    box-shadow: var(--shadow);
+    transition:
+      border-color 0.2s var(--ease),
+      box-shadow 0.2s var(--ease),
+      transform 0.2s var(--ease);
   }
   .card:hover {
-    border-color: var(--color-brand);
+    border-color: color-mix(in srgb, var(--color-brand) 40%, var(--color-border));
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
   }
-  .card a {
+  .card__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+  .card__top:empty {
+    display: none;
+  }
+  h3 {
+    font-size: 1.15rem;
+  }
+  h3 a {
     color: var(--color-text);
     text-decoration: none;
   }
-  /* Toda la tarjeta es clicable sin anidar enlaces. */
-  .card a::after {
+  h3 a::after {
     content: '';
     position: absolute;
     inset: 0;
+    border-radius: inherit;
   }
-  .card p {
+  .card__text {
     color: var(--color-text-muted);
+    font-size: 0.97rem;
   }
   .card__meta {
-    font-size: 0.85rem;
-    margin-top: auto;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
   }
-  .chip {
-    align-self: flex-start;
+  .card__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: auto;
+    padding-top: 0.4rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--color-brand);
+  }
+  .card__more :global(svg) {
+    width: 1rem;
+    height: 1rem;
+    transition: transform 0.2s var(--ease);
+  }
+  .card:hover .card__more :global(svg) {
+    transform: translateX(3px);
   }
 </style>

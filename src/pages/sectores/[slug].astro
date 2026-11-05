@@ -31,22 +31,35 @@ const href = sectorUrl(entry);
   ]}
   schema={[faqPage(data.faq)]}
 >
-  <PageHeader eyebrow="Para quién" title={data.title} summary={data.summary} />
-  <article class="container prose">
+  <PageHeader eyebrow="Para quién" icon={data.icon} title={data.title} summary={data.summary} />
+  <article class="container prose section">
     <Content />
   </article>
   {services.length > 0 && (
-    <section class="container section stack">
-      <h2>Análisis y servicios más pedidos</h2>
-      <div class="grid">
-        {services.map((s) => (
-          <Card href={servicioUrl(s)} title={s.data.name} text={s.data.summary} />
-        ))}
+    <section class="section section--alt">
+      <div class="container">
+        <div class="section-head">
+          <h2>Análisis y servicios más pedidos</h2>
+        </div>
+        <div class="grid">
+          {services.map((s) => (
+            <Card
+              href={servicioUrl(s)}
+              title={s.data.name}
+              text={s.data.summary}
+              icon={s.data.icon}
+            />
+          ))}
+        </div>
       </div>
     </section>
   )}
-  <div class="container">
-    <Faq items={data.faq} />
-  </div>
+  {data.faq.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <Faq items={data.faq} split />
+      </div>
+    </section>
+  )}
   <CtaBanner />
 </BaseLayout>

@@ -24,6 +24,11 @@ export async function getFaq() {
   return all.sort((a, b) => a.data.order - b.data.order);
 }
 
+export async function getPlanes() {
+  const all = await getCollection('planes');
+  return all.sort((a, b) => a.data.order - b.data.order);
+}
+
 export const servicioUrl = (e: CollectionEntry<'servicios'>) => `/servicios/${e.id}/`;
 export const sectorUrl = (e: CollectionEntry<'sectores'>) => `/sectores/${e.id}/`;
 export const guiaUrl = (e: CollectionEntry<'guias'>) => `/guias/${e.id}/`;

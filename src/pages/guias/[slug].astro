@@ -43,8 +43,8 @@ const href = guiaUrl(entry);
     faqPage(data.faq),
   ]}
 >
-  <PageHeader eyebrow="Guía" title={data.title} summary={data.summary}>
-    <p class="muted">
+  <PageHeader eyebrow="Guía" icon="file" title={data.title} summary={data.summary}>
+    <p class="muted byline">
       {data.author} · Publicada el{' '}
       <time datetime={isoDate(data.published)}>{formatDate(data.published)}</time>
       {data.updated > data.published && (
@@ -55,21 +55,40 @@ const href = guiaUrl(entry);
       )}
     </p>
   </PageHeader>
-  <article class="container prose">
+  <article class="container prose section">
     <Content />
   </article>
-  <div class="container section">
-    <Faq items={data.faq} />
-  </div>
+  {data.faq.length > 0 && (
+    <section class="section section--alt">
+      <div class="container">
+        <Faq items={data.faq} split />
+      </div>
+    </section>
+  )}
   {services.length > 0 && (
-    <section class="container stack">
-      <h2>Análisis relacionados</h2>
-      <div class="grid">
-        {services.map((s) => (
-          <Card href={servicioUrl(s)} title={s.data.name} text={s.data.summary} />
-        ))}
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Análisis relacionados</h2>
+        </div>
+        <div class="grid">
+          {services.map((s) => (
+            <Card
+              href={servicioUrl(s)}
+              title={s.data.name}
+              text={s.data.summary}
+              icon={s.data.icon}
+            />
+          ))}
+        </div>
       </div>
     </section>
   )}
   <CtaBanner />
 </BaseLayout>
+
+<style>
+  .byline {
+    font-size: 0.9rem;
+  }
+</style>

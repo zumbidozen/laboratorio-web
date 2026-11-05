@@ -59,7 +59,8 @@ Hace cuatro cosas: comprueba tipos y contenido, compila, revisa el SEO de cada p
 - [ ] Nombre comercial, razón social y CIF en `src/config/site.ts`.
 - [ ] Dominio definitivo en `url`.
 - [ ] Email, teléfono y, cuando se firme el local, dirección.
-- [ ] Endpoint del formulario en `contact.formEndpoint` (Formspree, Netlify Forms o similar); sin él, la página de contacto muestra el email.
+- [ ] Formulario: con `contact.form: 'netlify'` funciona solo en Netlify (activa el aviso por email en Netlify → Forms). En otro hosting, pon la URL de Formspree o similar.
+- [ ] Horario de atención en `contact.hours`.
 - [ ] Textos legales revisados por asesoría.
 - [ ] Logotipo definitivo en `public/favicon.svg` y `npm run og`.
 - [ ] Revisión técnica de las guías por el responsable técnico.

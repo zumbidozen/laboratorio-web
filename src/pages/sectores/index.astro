@@ -15,13 +15,16 @@ const sectores = await getSectores();
 >
   <PageHeader
     eyebrow="Para quién"
+    icon="building"
     title="Para quién trabajamos"
     summary="Sobre todo para empresas que toman muestras y revenden el análisis, y también para los edificios que las contratan."
   />
-  <div class="container grid">
-    {sectores.map((s) => (
-      <Card href={sectorUrl(s)} title={s.data.name} text={s.data.summary} />
-    ))}
-  </div>
+  <section class="section">
+    <div class="container grid">
+      {sectores.map((s) => (
+        <Card href={sectorUrl(s)} title={s.data.name} text={s.data.summary} icon={s.data.icon} />
+      ))}
+    </div>
+  </section>
   <CtaBanner />
 </BaseLayout>
