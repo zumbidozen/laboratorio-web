@@ -61,7 +61,9 @@ const rejects = [
       <ol class="steps">
         {steps.map((s, i) => (
           <li class="reveal">
-            <span class="steps__num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="steps__num" aria-hidden="true">
+              {String(i + 1).padStart(2, '0')}
+            </span>
             <span class="icon-tile">
               <Icon name={s.icon} />
             </span>
@@ -142,7 +144,7 @@ const rejects = [
     font-size: 2rem;
     font-weight: 300;
     line-height: 1;
-    color: var(--color-border);
+    color: var(--color-text-subtle);
   }
   .steps h2 {
     margin-top: var(--space-3);

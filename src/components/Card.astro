@@ -9,8 +9,11 @@ export interface Props {
   badge?: string;
   meta?: string;
   cta?: string;
+  /** Nivel del título: 2 si la tarjeta va justo bajo el H1 de la página; 3 bajo una sección con H2. */
+  level?: 2 | 3;
 }
-const { href, title, text, icon, badge, meta, cta = 'Ver más' } = Astro.props;
+const { href, title, text, icon, badge, meta, cta = 'Ver más', level = 3 } = Astro.props;
+const Heading = level === 2 ? 'h2' : 'h3';
 ---
 
 <article class="card spotlight reveal">
@@ -22,9 +25,9 @@ const { href, title, text, icon, badge, meta, cta = 'Ver más' } = Astro.props;
     )}
     {badge && <span class="chip chip--soon">{badge}</span>}
   </div>
-  <h3>
+  <Heading class="card__title">
     <a href={href}>{title}</a>
-  </h3>
+  </Heading>
   <p class="card__text">{text}</p>
   {meta && <p class="card__meta">{meta}</p>}
   <span class="card__more" aria-hidden="true">
@@ -62,14 +65,16 @@ const { href, title, text, icon, badge, meta, cta = 'Ver más' } = Astro.props;
   .card__top:empty {
     display: none;
   }
-  h3 {
+  .card__title {
     font-size: 1.15rem;
+    font-weight: 500;
+    letter-spacing: 0;
   }
-  h3 a {
+  .card__title a {
     color: var(--color-text);
     text-decoration: none;
   }
-  h3 a::after {
+  .card__title a::after {
     content: '';
     position: absolute;
     inset: 0;

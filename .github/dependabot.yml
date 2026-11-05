@@ -1,0 +1,18 @@
+# Avisos automáticos de actualizaciones (seguridad incluida).
+# GitHub abre una pull request cuando hay versiones nuevas; la CI comprueba que todo sigue bien.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      # Las actualizaciones menores y de parches llegan juntas en una sola PR.
+      menores:
+        update-types: [minor, patch]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

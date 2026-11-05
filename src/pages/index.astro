@@ -179,7 +179,9 @@ const soon = (s: (typeof servicios)[number]) =>
       <ol class="steps">
         {steps.map((s, i) => (
           <li class="reveal">
-            <span class="steps__num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="steps__num" aria-hidden="true">
+              {String(i + 1).padStart(2, '0')}
+            </span>
             <span class="icon-tile">
               <Icon name={s.icon} />
             </span>
@@ -515,7 +517,7 @@ const soon = (s: (typeof servicios)[number]) =>
     font-weight: 400;
     font-size: 2rem;
     line-height: 1;
-    color: var(--color-border);
+    color: var(--color-text-subtle);
   }
   .steps h3 {
     margin-top: var(--space-3);

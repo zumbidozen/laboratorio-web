@@ -7,6 +7,8 @@ Web estática en Astro de un laboratorio de análisis de aguas en Madrid que ven
 - `npm run dev`: servidor local en http://localhost:4321
 - `npm run verify`: tipos + compilación + revisión SEO + formato. Ejecútalo antes de dar un cambio por terminado; debe acabar sin errores.
 - `npm run format`: aplica Prettier.
+- `npm run og`: regenera las imágenes para redes (general y una por guía). Ejecútalo al crear o renombrar una guía.
+- `npm run descargables`: regenera los PDF y las vistas previas de la checklist.
 
 ## Dónde va cada cambio
 

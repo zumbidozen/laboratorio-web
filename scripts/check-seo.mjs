@@ -1,9 +1,9 @@
 /**
  * Revisión SEO automática de la web ya compilada (carpeta dist/).
  * Se ejecuta con `npm run check:seo` y en cada push (GitHub Actions).
- * Falla si alguna página indexable incumple lo básico.
+ * Falla si alguna página indexable incumple lo básico o si hay enlaces internos rotos.
  */
-import { readdir, readFile } from 'node:fs/promises';
+import { readdir, readFile, stat } from 'node:fs/promises';
 import { join } from 'node:path';
 
 const DIST = new URL('../dist/', import.meta.url).pathname;
@@ -17,6 +17,27 @@ async function* htmlFiles(dir) {
 }
 
 const get = (html, re) => html.match(re)?.[1]?.trim();
+
+/** ¿Existe en dist/ el destino de un enlace interno (archivo o carpeta con index.html)? */
+const cache = new Map();
+async function exists(path) {
+  if (cache.has(path)) return cache.get(path);
+  const target = join(DIST, decodeURIComponent(path));
+  let ok = false;
+  try {
+    const s = await stat(target);
+    ok =
+      s.isFile() ||
+      (await stat(join(target, 'index.html')).then(
+        () => true,
+        () => false,
+      ));
+  } catch {
+    ok = false;
+  }
+  cache.set(path, ok);
+  return ok;
+}
 const errors = [];
 const warnings = [];
 let pages = 0;
@@ -32,6 +53,15 @@ for await (const file of htmlFiles(DIST)) {
   const desc = get(html, /<meta name="description" content="([^"]*)"/);
   const robots = get(html, /<meta name="robots" content="([^"]*)"/) ?? '';
   const isLegalOr404 = /\/(aviso-legal|privacidad|cookies|404)/.test(page);
+
+  // Enlaces internos: cada href="/..." debe existir en dist/, y cada ancla de la misma página también.
+  for (const m of html.matchAll(/href="(\/[^"#?]*)(?:\?[^"#]*)?(#[^"]*)?"/g)) {
+    const [, path, hash] = m;
+    if (!(await exists(path))) err(`enlace roto a ${path}`);
+    const self = page.replace(/index\.html$/, '');
+    if (hash && hash.length > 1 && path === self && !html.includes(`id="${hash.slice(1)}"`))
+      err(`ancla ${hash} no existe en la página`);
+  }
 
   if (!title) err('falta <title>');
   else if (title.length > 70) warn(`<title> largo (${title.length} > 70): «${title}»`);

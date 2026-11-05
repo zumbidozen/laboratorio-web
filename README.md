@@ -33,7 +33,7 @@ Abre http://localhost:4321. Los cambios se ven al guardar.
 | Preguntas frecuentes generales                             | `src/content/faq.yaml`                                    |
 | Ventajas, pasos y plazos de la portada y "Cómo trabajamos" | `src/data/home.ts`                                        |
 | Textos legales                                             | `src/pages/aviso-legal.md`, `privacidad.md`, `cookies.md` |
-| Imagen al compartir en redes                               | `npm run og` (la regenera con el nombre y el lema)        |
+| Imagen al compartir en redes (general y una por guía)      | `npm run og` (ejecútalo al crear o renombrar una guía)    |
 | Rastreadores de IA permitidos                              | `src/pages/robots.txt.ts`                                 |
 | PDF de informe de ejemplo y cadena de custodia             | `npm run descargables` (los genera desde sus páginas)     |
 | Teléfono, WhatsApp y analítica sin cookies                 | `src/config/site.ts` → `contact` y `analytics`            |

@@ -23,6 +23,7 @@ const guias = await getGuias();
     <div class="container grid">
       {guias.map((g) => (
         <Card
+          level={2}
           href={guiaUrl(g)}
           title={g.data.title}
           text={g.data.description}

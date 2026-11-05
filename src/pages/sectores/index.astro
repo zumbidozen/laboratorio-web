@@ -22,7 +22,13 @@ const sectores = await getSectores();
   <section class="section">
     <div class="container grid">
       {sectores.map((s) => (
-        <Card href={sectorUrl(s)} title={s.data.name} text={s.data.summary} icon={s.data.icon} />
+        <Card
+          level={2}
+          href={sectorUrl(s)}
+          title={s.data.name}
+          text={s.data.summary}
+          icon={s.data.icon}
+        />
       ))}
     </div>
   </section>

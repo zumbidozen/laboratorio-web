@@ -1,5 +1,7 @@
 ---
 import type { GetStaticPaths } from 'astro';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { render, getEntries } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
@@ -33,10 +35,15 @@ const words = (entry.body ?? '').split(/\s+/).filter(Boolean).length;
 const minutes = Math.max(2, Math.round(words / 200));
 const services = await getEntries(data.services);
 const href = guiaUrl(entry);
+// Imagen para redes propia de la guía (la genera `npm run og`); si no existe, la general.
+const ogImage = existsSync(join(process.cwd(), 'public/og/guias', `${entry.id}.png`))
+  ? `/og/guias/${entry.id}.png`
+  : undefined;
 ---
 
 <BaseLayout
   title={data.title}
+  image={ogImage}
   description={data.description}
   type="article"
   published={data.published}
@@ -197,6 +204,7 @@ const href = guiaUrl(entry);
   }
   .layout {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-5);
     align-items: start;
   }
@@ -264,6 +272,7 @@ const href = guiaUrl(entry);
   }
   .main {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-5);
     min-width: 0;
   }

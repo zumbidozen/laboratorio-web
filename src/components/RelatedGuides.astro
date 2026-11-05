@@ -1,0 +1,52 @@
+---
+/**
+ * «Guías relacionadas»: las guías que tratan alguno de los servicios indicados.
+ * Enlaza servicios y sectores con las guías (las guías ya enlazan a los servicios).
+ */
+import Card from '@/components/Card.astro';
+import { getGuias, guiaUrl } from '@/lib/content';
+
+export interface Props {
+  /** Ids de servicio (nombre del archivo sin .md). */
+  services: string[];
+  title?: string;
+  max?: number;
+}
+const { services, title = 'Guías relacionadas', max = 3 } = Astro.props;
+const guias = (await getGuias())
+  // Pesa más que el servicio aparezca antes en la guía (el primero es su tema principal).
+  .map((g) => ({
+    g,
+    score: g.data.services.reduce(
+      (acc, r, i) => acc + (services.includes(r.id) ? 1 / (i + 1) : 0),
+      0,
+    ),
+  }))
+  .filter(({ score }) => score > 0)
+  // En empate, la guía publicada antes (las guías de referencia se escribieron primero).
+  .sort((a, b) => b.score - a.score || a.g.data.published.valueOf() - b.g.data.published.valueOf())
+  .slice(0, max)
+  .map(({ g }) => g);
+---
+
+{guias.length > 0 && (
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Para saber más</p>
+        <h2>{title}</h2>
+      </div>
+      <div class="grid">
+        {guias.map((g) => (
+          <Card
+            href={guiaUrl(g)}
+            title={g.data.title}
+            text={g.data.description}
+            icon="file"
+            cta="Leer la guía"
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+)}

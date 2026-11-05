@@ -6,6 +6,7 @@ import PageHeader from '@/components/PageHeader.astro';
 import Card from '@/components/Card.astro';
 import Faq from '@/components/Faq.astro';
 import CtaBanner from '@/components/CtaBanner.astro';
+import RelatedGuides from '@/components/RelatedGuides.astro';
 import { getSectores, sectorUrl, servicioUrl } from '@/lib/content';
 import { faqPage } from '@/lib/schema';
 
@@ -61,5 +62,7 @@ const href = sectorUrl(entry);
       </div>
     </section>
   )}
+  <RelatedGuides services={data.services.map((s) => s.id)} title="Guías para este sector" />
+
   <CtaBanner />
 </BaseLayout>

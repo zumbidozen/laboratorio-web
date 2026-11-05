@@ -7,6 +7,7 @@ import Faq from '@/components/Faq.astro';
 import Card from '@/components/Card.astro';
 import CtaBanner from '@/components/CtaBanner.astro';
 import Icon from '@/components/Icon.astro';
+import RelatedGuides from '@/components/RelatedGuides.astro';
 import { primaryCta } from '@/config/site';
 import { getServicios, servicioUrl, formatDate, isoDate } from '@/lib/content';
 import { service, faqPage } from '@/lib/schema';
@@ -161,6 +162,8 @@ const soon = data.status === 'proximamente';
       </div>
     </section>
   )}
+
+  <RelatedGuides services={[entry.id]} />
 
   <CtaBanner />
 </BaseLayout>

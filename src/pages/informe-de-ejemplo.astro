@@ -89,45 +89,49 @@ const notes = [
           <p class="report__code">Muestra LG-2038 · Pedido P-1127</p>
         </div>
 
-        <dl class="report__grid">
+        <div class="report__block">
           <span class="mark">3</span>
-          <div>
-            <dt>Titular</dt>
-            <dd>Residencia de ejemplo, S.L.</dd>
-          </div>
-          <div>
-            <dt>Instalación</dt>
-            <dd>Agua caliente sanitaria</dd>
-          </div>
-          <div>
-            <dt>Punto de muestreo</dt>
-            <dd>Retorno, sala de calderas</dd>
-          </div>
-          <div>
-            <dt>Tomada por</dt>
-            <dd>Técnico de muestreo</dd>
-          </div>
-        </dl>
+          <dl class="report__grid">
+            <div>
+              <dt>Titular</dt>
+              <dd>Residencia de ejemplo, S.L.</dd>
+            </div>
+            <div>
+              <dt>Instalación</dt>
+              <dd>Agua caliente sanitaria</dd>
+            </div>
+            <div>
+              <dt>Punto de muestreo</dt>
+              <dd>Retorno, sala de calderas</dd>
+            </div>
+            <div>
+              <dt>Tomada por</dt>
+              <dd>Técnico de muestreo</dd>
+            </div>
+          </dl>
+        </div>
 
-        <dl class="report__grid">
+        <div class="report__block">
           <span class="mark">4</span>
-          <div>
-            <dt>Toma</dt>
-            <dd>03/11/2026 · 09:10</dd>
-          </div>
-          <div>
-            <dt>Recepción</dt>
-            <dd>03/11/2026 · 14:25</dd>
-          </div>
-          <div>
-            <dt>Temperatura de llegada</dt>
-            <dd>6 °C</dd>
-          </div>
-          <div>
-            <dt>In situ</dt>
-            <dd>Agua 58 °C · cloro libre 0,4 mg/L</dd>
-          </div>
-        </dl>
+          <dl class="report__grid">
+            <div>
+              <dt>Toma</dt>
+              <dd>03/11/2026 · 09:10</dd>
+            </div>
+            <div>
+              <dt>Recepción</dt>
+              <dd>03/11/2026 · 14:25</dd>
+            </div>
+            <div>
+              <dt>Temperatura de llegada</dt>
+              <dd>6 °C</dd>
+            </div>
+            <div>
+              <dt>In situ</dt>
+              <dd>Agua 58 °C · cloro libre 0,4 mg/L</dd>
+            </div>
+          </dl>
+        </div>
 
         <div class="report__results">
           <span class="mark">5</span>
@@ -289,7 +293,7 @@ const notes = [
     color: #4a5e6d;
   }
   .report__title,
-  .report__grid,
+  .report__block,
   .report__results,
   .report__verdict,
   .report__foot {
@@ -299,7 +303,7 @@ const notes = [
     font-size: 0.72rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #138a80;
+    color: #0e7068;
   }
   .report__title h2 {
     font-size: 1.5rem;
@@ -366,7 +370,7 @@ const notes = [
   }
   .report__verdict .chip {
     background: #e2f6f4;
-    color: #138a80;
+    color: #0e7068;
   }
   .report__verdict :global(svg) {
     width: 0.95rem;

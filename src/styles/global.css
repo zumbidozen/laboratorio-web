@@ -24,11 +24,12 @@
   --color-brand-soft: #e6eef4;
   --color-brand-tint: #f2f6f9;
   --color-accent: #1fb5a8;
-  --color-accent-strong: #138a80;
+  /* Turquesa oscurecido solo para texto pequeño: contraste AA (≥4,5:1) sobre blanco y gris. */
+  --color-accent-strong: #0e7068;
   --color-accent-soft: #e2f6f4;
 
   /* Estados de la interfaz (no son colores de marca) */
-  --color-ok: #138a80;
+  --color-ok: #0e7068;
   --color-ok-soft: #e2f6f4;
   --color-warn: #9a6200;
   --color-warn-soft: #fdf1d8;
@@ -41,6 +42,8 @@
   --color-border: #dde6ec;
   --color-text: #0b3c5d;
   --color-text-muted: #4a5e6d;
+  /* Números y detalles decorativos grandes (contraste ≥3:1 sobre blanco y gris). */
+  --color-text-subtle: #6f8696;
   --color-on-brand: #ffffff;
 
   /* Bloques en negativo (CTA, pie) */
@@ -95,6 +98,7 @@
     --color-border: #1a4a6b;
     --color-text: #ffffff;
     --color-text-muted: #b9cddb;
+    --color-text-subtle: #7f99aa;
     --color-on-brand: #072a42;
     --color-ink: #051f31;
     --color-ink-2: #051f31;
