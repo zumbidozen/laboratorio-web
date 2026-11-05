@@ -52,5 +52,38 @@ for (const [path, file] of jobs) {
   });
   console.log('generado public/descargas/' + file);
 }
+
+// Vistas previas de la checklist para el bloque del lead magnet (se optimizan con astro:assets).
+const previews = join(root, 'src/assets/recursos');
+await mkdir(previews, { recursive: true });
+{
+  const page = await browser.newPage({
+    viewport: { width: 794, height: 1123 },
+    deviceScaleFactor: 1.5,
+  });
+  await page.goto(base + '/recursos/checklist-legionella/documento/', { waitUntil: 'networkidle' });
+  await page.emulateMedia({ media: 'print', colorScheme: 'light' });
+  await page.addStyleTag({ content: 'body{background:#fff}.doc{padding:46px 44px!important}' });
+  const pageH = 1123;
+  await page.screenshot({
+    path: join(previews, 'checklist-1.png'),
+    fullPage: true,
+    clip: { x: 0, y: 0, width: 794, height: pageH },
+  });
+  await page.screenshot({
+    path: join(previews, 'checklist-2.png'),
+    fullPage: true,
+    clip: { x: 0, y: pageH, width: 794, height: pageH },
+  });
+  await page.addStyleTag({ content: '.page-break{padding-top:46px}.page-break h2{margin-top:0}' });
+  const cal = await page.locator('.page-break').boundingBox();
+  await page.screenshot({
+    path: join(previews, 'checklist-3.png'),
+    fullPage: true,
+    clip: { x: 0, y: cal.y, width: 794, height: Math.min(pageH, cal.height + 120) },
+  });
+  console.log('generado src/assets/recursos/checklist-{1,2,3}.png');
+}
+
 await browser.close();
 server.close();

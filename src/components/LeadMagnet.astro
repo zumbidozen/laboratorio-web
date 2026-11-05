@@ -5,16 +5,22 @@
  */
 import NetlifyForm from '@/components/NetlifyForm.astro';
 import Icon from '@/components/Icon.astro';
+import DocPreview from '@/components/DocPreview.astro';
 import { checklist } from '@/data/recursos';
 
 export interface Props {
   /** Dónde se muestra (se guarda con el envío para saber qué página convierte). */
   origin: string;
+  /** Vista previa más grande (página del recurso). */
+  large?: boolean;
 }
-const { origin } = Astro.props;
+const { origin, large = false } = Astro.props;
 ---
 
-<aside class="magnet" aria-labelledby={`magnet-${origin}`}>
+<aside class:list={['magnet', { 'magnet--large': large }]} aria-labelledby={`magnet-${origin}`}>
+  <div class="magnet__visual">
+    <DocPreview size={large ? 'lg' : 'md'} />
+  </div>
   <div class="magnet__copy">
     <p class="eyebrow">Descarga gratuita · PDF</p>
     <h2 id={`magnet-${origin}`}>{checklist.title}</h2>
@@ -69,12 +75,27 @@ const { origin } = Astro.props;
       var(--color-brand-tint);
     border: 1px solid var(--color-border);
   }
-  @media (min-width: 900px) {
+  @media (min-width: 720px) {
     .magnet {
-      grid-template-columns: 1.2fr 1fr;
-      gap: var(--space-5);
+      grid-template-columns: auto 1fr;
       align-items: center;
     }
+    .magnet__form {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (min-width: 1100px) {
+    .magnet {
+      grid-template-columns: auto 1.15fr 1fr;
+      gap: var(--space-5);
+    }
+    .magnet__form {
+      grid-column: auto;
+    }
+  }
+  .magnet__visual {
+    display: grid;
+    place-items: center;
   }
   .magnet h2 {
     font-size: clamp(1.5rem, 2.6vw, 2rem);

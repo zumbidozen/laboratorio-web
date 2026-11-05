@@ -1,0 +1,110 @@
+---
+/**
+ * Vista previa del PDF de la checklist: páginas apiladas como un documento real.
+ * Las imágenes las genera `npm run descargables` a partir del propio documento.
+ */
+import { Image } from 'astro:assets';
+import p1 from '@/assets/recursos/checklist-1.png';
+import p2 from '@/assets/recursos/checklist-2.png';
+import p3 from '@/assets/recursos/checklist-3.png';
+
+export interface Props {
+  /** Tamaño: 'md' para el bloque de las guías, 'lg' para la página del recurso. */
+  size?: 'md' | 'lg';
+}
+const { size = 'md' } = Astro.props;
+const widths = size === 'lg' ? [280, 420, 560] : [220, 330, 440];
+const sizes = size === 'lg' ? '(min-width: 900px) 360px, 70vw' : '(min-width: 900px) 260px, 60vw';
+---
+
+<figure class:list={['preview', `preview--${size}`]}>
+  <div class="preview__stack" aria-hidden="true">
+    <div class="sheet sheet--back">
+      <Image src={p3} alt="" widths={widths} sizes={sizes} loading="lazy" />
+    </div>
+    <div class="sheet sheet--mid">
+      <Image src={p2} alt="" widths={widths} sizes={sizes} loading="lazy" />
+    </div>
+    <div class="sheet sheet--front">
+      <Image
+        src={p1}
+        alt="Portada de la checklist de cumplimiento de Legionella 2027"
+        widths={widths}
+        sizes={sizes}
+        loading="lazy"
+      />
+    </div>
+    <span class="preview__badge">PDF · 3 páginas</span>
+  </div>
+  <figcaption class="visually-hidden">
+    Vista previa de la checklist: obligaciones del RD 487/2022 y del RD 3/2023 y plantilla de
+    calendario de muestreo.
+  </figcaption>
+</figure>
+
+<style>
+  .preview {
+    margin: 0;
+    display: grid;
+    place-items: center;
+  }
+  .preview__stack {
+    position: relative;
+    width: 13.5rem;
+    max-width: calc(100vw - 7rem);
+    aspect-ratio: 1 / 1.414;
+    margin: 1.2rem 2.2rem 1.6rem 1.2rem;
+  }
+  .preview--lg .preview__stack {
+    width: 19rem;
+  }
+  .sheet {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow:
+      0 1px 2px rgb(11 60 93 / 0.08),
+      0 18px 40px -16px rgb(11 60 93 / 0.35);
+    transition: transform 0.4s var(--ease);
+  }
+  .sheet :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+  .sheet--back {
+    transform: translate(1.6rem, -0.6rem) rotate(7deg);
+  }
+  .sheet--mid {
+    transform: translate(0.8rem, -0.3rem) rotate(3.5deg);
+  }
+  .preview:hover .sheet--back {
+    transform: translate(2.2rem, -0.8rem) rotate(10deg);
+  }
+  .preview:hover .sheet--mid {
+    transform: translate(1.1rem, -0.4rem) rotate(5deg);
+  }
+  .preview:hover .sheet--front {
+    transform: translateY(-4px);
+  }
+  .preview__badge {
+    position: absolute;
+    left: -0.6rem;
+    bottom: 1.2rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    background: var(--color-petrol);
+    color: #fff;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    box-shadow: var(--shadow);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sheet {
+      transition: none;
+    }
+  }
+</style>
