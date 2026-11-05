@@ -26,7 +26,7 @@
     "@astrojs/check": "^0.9.12",
     "prettier": "^3.9.10",
     "prettier-plugin-astro": "^1.1.2",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "description": "Web del laboratorio de análisis de aguas (Madrid). Astro, SEO e IA friendly.",
   "engines": {
