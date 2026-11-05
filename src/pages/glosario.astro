@@ -1,0 +1,138 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import Icon from '@/components/Icon.astro';
+import { getGlosario } from '@/lib/content';
+import { definedTermSet } from '@/lib/schema';
+
+const terms = await getGlosario();
+const letterOf = (t: string) => t.normalize('NFD').replace(/[̀-ͯ]/g, '').charAt(0).toUpperCase();
+const groups = [...new Set(terms.map((t) => letterOf(t.data.term)))].map((letter) => ({
+  letter,
+  items: terms.filter((t) => letterOf(t.data.term) === letter),
+}));
+---
+
+<BaseLayout
+  title="Glosario de análisis de agua y Legionella"
+  description="Glosario de términos de análisis de agua, Legionella y piscinas: ACS, UFC, PPCL, qPCR, edificio prioritario, biocida residual, ENAC y más."
+  breadcrumbs={[{ name: 'Glosario', href: '/glosario/' }]}
+  schema={[
+    definedTermSet({
+      name: 'Glosario de análisis de agua',
+      href: '/glosario/',
+      terms: terms.map((t) => ({ id: t.id, term: t.data.term, def: t.data.def })),
+    }),
+  ]}
+>
+  <PageHeader
+    eyebrow="Glosario"
+    icon="sparkles"
+    title="Glosario de análisis de agua"
+    summary="Los términos que aparecen en las normas, en los planes de control y en los informes, explicados en una o dos frases."
+  />
+
+  <nav class="container letters" aria-label="Letras del glosario">
+    {groups.map((g) => (
+      <a href={`#letra-${g.letter}`}>{g.letter}</a>
+    ))}
+  </nav>
+
+  <section class="section section--tight">
+    <div class="container groups">
+      {groups.map((g) => (
+        <section class="group" aria-labelledby={`letra-${g.letter}`}>
+          <h2 id={`letra-${g.letter}`}>{g.letter}</h2>
+          <dl>
+            {g.items.map((t) => (
+              <div id={t.id} class="term">
+                <dt>{t.data.term}</dt>
+                <dd>
+                  {t.data.def}
+                  {t.data.link && (
+                    <a class="link-arrow" href={t.data.link}>
+                      Saber más <Icon name="arrow-right" />
+                    </a>
+                  )}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      ))}
+    </div>
+  </section>
+
+  <CtaBanner title="¿Falta algún término?" text="Escríbenos y lo añadimos." />
+</BaseLayout>
+
+<style>
+  .letters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding-top: var(--space-4);
+  }
+  .letters a {
+    display: grid;
+    place-items: center;
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 10px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .letters a:hover {
+    background: var(--color-accent-soft);
+    color: var(--color-accent-strong);
+  }
+  .groups {
+    display: grid;
+    gap: var(--space-5);
+    max-width: 56rem;
+  }
+  .group {
+    display: grid;
+    gap: var(--space-3);
+  }
+  @media (min-width: 800px) {
+    .group {
+      grid-template-columns: 4rem 1fr;
+    }
+  }
+  .group h2 {
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: var(--color-accent-strong);
+    scroll-margin-top: 6rem;
+  }
+  dl {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .term {
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+    scroll-margin-top: 6rem;
+  }
+  .term:target {
+    background: var(--color-accent-soft);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+  }
+  dt {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+  dd {
+    margin-top: 0.3rem;
+    color: var(--color-text-muted);
+  }
+  dd .link-arrow {
+    margin-left: 0.5rem;
+    font-size: 0.9rem;
+  }
+</style>

@@ -3,10 +3,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
 import PortalMock from '@/components/PortalMock.astro';
 import Icon from '@/components/Icon.astro';
-import { site } from '@/config/site';
+import NetlifyForm from '@/components/NetlifyForm.astro';
 
-const isNetlify = site.contact.form === 'netlify';
-const action = isNetlify ? '/contacto/gracias/' : site.contact.form;
 const agenda = [
   'Cómo se crea un pedido y se imprimen las etiquetas QR',
   'El estado de cada muestra y los avisos fuera de límite',
@@ -43,67 +41,34 @@ const agenda = [
       </div>
 
       <div class="panel">
-        {site.contact.form ? (
-          <form
-            class="form"
-            name="demo"
-            method="POST"
-            action={action}
-            data-netlify={isNetlify ? 'true' : undefined}
-            netlify-honeypot={isNetlify ? 'empresa-web' : undefined}
-          >
-            {isNetlify && <input type="hidden" name="form-name" value="demo" />}
-            <p class="visually-hidden">
-              <label>
-                No rellenes este campo:{' '}
-                <input name="empresa-web" tabindex="-1" autocomplete="off" />
-              </label>
-            </p>
-            <label>
-              <span>Nombre y apellidos</span>
-              <input name="nombre" autocomplete="name" required />
-            </label>
-            <label>
-              <span>Empresa</span>
-              <input name="empresa" autocomplete="organization" required />
-            </label>
-            <label>
-              <span>Email</span>
-              <input name="email" type="email" autocomplete="email" required />
-            </label>
-            <label>
-              <span>
-                Teléfono <small>(opcional)</small>
-              </span>
-              <input name="telefono" type="tel" autocomplete="tel" />
-            </label>
-            <label>
-              <span>¿Cuándo te viene bien?</span>
-              <select name="franja">
-                <option>Mañanas (9:00–14:00)</option>
-                <option>Tardes (15:00–18:00)</option>
-                <option>Me da igual</option>
-              </select>
-            </label>
-            <label class="check">
-              <input type="checkbox" name="privacidad" required />
-              <span>
-                He leído y acepto la <a href="/privacidad/">política de privacidad</a>.
-              </span>
-            </label>
-            <button class="btn" type="submit">
-              Pedir la demo <Icon name="arrow-right" />
-            </button>
-          </form>
-        ) : (
-          <p>
-            Escríbenos a{' '}
-            <a href={`mailto:${site.contact.email}?subject=Demo del portal`}>
-              {site.contact.email}
-            </a>
-            .
-          </p>
-        )}
+        <NetlifyForm name="demo" submit="Pedir la demo" mailSubject="Demo del portal">
+          <label class="field">
+            <span>Nombre y apellidos</span>
+            <input name="nombre" autocomplete="name" required />
+          </label>
+          <label class="field">
+            <span>Empresa</span>
+            <input name="empresa" autocomplete="organization" required />
+          </label>
+          <label class="field">
+            <span>Email</span>
+            <input name="email" type="email" autocomplete="email" required />
+          </label>
+          <label class="field">
+            <span>
+              Teléfono <small>(opcional)</small>
+            </span>
+            <input name="telefono" type="tel" autocomplete="tel" />
+          </label>
+          <label class="field">
+            <span>¿Cuándo te viene bien?</span>
+            <select name="franja">
+              <option>Mañanas (9:00–14:00)</option>
+              <option>Tardes (15:00–18:00)</option>
+              <option>Me da igual</option>
+            </select>
+          </label>
+        </NetlifyForm>
       </div>
     </div>
   </section>
@@ -127,55 +92,5 @@ const agenda = [
   }
   h2 {
     font-size: 1.5rem;
-  }
-  .panel {
-    padding: clamp(1.25rem, 3vw, 2rem);
-    border-radius: var(--radius-lg);
-    background: var(--color-bg);
-    box-shadow: var(--shadow-lg);
-  }
-  .form {
-    display: grid;
-    gap: 1rem;
-  }
-  .form label:not(.check) {
-    display: grid;
-    gap: 0.35rem;
-  }
-  .form label > span {
-    font-weight: 500;
-    font-size: 0.92rem;
-  }
-  small {
-    font-weight: 400;
-    color: var(--color-text-muted);
-  }
-  .form input:not([type='checkbox']),
-  .form select {
-    width: 100%;
-    padding: 0.75rem 0.9rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    background: var(--color-bg);
-    color: var(--color-text);
-  }
-  .form input:focus,
-  .form select:focus {
-    outline: none;
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 3px var(--color-accent-soft);
-  }
-  .check {
-    display: flex;
-    gap: 0.6rem;
-    align-items: flex-start;
-    font-size: 0.92rem;
-  }
-  .check input {
-    margin-top: 0.3em;
-    accent-color: var(--color-brand);
-  }
-  .form .btn {
-    justify-self: start;
   }
 </style>

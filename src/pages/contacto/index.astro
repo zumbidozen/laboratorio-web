@@ -2,11 +2,11 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
 import Icon from '@/components/Icon.astro';
+import NetlifyForm from '@/components/NetlifyForm.astro';
 import { site, addressLine } from '@/config/site';
 
 const { contact } = site;
-const isNetlify = contact.form === 'netlify';
-const action = isNetlify ? '/contacto/gracias/' : contact.form;
+const analyses = ['Legionella', 'Agua de consumo', 'Piscinas', 'Torres y calderas', 'Otros'];
 const next = [
   'Te escribimos para conocer tu volumen, tu laboratorio actual y cuándo vence tu contrato.',
   'Te enviamos una tarifa profesional con descuento por volumen.',
@@ -29,91 +29,64 @@ const next = [
   <section class="section">
     <div class="container layout">
       <div class="panel">
-        {contact.form ? (
-          <form
-            class="form"
-            name="contacto"
-            method="POST"
-            action={action}
-            data-netlify={isNetlify ? 'true' : undefined}
-            netlify-honeypot={isNetlify ? 'empresa-web' : undefined}
-          >
-            {isNetlify && <input type="hidden" name="form-name" value="contacto" />}
-            <p class="visually-hidden">
-              <label>
-                No rellenes este campo:{' '}
-                <input name="empresa-web" tabindex="-1" autocomplete="off" />
-              </label>
-            </p>
-            <div class="form__row">
-              <label>
-                <span>Nombre y apellidos</span>
-                <input name="nombre" autocomplete="name" required />
-              </label>
-              <label>
-                <span>Empresa</span>
-                <input name="empresa" autocomplete="organization" required />
-              </label>
+        <NetlifyForm name="contacto" mailSubject="Tarifa profesional">
+          <div class="form__row">
+            <label class="field">
+              <span>Nombre y apellidos</span>
+              <input name="nombre" autocomplete="name" required />
+            </label>
+            <label class="field">
+              <span>Empresa</span>
+              <input name="empresa" autocomplete="organization" required />
+            </label>
+          </div>
+          <div class="form__row">
+            <label class="field">
+              <span>Email</span>
+              <input name="email" type="email" autocomplete="email" required />
+            </label>
+            <label class="field">
+              <span>
+                Teléfono <small>(opcional)</small>
+              </span>
+              <input name="telefono" type="tel" autocomplete="tel" />
+            </label>
+          </div>
+          <fieldset>
+            <legend>¿Qué analizas?</legend>
+            <div class="pills">
+              {analyses.map((o) => (
+                <label class="pill">
+                  <input type="checkbox" name="analisis" value={o} />
+                  <span>{o}</span>
+                </label>
+              ))}
             </div>
-            <div class="form__row">
-              <label>
-                <span>Email</span>
-                <input name="email" type="email" autocomplete="email" required />
-              </label>
-              <label>
-                <span>
-                  Teléfono <small>(opcional)</small>
-                </span>
-                <input name="telefono" type="tel" autocomplete="tel" />
-              </label>
-            </div>
-            <fieldset>
-              <legend>¿Qué analizas?</legend>
-              <div class="form__checks">
-                {['Legionella', 'Agua de consumo', 'Piscinas', 'Torres y calderas', 'Otros'].map(
-                  (o) => (
-                    <label class="pill">
-                      <input type="checkbox" name="analisis" value={o} />
-                      <span>{o}</span>
-                    </label>
-                  ),
-                )}
-              </div>
-            </fieldset>
-            <label>
+          </fieldset>
+          <div class="form__row">
+            <label class="field">
               <span>Muestras al mes (aprox.)</span>
-              <select name="volumen">
+              <select name="volumen" id="volumen">
                 <option>Menos de 50</option>
                 <option>50–100</option>
                 <option>100–300</option>
                 <option>Más de 300</option>
               </select>
             </label>
-            <label>
+            <label class="field">
               <span>
-                Cuéntanos algo más <small>(opcional)</small>
+                Laboratorio actual <small>(opcional)</small>
               </span>
-              <textarea name="mensaje" rows="4"></textarea>
+              <input name="laboratorio_actual" />
             </label>
-            <label class="check">
-              <input type="checkbox" name="privacidad" required />
-              <span>
-                He leído y acepto la <a href="/privacidad/">política de privacidad</a>.
-              </span>
-            </label>
-            <button class="btn" type="submit">
-              Enviar <Icon name="arrow-right" />
-            </button>
-          </form>
-        ) : (
-          <div class="stack">
-            <p>
-              Escríbenos a{' '}
-              <a href={`mailto:${contact.email}?subject=Tarifa profesional`}>{contact.email}</a> con
-              tu empresa, qué análisis necesitas y cuántas muestras mueves al mes.
-            </p>
           </div>
-        )}
+          <label class="field">
+            <span>
+              Cuéntanos algo más <small>(opcional)</small>
+            </span>
+            <textarea name="mensaje" id="mensaje" rows="5"></textarea>
+          </label>
+        </NetlifyForm>
       </div>
 
       <aside class="stack">
@@ -155,6 +128,19 @@ const next = [
   </section>
 </BaseLayout>
 
+<script>
+  // Si se llega desde la calculadora, se rellena el mensaje con el resumen.
+  try {
+    const resumen = sessionStorage.getItem('ensayum-calculo');
+    const mensaje = document.getElementById('mensaje') as HTMLTextAreaElement | null;
+    if (resumen && mensaje && new URLSearchParams(location.search).has('calculo')) {
+      mensaje.value = resumen;
+    }
+  } catch {
+    /* sin almacenamiento: no pasa nada */
+  }
+</script>
+
 <style>
   .layout {
     display: grid;
@@ -166,112 +152,6 @@ const next = [
       grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
       gap: var(--space-6);
     }
-  }
-  .panel {
-    padding: clamp(1.25rem, 3vw, 2.25rem);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    background: var(--color-bg);
-    box-shadow: var(--shadow);
-  }
-  .form {
-    display: grid;
-    gap: 1.1rem;
-  }
-  .form__row {
-    display: grid;
-    gap: 1.1rem;
-  }
-  @media (min-width: 640px) {
-    .form__row {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-  .form label:not(.pill, .check) {
-    display: grid;
-    gap: 0.35rem;
-  }
-  .form label > span,
-  legend {
-    font-weight: 500;
-    font-size: 0.92rem;
-  }
-  small {
-    font-weight: 400;
-    color: var(--color-text-muted);
-  }
-  .form input:not([type='checkbox']),
-  .form select,
-  .form textarea {
-    width: 100%;
-    padding: 0.75rem 0.9rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    background: var(--color-bg);
-    color: var(--color-text);
-    transition:
-      border-color 0.15s,
-      box-shadow 0.15s;
-  }
-  .form input:focus,
-  .form select:focus,
-  .form textarea:focus {
-    outline: none;
-    border-color: var(--color-brand);
-    box-shadow: 0 0 0 3px var(--color-brand-soft);
-  }
-  fieldset {
-    border: 0;
-    padding: 0;
-  }
-  legend {
-    margin-bottom: 0.5rem;
-  }
-  .form__checks {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  .pill {
-    position: relative;
-  }
-  .pill input {
-    position: absolute;
-    opacity: 0;
-  }
-  .pill span {
-    display: inline-block;
-    padding: 0.45rem 0.9rem;
-    border: 1px solid var(--color-border);
-    border-radius: 999px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition:
-      background 0.15s,
-      border-color 0.15s;
-  }
-  .pill input:checked + span {
-    background: var(--color-brand-soft);
-    border-color: var(--color-brand);
-    color: var(--color-brand-strong);
-    font-weight: 500;
-  }
-  .pill input:focus-visible + span {
-    outline: 3px solid var(--color-accent);
-    outline-offset: 2px;
-  }
-  .check {
-    display: flex;
-    gap: 0.6rem;
-    align-items: flex-start;
-    font-size: 0.92rem;
-  }
-  .check input {
-    margin-top: 0.3em;
-    accent-color: var(--color-brand);
-  }
-  .form .btn {
-    justify-self: start;
   }
   aside h2 {
     font-size: 1.4rem;
@@ -293,10 +173,9 @@ const next = [
     width: 1.9rem;
     height: 1.9rem;
     border-radius: 50%;
-    background: var(--color-brand-soft);
-    color: var(--color-brand-strong);
-    font-family: var(--font-display);
-    font-weight: 400;
+    background: var(--color-accent-soft);
+    color: var(--color-accent-strong);
+    font-weight: 500;
     font-size: 0.9rem;
   }
   .next p {
@@ -317,6 +196,6 @@ const next = [
   .direct :global(svg) {
     width: 1.1rem;
     height: 1.1rem;
-    color: var(--color-brand);
+    color: var(--color-accent-strong);
   }
 </style>

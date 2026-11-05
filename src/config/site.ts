@@ -120,9 +120,11 @@ export const resourcesNav = [
   { label: 'Para quién', href: '/sectores/' },
   { label: 'Enviar muestras', href: '/enviar-muestras/' },
   { label: 'Cadena de custodia', href: '/cadena-de-custodia/' },
+  { label: 'Pedir envases', href: '/pedir-envases/' },
   { label: 'Informe de ejemplo', href: '/informe-de-ejemplo/' },
   { label: 'Cambiar de laboratorio', href: '/cambiar-de-laboratorio/' },
   { label: 'Reservar una demo', href: '/demo/' },
+  { label: 'Glosario', href: '/glosario/' },
   { label: 'Preguntas frecuentes', href: '/preguntas-frecuentes/' },
 ] as const;
 

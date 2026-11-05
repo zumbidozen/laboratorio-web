@@ -1,0 +1,181 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import NetlifyForm from '@/components/NetlifyForm.astro';
+import Icon from '@/components/Icon.astro';
+
+/** Tipos de envase que se pueden pedir. El laboratorio decide el envase exacto de cada análisis. */
+const kinds = [
+  {
+    name: 'legionella',
+    label: 'Legionella',
+    hint: 'Estéril, con neutralizante si el agua lleva biocida',
+  },
+  {
+    name: 'microbiologia',
+    label: 'Microbiología de agua de consumo',
+    hint: 'Control en grifo y análisis de control',
+  },
+  { name: 'piscina', label: 'Piscina', hint: 'Microbiología y físico-químico' },
+  { name: 'fisicoquimico', label: 'Físico-químico', hint: 'Torres, calderas y parámetros sueltos' },
+  { name: 'superficies', label: 'Hisopos', hint: 'Biofilm y superficies APPCC' },
+];
+---
+
+<BaseLayout
+  title="Pedir envases y etiquetas"
+  description="Pide envases, etiquetas QR y material para la toma de muestras de agua: Legionella, consumo, piscinas, físico-químico e hisopos. Para clientes de Ensayum."
+  breadcrumbs={[{ name: 'Pedir envases', href: '/pedir-envases/' }]}
+>
+  <PageHeader
+    eyebrow="Para clientes"
+    icon="test-tube"
+    title="Pide envases y etiquetas"
+    summary="Dinos cuántos necesitas de cada tipo y dónde te los llevamos. Te los enviamos con sus etiquetas QR para tus próximos muestreos."
+  />
+
+  <section class="section">
+    <div class="container layout">
+      <div class="panel">
+        <NetlifyForm name="envases" submit="Pedir envases" mailSubject="Pedido de envases">
+          <div class="form__row">
+            <label class="field">
+              <span>Empresa</span>
+              <input name="empresa" autocomplete="organization" required />
+            </label>
+            <label class="field">
+              <span>Persona de contacto</span>
+              <input name="nombre" autocomplete="name" required />
+            </label>
+          </div>
+          <div class="form__row">
+            <label class="field">
+              <span>Email</span>
+              <input name="email" type="email" autocomplete="email" required />
+            </label>
+            <label class="field">
+              <span>Teléfono</span>
+              <input name="telefono" type="tel" autocomplete="tel" required />
+            </label>
+          </div>
+
+          <fieldset>
+            <legend>¿Cuántos necesitas?</legend>
+            <div class="kinds">
+              {kinds.map((k) => (
+                <label class="kind">
+                  <span>
+                    <strong>{k.label}</strong>
+                    <small>{k.hint}</small>
+                  </span>
+                  <input
+                    type="number"
+                    name={`cantidad_${k.name}`}
+                    min="0"
+                    max="500"
+                    step="1"
+                    inputmode="numeric"
+                    placeholder="0"
+                    aria-label={`Cantidad de envases para ${k.label}`}
+                  />
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <label class="field">
+            <span>Dirección de entrega</span>
+            <textarea name="direccion" rows="2" autocomplete="street-address" required></textarea>
+          </label>
+          <div class="form__row">
+            <label class="field">
+              <span>¿Para cuándo los necesitas?</span>
+              <input name="fecha" type="date" />
+            </label>
+            <label class="field">
+              <span>
+                Nº de cliente o pedido <small>(opcional)</small>
+              </span>
+              <input name="referencia" />
+            </label>
+          </div>
+          <label class="field">
+            <span>
+              Observaciones <small>(opcional)</small>
+            </span>
+            <textarea name="observaciones" rows="3"></textarea>
+          </label>
+        </NetlifyForm>
+      </div>
+
+      <aside class="stack">
+        <h2>Antes de pedir</h2>
+        <ul class="checklist">
+          <li>
+            <Icon name="check" />
+            <span>Pide con margen: así llegan antes de la fecha de muestreo.</span>
+          </li>
+          <li>
+            <Icon name="check" />
+            <span>Si el agua lleva cloro u otro biocida, indícalo en observaciones.</span>
+          </li>
+          <li>
+            <Icon name="check" />
+            <span>
+              Los envases son de un solo uso y tienen fecha de caducidad: revísala antes de usarlos.
+            </span>
+          </li>
+        </ul>
+        <p>
+          <a class="link-arrow" href="/enviar-muestras/">
+            Cómo enviar las muestras <Icon name="arrow-right" />
+          </a>
+        </p>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .layout {
+    display: grid;
+    gap: var(--space-5);
+    align-items: start;
+  }
+  @media (min-width: 960px) {
+    .layout {
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+      gap: var(--space-6);
+    }
+  }
+  aside h2 {
+    font-size: 1.4rem;
+  }
+  .kinds {
+    display: grid;
+    gap: 0.5rem;
+  }
+  .kind {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+  .kind span {
+    display: grid;
+  }
+  .kind strong {
+    font-weight: 500;
+  }
+  .kind small {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+  }
+  .kind input {
+    width: 5.5rem !important;
+    text-align: center;
+  }
+</style>

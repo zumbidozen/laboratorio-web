@@ -29,6 +29,11 @@ export async function getPlanes() {
   return all.sort((a, b) => a.data.order - b.data.order);
 }
 
+export async function getGlosario() {
+  const all = await getCollection('glosario');
+  return all.sort((a, b) => a.data.term.localeCompare(b.data.term, 'es'));
+}
+
 export const servicioUrl = (e: CollectionEntry<'servicios'>) => `/servicios/${e.id}/`;
 export const sectorUrl = (e: CollectionEntry<'sectores'>) => `/sectores/${e.id}/`;
 export const guiaUrl = (e: CollectionEntry<'guias'>) => `/guias/${e.id}/`;

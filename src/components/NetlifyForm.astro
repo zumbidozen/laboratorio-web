@@ -1,0 +1,56 @@
+---
+/**
+ * Formulario común de la web (contacto, demo, envases…).
+ * Gestiona Netlify Forms, el campo trampa anti-spam, la casilla de privacidad,
+ * el botón de envío y la alternativa por email si no hay formulario configurado.
+ * Los campos van en el slot, con las clases globales de `global.css` (.form, .field, .pill…).
+ */
+import Icon from '@/components/Icon.astro';
+import { site } from '@/config/site';
+
+export interface Props {
+  /** Nombre del formulario en Netlify (aparece así en el panel Forms). */
+  name: string;
+  /** Texto del botón. */
+  submit?: string;
+  /** Asunto del email si no hay formulario. */
+  mailSubject?: string;
+}
+
+const { name, submit = 'Enviar', mailSubject = 'Contacto desde la web' } = Astro.props;
+const { form, email } = site.contact;
+const isNetlify = form === 'netlify';
+const action = isNetlify ? '/contacto/gracias/' : form;
+---
+
+{form ? (
+  <form
+    class="form"
+    name={name}
+    method="POST"
+    action={action}
+    data-netlify={isNetlify ? 'true' : undefined}
+    netlify-honeypot={isNetlify ? 'empresa-web' : undefined}
+  >
+    {isNetlify && <input type="hidden" name="form-name" value={name} />}
+    <p class="visually-hidden">
+      <label>
+        No rellenes este campo: <input name="empresa-web" tabindex="-1" autocomplete="off" />
+      </label>
+    </p>
+    <slot />
+    <label class="check">
+      <input type="checkbox" name="privacidad" required />
+      <span>
+        He leído y acepto la <a href="/privacidad/">política de privacidad</a>.
+      </span>
+    </label>
+    <button class="btn" type="submit">
+      {submit} <Icon name="arrow-right" />
+    </button>
+  </form>
+) : (
+  <p>
+    Escríbenos a <a href={`mailto:${email}?subject=${encodeURIComponent(mailSubject)}`}>{email}</a>.
+  </p>
+)}

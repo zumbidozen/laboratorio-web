@@ -4,7 +4,7 @@
  */
 import type { APIRoute } from 'astro';
 import { site, absoluteUrl } from '@/config/site';
-import { getServicios, getSectores, getGuias, getFaq, getPlanes } from '@/lib/content';
+import { getServicios, getSectores, getGuias, getFaq, getPlanes, getGlosario } from '@/lib/content';
 
 export const GET: APIRoute = async () => {
   const [servicios, sectores, guias, faq, planes] = await Promise.all([
@@ -14,6 +14,7 @@ export const GET: APIRoute = async () => {
     getFaq(),
     getPlanes(),
   ]);
+  const glosario = await getGlosario();
   const link = (title: string, path: string, note: string) =>
     `- [${title}](${absoluteUrl(path)}): ${note}`;
 
@@ -65,6 +66,10 @@ export const GET: APIRoute = async () => {
     '',
     ...faq.map((f) => `- ${f.data.q} ${f.data.a}`),
     '',
+    '## Glosario',
+    '',
+    ...glosario.map((g) => `- **${g.data.term}**: ${g.data.def}`),
+    '',
     '## Optional',
     '',
     link(
@@ -87,6 +92,11 @@ export const GET: APIRoute = async () => {
       'Cambiar de laboratorio',
       '/cambiar-de-laboratorio/',
       'cambio sin cortes con prueba de muestras duplicadas',
+    ),
+    link(
+      'Pedir envases',
+      '/pedir-envases/',
+      'formulario de pedido de envases y etiquetas para clientes',
     ),
     link('Contacto', '/contacto/', 'pedir tarifa profesional'),
     '',

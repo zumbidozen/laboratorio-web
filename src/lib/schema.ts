@@ -139,3 +139,25 @@ export function article(opts: {
 export function graph(...nodes: (Json | null | undefined)[]): Json {
   return { '@context': 'https://schema.org', '@graph': nodes.filter(Boolean) };
 }
+
+export function definedTermSet(opts: {
+  name: string;
+  href: string;
+  terms: { id: string; term: string; def: string }[];
+}): Json {
+  const url = absoluteUrl(opts.href);
+  return {
+    '@type': 'DefinedTermSet',
+    '@id': `${url}#glosario`,
+    name: opts.name,
+    url,
+    inLanguage: site.locale,
+    hasDefinedTerm: opts.terms.map((t) => ({
+      '@type': 'DefinedTerm',
+      '@id': `${url}#${t.id}`,
+      name: t.term,
+      description: t.def,
+      inDefinedTermSet: `${url}#glosario`,
+    })),
+  };
+}

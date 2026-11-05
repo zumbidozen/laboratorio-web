@@ -90,6 +90,16 @@ const faq = defineCollection({
   }),
 });
 
+/** Glosario: un único archivo YAML. */
+const glosario = defineCollection({
+  loader: file('./src/content/glosario.yaml'),
+  schema: z.object({
+    term: z.string(),
+    def: z.string().max(320),
+    link: z.string().startsWith('/').optional(),
+  }),
+});
+
 /** Planes por cuota: un único archivo YAML. */
 const planes = defineCollection({
   loader: file('./src/content/planes.yaml'),
@@ -108,4 +118,4 @@ const planes = defineCollection({
   }),
 });
 
-export const collections = { servicios, sectores, guias, faq, planes };
+export const collections = { servicios, sectores, guias, faq, planes, glosario };

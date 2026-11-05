@@ -1,0 +1,131 @@
+# Glosario (página /glosario/). Cada término: id único (se usa como ancla #id),
+# term (nombre), def (1–2 frases claras) y, si existe, link a una página de la web.
+
+- id: acs
+  term: ACS (agua caliente sanitaria)
+  def: Agua de consumo calentada para uso en duchas, lavabos y cocinas. Es una de las instalaciones con más riesgo de Legionella por su temperatura y por los tramos con agua estancada.
+  link: /servicios/legionella/
+- id: afch
+  term: AFCH (agua fría de consumo humano)
+  def: Red interior de agua fría de un edificio. Se controla para Legionella cuando el plan lo exige, porque el agua templada por encima de 20 °C favorece su crecimiento.
+- id: aerobios
+  term: Aerobios (recuento de bacterias aerobias)
+  def: Recuento de las bacterias que crecen con oxígeno a 22 °C y a 36 °C (ISO 6222). Indica la carga microbiana general del agua y la eficacia del tratamiento.
+- id: acido-isocianurico
+  term: Ácido isocianúrico
+  def: Estabilizante que se añade al cloro en piscinas exteriores para que el sol no lo degrade. Se controla porque en exceso reduce la eficacia del desinfectante.
+  link: /servicios/piscinas/
+- id: biocida
+  term: Biocida residual
+  def: Cantidad de desinfectante (cloro, bromo u otro) que queda en el agua en el momento de la toma. Se mide in situ y se anota en la cadena de custodia.
+  link: /cadena-de-custodia/
+- id: biofilm
+  term: Biofilm
+  def: Capa de microorganismos adherida a las superficies interiores de tuberías y depósitos. Protege a la Legionella de los desinfectantes; se analiza con hisopos.
+- id: cadena-de-custodia
+  term: Cadena de custodia
+  def: Registro que acompaña a la muestra desde la toma hasta el laboratorio, con quién la tomó, dónde, cuándo y en qué condiciones viajó.
+  link: /cadena-de-custodia/
+- id: cloro-combinado
+  term: Cloro libre y cloro combinado
+  def: El cloro libre es el que todavía desinfecta; el combinado es el que ha reaccionado con materia orgánica (cloraminas) y causa olor e irritación. En piscinas se controlan los dos.
+- id: clostridium
+  term: Clostridium perfringens
+  def: Bacteria formadora de esporas que indica contaminación fecal antigua o resistente al tratamiento. Se analiza, entre otros casos, en el autocontrol de depósitos.
+- id: condensador-evaporativo
+  term: Condensador evaporativo
+  def: Equipo de refrigeración que, como la torre, enfría por evaporación de agua y puede dispersar aerosoles. Tiene las mismas obligaciones de control de Legionella que las torres.
+- id: control-en-grifo
+  term: Control en grifo
+  def: Análisis del agua en el punto donde se consume, que pide el RD 3/2023. Incluye E. coli, recuento a 22 °C, color, turbidez, conductividad, pH y plomo.
+  link: /guias/control-en-grifo-rd-3-2023/
+- id: decreto-99-2024
+  term: Decreto 99/2024
+  def: Norma de la Comunidad de Madrid sobre piscinas que desarrolla el RD 742/2013. Entre otros cambios, dejó de exigir Staphylococcus aureus.
+  link: /guias/piscinas-decreto-99-2024/
+- id: e-coli
+  term: E. coli (Escherichia coli)
+  def: Bacteria intestinal que indica contaminación fecal reciente. Es el indicador microbiológico principal del agua de consumo y de las piscinas.
+- id: edificio-prioritario
+  term: Edificio prioritario
+  def: Edificio con usuarios vulnerables o mucha afluencia, como hospitales, residencias u hoteles, al que el RD 3/2023 pide controles adicionales del agua.
+  link: /sectores/hoteles-y-residencias/
+- id: enac
+  term: ENAC
+  def: Entidad Nacional de Acreditación. Evalúa y acredita a los laboratorios según la norma UNE-EN ISO/IEC 17025 para ensayos concretos; su buscador muestra qué acredita cada laboratorio.
+  link: /cambiar-de-laboratorio/
+- id: enterococos
+  term: Enterococos intestinales
+  def: Bacterias indicadoras de contaminación fecal, más resistentes que E. coli. Forman parte del análisis de control del agua de consumo.
+- id: hisopo
+  term: Hisopo
+  def: Bastoncillo estéril con el que se toma una muestra de una superficie, por ejemplo biofilm de una instalación o una superficie de cocina para el APPCC.
+- id: iso-11731
+  term: ISO 11731
+  def: Norma internacional del método de cultivo para el recuento de Legionella en agua. Es el método de referencia para el control periódico.
+  link: /servicios/legionella/
+- id: iso-ts-12869
+  term: ISO/TS 12869
+  def: Especificación técnica para detectar y cuantificar Legionella por PCR en tiempo real (qPCR). Da resultado en horas en lugar de días.
+  link: /servicios/legionella-qpcr/
+- id: langelier
+  term: Índices de Langelier y Ryznar
+  def: Cálculos que indican si un agua tiende a formar incrustaciones o a ser corrosiva. Se usan para ajustar el tratamiento de torres y calderas.
+  link: /servicios/torres-y-calderas/
+- id: legionella
+  term: Legionella
+  def: Género de bacterias que vive en el agua y crece entre unos 20 y 45 °C. Al inhalar aerosoles contaminados puede causar la legionelosis.
+  link: /servicios/legionella/
+- id: legionelosis
+  term: Legionelosis
+  def: Enfermedad causada por Legionella, desde una forma leve parecida a la gripe hasta una neumonía grave. Se contrae al respirar gotas de agua contaminada, no al beberla.
+- id: l-pneumophila
+  term: Legionella pneumophila
+  def: La especie de Legionella que causa la mayoría de los casos de legionelosis. En las muestras positivas se identifica su serogrupo.
+- id: pseudomonas
+  term: Pseudomonas aeruginosa
+  def: Bacteria oportunista que se controla en piscinas y en el agua de hospitales. Puede causar infecciones de oído, piel y, en pacientes vulnerables, otras más graves.
+- id: ppcl
+  term: PPCL (plan de prevención y control de Legionella)
+  def: Documento que exige el RD 487/2022 para cada instalación de riesgo. Fija puntos de muestreo, frecuencias, mantenimiento y qué hacer ante un positivo.
+  link: /servicios/planes-legionella/
+- id: psa
+  term: Plan Sanitario del Agua
+  def: Plan basado en la evaluación del riesgo que introduce el RD 3/2023 para el agua de consumo, desde la captación hasta el grifo.
+  link: /servicios/planes-legionella/
+- id: qpcr
+  term: qPCR (PCR en tiempo real)
+  def: Técnica que detecta el ADN de la bacteria en lugar de cultivarla. Para Legionella da resultado en uno o dos días y se usa como complemento del cultivo.
+  link: /servicios/legionella-qpcr/
+- id: rd-3-2023
+  term: RD 3/2023
+  def: Real Decreto que fija los criterios técnico-sanitarios de la calidad del agua de consumo, su control y su suministro.
+  link: /servicios/agua-de-consumo/
+- id: rd-487-2022
+  term: RD 487/2022
+  def: Real Decreto de prevención y control de la legionelosis, modificado por el RD 614/2024. Obliga a tener un plan de control y a analizar Legionella en las instalaciones de riesgo.
+  link: /guias/legionella-rd-487-2022/
+- id: rd-742-2013
+  term: RD 742/2013
+  def: Real Decreto que fija los criterios técnico-sanitarios de las piscinas de uso público. En Madrid lo desarrolla el Decreto 99/2024.
+  link: /servicios/piscinas/
+- id: serogrupo
+  term: Serogrupo
+  def: Subtipo de Legionella pneumophila identificado por sus antígenos. El serogrupo 1 es el más relacionado con casos de enfermedad.
+- id: sinac
+  term: SINAC
+  def: Sistema de Información Nacional de Aguas de Consumo, del Ministerio de Sanidad, donde se registran los datos de calidad del agua de consumo.
+- id: tiosulfato
+  term: Tiosulfato sódico
+  def: Sustancia que se pone en el envase para neutralizar el cloro u otros oxidantes del agua, de modo que el desinfectante no siga actuando sobre la muestra durante el transporte.
+  link: /enviar-muestras/
+- id: torre
+  term: Torre de refrigeración
+  def: Equipo que enfría agua por evaporación y libera aerosoles al exterior. Es la instalación de mayor riesgo de brotes de legionelosis.
+  link: /servicios/legionella/
+- id: turbidez
+  term: Turbidez
+  def: Falta de transparencia del agua por partículas en suspensión. Dificulta la desinfección y se controla en agua de consumo, piscinas y torres.
+- id: ufc
+  term: UFC (unidad formadora de colonias)
+  def: Unidad con la que se expresa un recuento por cultivo. Cada colonia que crece en la placa procede de una bacteria viable; para Legionella se expresa en UFC/L.
