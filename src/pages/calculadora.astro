@@ -8,6 +8,7 @@ import PageHeader from '@/components/PageHeader.astro';
 import LeadMagnet from '@/components/LeadMagnet.astro';
 import Icon from '@/components/Icon.astro';
 import Faq from '@/components/Faq.astro';
+import PetriDish from '@/components/PetriDish.astro';
 import { BOE, tabla2, tabla3, tabla13, edificiosPrioritarios, perYear } from '@/data/frecuencias';
 import { faqPage } from '@/lib/schema';
 
@@ -219,6 +220,12 @@ const faq = [
 
       <aside class="calc__result" aria-live="polite">
         <p class="eyebrow">Resultado</p>
+        <div class="calc__empty" data-empty>
+          <PetriDish size={120} colonies={18} />
+          <p>
+            Indica tus instalaciones a la izquierda y aquí verás cuántas muestras te tocan al año.
+          </p>
+        </div>
         <p class="total">
           <span data-out="total">0</span> <small>muestras al año</small>
         </p>
@@ -432,6 +439,8 @@ const faq = [
     let sanFe = 0;
     list.querySelectorAll<HTMLElement>('.building').forEach((b) => {
       const q = (k: string) => b.querySelector<HTMLInputElement>(`[data-b="${k}"]`)!;
+      // Un edificio no cuenta hasta que tenga puntos terminales.
+      if (num(q('caliente').value) + num(q('fria').value) === 0) return;
       const puntos =
         (q('deposito').checked ? 1 : 0) +
         (q('acumulador').checked ? 1 : 0) +
@@ -471,6 +480,7 @@ const faq = [
     // Muestras = tomas (aerobios y hierro salen de la misma muestra que la Legionella)
     const total = sanL + torres * 12 + spa * 12 + vasos * (meses + 1) + prio + otras;
     root.querySelector('[data-out="total"]')!.textContent = total.toLocaleString('es-ES');
+    root.querySelector<HTMLElement>('[data-empty]')!.hidden = total > 0;
     root.querySelector('[data-out="mes"]')!.textContent = Math.round(total / 12).toLocaleString(
       'es-ES',
     );
@@ -718,5 +728,18 @@ const faq = [
     .refs {
       grid-template-columns: 1fr 1fr;
     }
+  }
+  .calc__empty {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.8rem;
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+  .calc__empty[hidden] {
+    display: none;
   }
 </style>

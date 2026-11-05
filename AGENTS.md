@@ -25,7 +25,8 @@ Web estática en Astro de un laboratorio de análisis de aguas en Madrid que ven
 
 ## Diseño
 
-- Componentes reutilizables en `src/components/`: `Card`, `PageHeader`, `Faq`, `CtaBanner`, `Icon`, `Logo`, `PortalMock`. Úsalos antes de crear otros.
+- Componentes reutilizables en `src/components/`: `Card`, `PageHeader`, `Faq`, `CtaBanner`, `Icon`, `Logo`, `PortalMock`, `NetlifyForm`, `LeadMagnet`, `DocPreview`, `SampleTracker`, `NormMarquee`, `PetriDish`, `ReadingProgress`. Úsalos antes de crear otros.
+- Efectos: foco de luz con la clase `.spotlight`; transición entre páginas nativa (`@view-transition` en `global.css`); cabecera que se compacta y botón fijo «Pedir tarifa» en móvil (`BaseLayout`, ocúltalo con `hideStickyCta` en páginas con formulario). Todo efecto nuevo debe respetar `prefers-reduced-motion` y mostrarse completo en reposo.
 - Iconos: `<Icon name="..." />` con los nombres del mapa de `Icon.astro` (Lucide). Para uno nuevo, impórtalo allí.
 - Clases globales en `global.css`: `.section`, `.section--alt`, `.section-head`, `.grid`, `.btn`, `.btn--ghost`, `.chip`, `.icon-tile`, `.checklist`, `.prose`, `.reveal`.
 - Revisa los cambios visuales en móvil (390 px) y escritorio, en modo claro y oscuro.

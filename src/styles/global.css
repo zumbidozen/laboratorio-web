@@ -594,3 +594,68 @@ a:hover {
 .form--compact .check {
   font-size: 0.8rem;
 }
+
+/* ------------------------------------------------------------------
+ * EFECTOS (todos respetan «reducir movimiento»)
+ * ------------------------------------------------------------------ */
+
+/* Transición entre páginas: nativa del navegador, sin JavaScript.
+   Los navegadores que no la admiten cambian de página como siempre. */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.28s;
+}
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}
+
+/* Foco de luz: añade la clase .spotlight a una tarjeta; el script de BaseLayout
+   mueve el halo con el ratón. En pantallas táctiles no aparece. */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+  --spot-x: 50%;
+  --spot-y: 50%;
+}
+.spotlight::before,
+.spotlight::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+.spotlight::before {
+  z-index: -1;
+  background: radial-gradient(
+    18rem circle at var(--spot-x) var(--spot-y),
+    color-mix(in srgb, var(--color-accent) 16%, transparent),
+    transparent 65%
+  );
+}
+.spotlight::after {
+  padding: 1px;
+  background: radial-gradient(
+    12rem circle at var(--spot-x) var(--spot-y),
+    var(--color-accent),
+    transparent 70%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .spotlight:hover::before,
+  .spotlight:hover::after {
+    opacity: 1;
+  }
+}

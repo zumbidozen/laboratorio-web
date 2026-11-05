@@ -5,6 +5,7 @@ import CtaBanner from '@/components/CtaBanner.astro';
 import Icon from '@/components/Icon.astro';
 import Faq from '@/components/Faq.astro';
 import HeroVisual from '@/components/HeroVisual.astro';
+import NormMarquee from '@/components/NormMarquee.astro';
 import { site, primaryCta } from '@/config/site';
 import {
   getServicios,
@@ -60,22 +61,35 @@ const soon = (s: (typeof servicios)[number]) =>
       <HeroVisual />
     </div>
     <div class="container">
-      <dl class="hero__stats">
-        {stats.map((s) => (
-          <div>
-            <dt>{s.label}</dt>
-            <dd>{s.value}</dd>
-          </div>
-        ))}
+      <dl class="hero__stats" data-counters>
+        {stats.map((s) => {
+          // «< 2 h» → prefijo «< », número 2, sufijo « h»: el número cuenta desde 0 al verse.
+          const m = s.value.match(/^(\D*?)(\d+)(.*)$/);
+          return (
+            <div>
+              <dt>{s.label}</dt>
+              <dd
+                data-to={m?.[2]}
+                data-prefix={m?.[1] ?? ''}
+                data-suffix={m?.[3] ?? ''}
+                aria-label={s.value}
+              >
+                {s.value}
+              </dd>
+            </div>
+          );
+        })}
       </dl>
     </div>
   </section>
+
+  <NormMarquee />
 
   <!-- Tres ventajas -->
   <section class="highlights" aria-label="Ventajas">
     <div class="container highlights__grid">
       {highlights.map((h) => (
-        <article class="highlight reveal">
+        <article class="highlight spotlight reveal">
           <span class="icon-tile">
             <Icon name={h.icon} />
           </span>
@@ -267,6 +281,9 @@ const soon = (s: (typeof servicios)[number]) =>
 </BaseLayout>
 
 <style>
+  .hero__stats dd {
+    font-variant-numeric: tabular-nums;
+  }
   /* Portada */
   .hero {
     position: relative;
@@ -508,3 +525,37 @@ const soon = (s: (typeof servicios)[number]) =>
     color: var(--color-text-muted);
   }
 </style>
+
+<script>
+  // Cifras que cuentan: suben de 0 a su valor la primera vez que aparecen en pantalla.
+  // En reposo ya muestran el valor final (también para buscadores y lectores de pantalla).
+  const counters = [...document.querySelectorAll<HTMLElement>('[data-counters] dd[data-to]')];
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const show = (el: HTMLElement, v: number) => {
+    el.textContent = `${el.dataset.prefix ?? ''}${v}${el.dataset.suffix ?? ''}`;
+  };
+  const run = () => {
+    const t0 = performance.now();
+    const dur = 1400;
+    const tick = (t: number) => {
+      const k = Math.min(1, (t - t0) / dur);
+      const e = 1 - Math.pow(1 - k, 3);
+      counters.forEach((el) => show(el, Math.round(Number(el.dataset.to) * e)));
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  const box = document.querySelector('[data-counters]');
+  if (box && counters.length && !reduce) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          run();
+          io.disconnect();
+        }
+      },
+      { threshold: 0.6 },
+    );
+    io.observe(box);
+  }
+</script>

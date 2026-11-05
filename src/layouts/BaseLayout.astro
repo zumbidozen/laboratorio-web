@@ -4,7 +4,8 @@
  * migas de pan y enlace "saltar al contenido".
  */
 import '@/styles/global.css';
-import { site } from '@/config/site';
+import { site, primaryCta } from '@/config/site';
+import Icon from '@/components/Icon.astro';
 import Seo from '@/components/Seo.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
@@ -16,9 +17,11 @@ type SeoProps = import('@/components/Seo.astro').Props;
 export interface Props extends SeoProps {
   /** Migas de pan sin incluir "Inicio" (se añade solo). Vacío = no se muestran. */
   breadcrumbs?: { name: string; href: string }[];
+  /** Oculta el botón fijo «Pedir tarifa» del móvil (páginas con formulario propio). */
+  hideStickyCta?: boolean;
 }
 
-const { breadcrumbs = [], schema = [], ...seo } = Astro.props;
+const { breadcrumbs = [], schema = [], hideStickyCta = false, ...seo } = Astro.props;
 const crumbs = breadcrumbs.length ? [{ name: 'Inicio', href: '/' }, ...breadcrumbs] : [];
 ---
 
@@ -51,6 +54,11 @@ const crumbs = breadcrumbs.length ? [{ name: 'Inicio', href: '/' }, ...breadcrum
       <slot />
     </main>
     <Footer />
+    {!hideStickyCta && (
+      <a class="sticky-cta" href={primaryCta.href} data-sticky-cta>
+        {primaryCta.label} <Icon name="arrow-right" />
+      </a>
+    )}
     {site.contact.whatsapp && (
       <a
         class="whatsapp"
@@ -67,6 +75,41 @@ const crumbs = breadcrumbs.length ? [{ name: 'Inicio', href: '/' }, ...breadcrum
         </svg>
       </a>
     )}
+    <script>
+      // Efectos globales, sin librerías. Se desactivan si el visitante pide menos movimiento.
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Foco de luz en tarjetas (.spotlight): el halo sigue al ratón.
+      if (!reduce && window.matchMedia('(hover: hover)').matches) {
+        document.addEventListener(
+          'pointermove',
+          (e) => {
+            const card = (e.target as HTMLElement | null)?.closest?.<HTMLElement>('.spotlight');
+            if (!card) return;
+            const r = card.getBoundingClientRect();
+            card.style.setProperty('--spot-x', `${e.clientX - r.left}px`);
+            card.style.setProperty('--spot-y', `${e.clientY - r.top}px`);
+          },
+          { passive: true },
+        );
+      }
+
+      // Botón fijo «Pedir tarifa» en móvil: aparece al bajar y se oculta al llegar al pie.
+      const cta = document.querySelector<HTMLElement>('[data-sticky-cta]');
+      const footer = document.querySelector('footer');
+      if (cta) {
+        let nearFooter = false;
+        const update = () => cta.toggleAttribute('data-show', window.scrollY > 480 && !nearFooter);
+        if (footer) {
+          new IntersectionObserver(([entry]) => {
+            nearFooter = entry.isIntersecting;
+            update();
+          }).observe(footer);
+        }
+        window.addEventListener('scroll', update, { passive: true });
+        update();
+      }
+    </script>
   </body>
 </html>
 
@@ -95,6 +138,51 @@ const crumbs = breadcrumbs.length ? [{ name: 'Inicio', href: '/' }, ...breadcrum
     background: #25d366;
     color: #fff;
     box-shadow: var(--shadow-lg);
+  }
+  .sticky-cta {
+    position: fixed;
+    left: max(1rem, env(safe-area-inset-left, 0px));
+    right: max(1rem, env(safe-area-inset-right, 0px));
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    z-index: 55;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.9rem 1.2rem;
+    border-radius: 999px;
+    background: var(--color-petrol);
+    color: #fff;
+    font-weight: 500;
+    text-decoration: none;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(calc(100% + 2rem));
+    transition: transform 0.35s var(--ease);
+  }
+  /* Si hay botón de WhatsApp, deja su hueco a la derecha. */
+  .whatsapp ~ .sticky-cta,
+  .sticky-cta:has(~ .whatsapp) {
+    right: 5.4rem;
+  }
+  .sticky-cta :global(svg) {
+    width: 1.1em;
+    height: 1.1em;
+  }
+  .sticky-cta[data-show] {
+    transform: none;
+  }
+  .sticky-cta:hover {
+    color: #fff;
+  }
+  @media (min-width: 960px) {
+    .sticky-cta {
+      display: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sticky-cta {
+      transition: none;
+    }
   }
   .whatsapp:hover {
     color: #fff;

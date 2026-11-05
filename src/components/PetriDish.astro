@@ -1,0 +1,108 @@
+---
+/**
+ * Placa de cultivo: colonias que aparecen y crecen, como en una estufa de incubación.
+ * Decorativa. Colonias en turquesa y petróleo (el coral es solo del logotipo).
+ * Con «reducir movimiento» se dibuja ya crecida.
+ */
+export interface Props {
+  /** Diámetro en píxeles. */
+  size?: number;
+  /** Número de colonias. */
+  colonies?: number;
+}
+const { size = 200, colonies = 24 } = Astro.props;
+---
+
+<canvas
+  class="petri"
+  data-petri
+  data-colonies={colonies}
+  width={size * 2}
+  height={size * 2}
+  style={`width:${size}px;height:${size}px`}
+  aria-hidden="true"
+></canvas>
+
+<style>
+  .petri {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+  }
+</style>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const token = (name: string, fallback: string) =>
+    getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
+
+  type Colony = { x: number; y: number; max: number; delay: number; color: string };
+
+  function start(cv: HTMLCanvasElement) {
+    const ctx = cv.getContext('2d');
+    if (!ctx) return;
+    const R = cv.width / 2;
+    const n = Number(cv.dataset.colonies) || 24;
+    const colonies: Colony[] = Array.from({ length: n }, () => {
+      const a = Math.random() * Math.PI * 2;
+      const d = Math.sqrt(Math.random()) * (R * 0.82);
+      return {
+        x: R + Math.cos(a) * d,
+        y: R + Math.sin(a) * d,
+        max: R * (0.02 + Math.random() * 0.055),
+        delay: Math.random() * 1800,
+        color: Math.random() < 0.75 ? '#1fb5a8' : '#0b3c5d',
+      };
+    });
+    const t0 = performance.now();
+    const draw = () => {
+      const t = reduce ? Infinity : performance.now() - t0;
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      const g = ctx.createRadialGradient(R * 0.8, R * 0.7, R * 0.2, R, R, R);
+      g.addColorStop(0, token('--color-bg', '#ffffff'));
+      g.addColorStop(1, token('--color-surface', '#f3f6f8'));
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(R, R, R - R * 0.03, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.lineWidth = R * 0.035;
+      ctx.strokeStyle = 'rgba(11, 60, 93, 0.2)';
+      ctx.stroke();
+      let growing = false;
+      for (const c of colonies) {
+        const k = Math.max(0, Math.min(1, (t - c.delay) / 1800));
+        if (k < 1) growing = true;
+        const r = c.max * (1 - Math.pow(1 - k, 3));
+        if (r <= 0) continue;
+        ctx.globalAlpha = 0.85;
+        ctx.fillStyle = c.color;
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+        ctx.beginPath();
+        ctx.arc(c.x - r * 0.3, c.y - r * 0.3, r * 0.35, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.22)';
+      ctx.beginPath();
+      ctx.ellipse(R * 0.62, R * 0.5, R * 0.32, R * 0.1, -0.6, 0, Math.PI * 2);
+      ctx.fill();
+      if (growing) requestAnimationFrame(draw);
+    };
+    draw();
+  }
+
+  // Empieza a crecer cuando la placa entra en pantalla.
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) {
+        start(e.target as HTMLCanvasElement);
+        io.unobserve(e.target);
+      }
+    }
+  });
+  document.querySelectorAll<HTMLCanvasElement>('[data-petri]').forEach((cv) => io.observe(cv));
+</script>

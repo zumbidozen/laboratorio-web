@@ -7,6 +7,7 @@ import Card from '@/components/Card.astro';
 import Faq from '@/components/Faq.astro';
 import LeadMagnet from '@/components/LeadMagnet.astro';
 import Icon from '@/components/Icon.astro';
+import ReadingProgress from '@/components/ReadingProgress.astro';
 import { getGuias, guiaUrl, servicioUrl, formatDate, isoDate } from '@/lib/content';
 import { article, faqPage } from '@/lib/schema';
 
@@ -60,6 +61,7 @@ const href = guiaUrl(entry);
     faqPage(data.faq),
   ]}
 >
+  <ReadingProgress target="[data-guide]" />
   <PageHeader eyebrow="Guía" icon="file" title={data.title} summary={data.summary}>
     <p class="byline">
       <span>{data.author}</span>
@@ -93,7 +95,7 @@ const href = guiaUrl(entry);
       </a>
     </aside>
 
-    <article class="main">
+    <article class="main" data-guide>
       <section class="keypoints" aria-labelledby="en-resumen">
         <h2 id="en-resumen">En resumen</h2>
         <ul class="checklist">

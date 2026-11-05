@@ -4,6 +4,7 @@ import PageHeader from '@/components/PageHeader.astro';
 import CtaBanner from '@/components/CtaBanner.astro';
 import Icon from '@/components/Icon.astro';
 import PortalMock from '@/components/PortalMock.astro';
+import SampleTracker from '@/components/SampleTracker.astro';
 import { steps, turnaround } from '@/data/home';
 import { site } from '@/config/site';
 
@@ -63,6 +64,17 @@ const tech = [
           </li>
         ))}
       </ol>
+      <div class="follow">
+        <div class="stack">
+          <p class="eyebrow">Así lo sigues</p>
+          <h3 class="follow__title">Una muestra, de principio a fin</h3>
+          <p class="muted">
+            Cada muestra cambia de estado en el portal según avanza en el laboratorio. No hace falta
+            llamar para saber cómo va.
+          </p>
+        </div>
+        <SampleTracker />
+      </div>
     </div>
   </section>
 
@@ -182,6 +194,25 @@ const tech = [
   .links {
     display: grid;
     gap: 0.5rem;
+  }
+  .follow {
+    display: grid;
+    gap: var(--space-4);
+    align-items: center;
+    margin-top: var(--space-5);
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+  @media (min-width: 900px) {
+    .follow {
+      grid-template-columns: 1fr 1.1fr;
+      gap: var(--space-5);
+    }
+  }
+  .follow__title {
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 400;
   }
   .flow {
     list-style: none;

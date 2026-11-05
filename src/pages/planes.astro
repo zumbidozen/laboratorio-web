@@ -33,7 +33,10 @@ const planes = await getPlanes();
   <section class="section">
     <div class="container plans">
       {planes.map((p) => (
-        <article id={p.id} class:list={['plan', 'reveal', { 'plan--featured': p.data.featured }]}>
+        <article
+          id={p.id}
+          class:list={['plan', 'spotlight', 'reveal', { 'plan--featured': p.data.featured }]}
+        >
           <header>
             <span class="icon-tile">
               <Icon name={p.data.icon} />

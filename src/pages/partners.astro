@@ -4,6 +4,7 @@ import PageHeader from '@/components/PageHeader.astro';
 import CtaBanner from '@/components/CtaBanner.astro';
 import Faq from '@/components/Faq.astro';
 import Icon from '@/components/Icon.astro';
+import SampleTracker from '@/components/SampleTracker.astro';
 import { primaryCta } from '@/config/site';
 import { faqPage, service } from '@/lib/schema';
 
@@ -129,7 +130,7 @@ const faq = [
       </div>
       <ul class="benefits">
         {benefits.map((b) => (
-          <li class="reveal">
+          <li class="spotlight reveal">
             <span class="icon-tile">
               <Icon name={b.icon} />
             </span>
@@ -138,6 +139,16 @@ const faq = [
           </li>
         ))}
       </ul>
+      <div class="follow">
+        <div class="stack">
+          <h3>Ves cada muestra avanzar</h3>
+          <p class="muted">
+            Recibida, incubando, lectura e informe listo: el estado se actualiza solo en el portal,
+            y si algo sale fuera de límite te avisamos en ese momento.
+          </p>
+        </div>
+        <SampleTracker />
+      </div>
     </div>
   </section>
 
@@ -233,6 +244,22 @@ const faq = [
       grid-template-columns: 1fr 1.3fr;
       gap: var(--space-6);
     }
+  }
+  .follow {
+    display: grid;
+    gap: var(--space-4);
+    align-items: center;
+    margin-top: var(--space-5);
+  }
+  @media (min-width: 900px) {
+    .follow {
+      grid-template-columns: 1fr 1.1fr;
+      gap: var(--space-5);
+    }
+  }
+  .follow h3 {
+    font-size: clamp(1.4rem, 2.4vw, 1.8rem);
+    font-weight: 400;
   }
   .timeline {
     list-style: none;
