@@ -1,0 +1,87 @@
+---
+/**
+ * Buscador de la web (Pagefind). El índice se genera al compilar (`npm run build`), así que
+ * en `npm run dev` no hay resultados: usa `npm run build && npm run preview` para probarlo.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+---
+
+<BaseLayout
+  title="Buscar en la web"
+  description="Busca en las guías, los análisis, el glosario y las preguntas frecuentes de Ensayum: Legionella, agua de consumo, piscinas, torres y normativa."
+  breadcrumbs={[{ name: 'Buscar', href: '/buscar/' }]}
+  noindex
+>
+  <PageHeader
+    eyebrow="Buscar"
+    icon="search"
+    title="¿Qué estás buscando?"
+    summary="Guías, análisis, plazos, normas y términos del glosario."
+  />
+  <section class="section section--tight">
+    <div class="container">
+      <div id="buscador" class="search" data-search></div>
+      <noscript>
+        <p>El buscador necesita JavaScript activado.</p>
+      </noscript>
+      <p class="hint">Prueba con «torres», «PPCL», «edificio prioritario» o «toma de muestras».</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+<script is:inline src="/pagefind/pagefind-ui.js"></script>
+<script is:inline>
+  (function () {
+    if (!window.PagefindUI) return;
+    var ui = new window.PagefindUI({
+      element: '#buscador',
+      showSubResults: true,
+      showImages: false,
+      resetStyles: false,
+      translations: {
+        placeholder: 'Buscar en Ensayum',
+        clear_search: 'Borrar',
+        load_more: 'Ver más resultados',
+        search_label: 'Buscar en esta web',
+        zero_results: 'Sin resultados para [SEARCH_TERM]',
+        many_results: '[COUNT] resultados para [SEARCH_TERM]',
+        one_result: '1 resultado para [SEARCH_TERM]',
+        searching: 'Buscando [SEARCH_TERM]…',
+      },
+    });
+    var q = new URLSearchParams(location.search).get('q');
+    if (q) ui.triggerSearch(q);
+    var input = document.querySelector('#buscador input');
+    if (input) input.focus();
+  })();
+</script>
+
+<style>
+  .search {
+    max-width: 48rem;
+    --pagefind-ui-scale: 1;
+    --pagefind-ui-primary: var(--color-accent-strong);
+    --pagefind-ui-text: var(--color-text);
+    --pagefind-ui-background: var(--color-bg);
+    --pagefind-ui-border: var(--color-border);
+    --pagefind-ui-tag: var(--color-surface);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 10px;
+    --pagefind-ui-font: var(--font-sans);
+  }
+  .search :global(.pagefind-ui__result-link) {
+    color: var(--color-text);
+    font-weight: 500;
+  }
+  .search :global(mark) {
+    background: var(--color-accent-soft);
+    color: var(--color-text);
+  }
+  .hint {
+    margin-top: var(--space-3);
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+</style>

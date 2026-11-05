@@ -48,6 +48,14 @@ Para que algo salga como "Próximamente", pon `status: proximamente` y `availabl
 
 Si falta un campo obligatorio o una descripción es demasiado larga, `npm run build` falla y dice qué archivo y qué campo arreglar.
 
+## Vigilancia del BOE
+
+Cada lunes, GitHub comprueba en la API del BOE si han cambiado el RD 487/2022, el RD 3/2023 o el RD 742/2013. Si hay cambios, abre un aviso (issue) con las guías afectadas. También se puede lanzar a mano en la pestaña Actions → «Vigilar BOE», o en local con `npm run vigilar-boe`.
+
+## Buscador
+
+El buscador (`/buscar/`) usa Pagefind y se genera al compilar. En `npm run dev` no hay resultados: pruébalo con `npm run build && npm run preview`.
+
 ## Comprobar antes de publicar
 
 ```bash

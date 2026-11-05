@@ -17,7 +17,11 @@ export interface Props {
 const { origin, large = false } = Astro.props;
 ---
 
-<aside class:list={['magnet', { 'magnet--large': large }]} aria-labelledby={`magnet-${origin}`}>
+<aside
+  data-pagefind-ignore
+  class:list={['magnet', { 'magnet--large': large }]}
+  aria-labelledby={`magnet-${origin}`}
+>
   <div class="magnet__visual">
     <DocPreview size={large ? 'lg' : 'md'} />
   </div>

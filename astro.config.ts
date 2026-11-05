@@ -2,6 +2,8 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { readdirSync, readFileSync } from 'node:fs';
 import { site } from './src/config/site';
+import { satteri } from '@astrojs/markdown-satteri';
+import glosarioEnlaces from './src/lib/glosario-enlaces.mjs';
 
 /**
  * Fecha de última actualización de cada ficha y guía para el sitemap (<lastmod>),
@@ -40,5 +42,9 @@ export default defineConfig({
       },
     }),
   ],
+  markdown: {
+    // Enlaza solos los términos del glosario en guías y fichas de servicio.
+    processor: satteri({ mdastPlugins: [glosarioEnlaces] }),
+  },
   prefetch: { prefetchAll: true },
 });

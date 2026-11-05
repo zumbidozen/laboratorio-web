@@ -663,3 +663,15 @@ a:hover {
     opacity: 1;
   }
 }
+
+/* Términos enlazados al glosario (los crea src/lib/remark-glosario.mjs) */
+.prose a.glossary-link {
+  color: inherit;
+  text-decoration-style: dotted;
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.22em;
+}
+.prose a.glossary-link:hover {
+  color: var(--color-accent-strong);
+}

@@ -1,0 +1,45 @@
+name: Vigilar BOE
+
+# Cada lunes comprueba si el BOE ha cambiado las normas que citan las guías.
+# Si hay cambios, abre un aviso (issue) con los archivos afectados y guarda la nueva referencia.
+on:
+  schedule:
+    - cron: '17 6 * * 1' # lunes, 6:17 UTC
+  workflow_dispatch: # también se puede lanzar a mano desde la pestaña Actions
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  vigilar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: Comprobar normas
+        id: boe
+        run: |
+          set +e
+          node scripts/vigilar-boe.mjs --guardar
+          code=$?
+          set -e
+          if [ "$code" = "2" ]; then echo "cambios=si" >> "$GITHUB_OUTPUT"; elif [ "$code" != "0" ]; then exit "$code"; fi
+      - name: Abrir aviso
+        if: steps.boe.outputs.cambios == 'si'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue create \
+            --title "Cambios en el BOE que afectan a las guías ($(date +%Y-%m-%d))" \
+            --body-file boe-cambios.md
+      - name: Guardar la nueva referencia
+        if: steps.boe.outputs.cambios == 'si'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/boe-vigilancia.json
+          git commit -m "Vigilancia del BOE: actualizar referencia"
+          git push

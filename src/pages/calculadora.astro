@@ -238,6 +238,26 @@ const faq = [
         <button type="button" class="btn" data-quote disabled>
           Pide tarifa con estos datos <Icon name="arrow-right" />
         </button>
+        <div class="tools" data-tools hidden>
+          <label class="tools__date">
+            <span>Primer muestreo</span>
+            <input type="date" data-start />
+          </label>
+          <div class="tools__row">
+            <button type="button" class="btn btn--ghost btn--sm" data-ics>
+              <Icon name="clock" /> Descargar calendario
+            </button>
+            <button type="button" class="btn btn--ghost btn--sm" data-share>
+              <Icon name="file" /> Copiar enlace
+            </button>
+          </div>
+          <p class="tools__msg" data-msg aria-live="polite"></p>
+          <p class="fine">
+            El calendario (.ics) se abre en Google Calendar, Outlook o el calendario del móvil, con
+            un aviso dos días antes de cada toma. El enlace guarda este cálculo para enviárselo a un
+            cliente.
+          </p>
+        </div>
         <p class="fine">
           Mínimos para instalaciones con plan de prevención y control (PPCL). Con un PSL o por
           criterio de la autoridad sanitaria pueden variar. Confírmalo con el plan de cada
@@ -432,7 +452,12 @@ const faq = [
   }
 
   let summary = '';
+  /** Series de muestreo del cálculo actual, para el calendario. */
+  type Serie = { title: string; detail: string; interval: number; count: number; offset?: number };
+  let series: Serie[] = [];
+
   function calc() {
+    series = [];
     const rows: [string, number, string][] = [];
     // Agua sanitaria
     let sanL = 0;
@@ -449,32 +474,92 @@ const faq = [
         terminales(num(q('fria').value), 'fria');
       sanL += puntos * 4;
       if (q('hierro').checked) sanFe += puntos * 4;
+      const n = [...list.querySelectorAll('.building')].indexOf(b) + 1;
+      series.push({
+        title: `Legionella + aerobios${q('hierro').checked ? ' + hierro' : ''} · Edificio ${n}`,
+        detail: `Agua sanitaria: ${puntos} puntos por muestreo (depósito, acumulador, retorno y puntos terminales según la tabla 2 del anexo V del RD 487/2022).`,
+        interval: 3,
+        count: 4,
+      });
     });
     if (sanL) rows.push(['Agua sanitaria · Legionella + aerobios', sanL, 'trimestral']);
     if (sanFe) rows.push(['Agua sanitaria · hierro', sanFe, 'misma muestra']);
 
     const torres = val('torres');
     if (torres) {
+      series.push({
+        title: `Torres · Legionella + hierro (${torres})`,
+        detail:
+          'Mensual, en el retorno o en la balsa. Aerobios cada tres meses en la misma muestra. Conductividad mensual.',
+        interval: 1,
+        count: 12,
+      });
       rows.push(['Torres · Legionella + hierro', torres * 12, 'mensual']);
       rows.push(['Torres · aerobios', torres * 4, 'trimestral, misma muestra']);
     }
     const spa = val('spaRecirc') * 2 + val('spaSin');
-    if (spa) rows.push(['Spa · Legionella + aerobios', spa * 12, 'mensual']);
+    if (spa) {
+      rows.push(['Spa · Legionella + aerobios', spa * 12, 'mensual']);
+      series.push({
+        title: 'Spa · Legionella + aerobios',
+        detail: `${spa} puntos por muestreo, cada mes.`,
+        interval: 1,
+        count: 12,
+      });
+    }
 
     const vasos = val('vasos');
     const meses = Math.min(12, Math.max(1, val('meses') || 1));
-    if (vasos)
+    if (vasos) {
       rows.push(['Piscinas · controles', vasos * (meses + 1), `inicial + ${meses} mensuales`]);
+      series.push({
+        title: `Piscinas · control inicial (${vasos} vasos)`,
+        detail: 'En la quincena anterior a la apertura. Ajusta la fecha a tu temporada.',
+        interval: 1,
+        count: 1,
+      });
+      series.push({
+        title: `Piscinas · control mensual (${vasos} vasos)`,
+        detail: 'Al menos una vez al mes mientras la piscina está abierta.',
+        interval: 1,
+        count: meses,
+        offset: 1,
+      });
+    }
 
-    const prio = (root.querySelector<HTMLInputElement>('[data-in="prioritarios"]')?.value ?? '')
+    const prioList = (root.querySelector<HTMLInputElement>('[data-in="prioritarios"]')?.value ?? '')
       .split(/[,;\s]+/)
       .map(num)
-      .filter(Boolean)
-      .reduce((s, p) => s + grifo(p), 0);
+      .filter(Boolean);
+    const prio = prioList.reduce((s, p) => s + grifo(p), 0);
+    prioList.forEach((p, k) => {
+      const n = grifo(p);
+      series.push({
+        title: `Control en grifo con Legionella · Edificio prioritario ${k + 1}`,
+        detail: `${n} análisis al año para ${p} puntos de acceso al agua (RD 3/2023, anexo II, tabla 13).`,
+        interval: Math.max(1, Math.floor(12 / n)),
+        count: n,
+      });
+    });
     if (prio) rows.push(['Control en grifo con Legionella', prio, 'según puntos de acceso']);
 
     const otras = val('otrasRecirc') + val('otrasSin');
-    if (otras) rows.push(['Otras · Legionella', otras, 'anual']);
+    if (otras) {
+      rows.push(['Otras · Legionella', otras, 'anual']);
+      series.push({
+        title: `Otras instalaciones · Legionella (${otras})`,
+        detail: 'Anual.',
+        interval: 12,
+        count: 1,
+      });
+    }
+    if (val('otrasRecirc'))
+      series.push({
+        title: 'Otras con recirculación · aerobios',
+        detail: 'Semestral.',
+        interval: 6,
+        count: 2,
+      });
     if (val('otrasRecirc')) rows.push(['Otras · aerobios', val('otrasRecirc') * 2, 'semestral']);
 
     // Muestras = tomas (aerobios y hierro salen de la misma muestra que la Legionella)
@@ -492,6 +577,8 @@ const faq = [
       tbody.append(tr);
     }
     root.querySelector<HTMLButtonElement>('[data-quote]')!.disabled = total === 0;
+    root.querySelector<HTMLElement>('[data-tools]')!.hidden = total === 0;
+    saveToUrl();
     summary = [
       `Cálculo de la web: ${total} muestras al año (≈ ${Math.round(total / 12)} al mes).`,
       ...rows.map(([name, n, freq]) => `- ${name}: ${n} al año (${freq})`),
@@ -517,7 +604,157 @@ const faq = [
     }
     location.href = '/contacto/?calculo=1';
   });
-  addBuilding();
+  // ---------- Enlace para compartir: el cálculo se guarda en la dirección ----------
+  function saveToUrl() {
+    const q = new URLSearchParams();
+    const eds = [...list.querySelectorAll<HTMLElement>('.building')]
+      .map((b) => {
+        const v = (k: string) => b.querySelector<HTMLInputElement>(`[data-b="${k}"]`)!;
+        const flags = ['deposito', 'acumulador', 'retorno', 'hierro']
+          .map((k) => (v(k).checked ? 1 : 0))
+          .join('');
+        return `${num(v('caliente').value)}.${num(v('fria').value)}.${flags}`;
+      })
+      .filter((e) => !e.startsWith('0.0.'));
+    if (eds.length) q.set('e', eds.join('_'));
+    const keys: [string, string][] = [
+      ['torres', 't'],
+      ['spaRecirc', 'sr'],
+      ['spaSin', 'ss'],
+      ['vasos', 'v'],
+      ['otrasRecirc', 'or'],
+      ['otrasSin', 'os'],
+    ];
+    for (const [k, short] of keys) if (val(k)) q.set(short, String(val(k)));
+    if (val('vasos')) q.set('m', String(Math.min(12, Math.max(1, val('meses') || 1))));
+    const prioRaw = (
+      root.querySelector<HTMLInputElement>('[data-in="prioritarios"]')?.value ?? ''
+    ).replace(/[^\d,]/g, '');
+    if (prioRaw.replace(/,/g, '')) q.set('p', prioRaw);
+    const qs = q.toString();
+    history.replaceState(null, '', qs ? `?${qs}` : location.pathname);
+  }
+
+  function loadFromUrl(): boolean {
+    const q = new URLSearchParams(location.search);
+    if (![...q.keys()].length) return false;
+    const set = (k: string, v: string | null) => {
+      const el = root.querySelector<HTMLInputElement>(`[data-in="${k}"]`);
+      if (el && v != null) el.value = v;
+    };
+    set('torres', q.get('t'));
+    set('spaRecirc', q.get('sr'));
+    set('spaSin', q.get('ss'));
+    set('vasos', q.get('v'));
+    set('meses', q.get('m'));
+    set('otrasRecirc', q.get('or'));
+    set('otrasSin', q.get('os'));
+    set('prioritarios', q.get('p')?.replace(/,/g, ', ') ?? null);
+    const eds = (q.get('e') ?? '').split('_').filter(Boolean);
+    for (const e of eds) {
+      const [c, f, flags = '0110'] = e.split('.');
+      const node = tpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+      const v = (k: string) => node.querySelector<HTMLInputElement>(`[data-b="${k}"]`)!;
+      v('caliente').value = String(num(c));
+      v('fria').value = String(num(f));
+      ['deposito', 'acumulador', 'retorno', 'hierro'].forEach(
+        (k, i) => (v(k).checked = flags[i] === '1'),
+      );
+      list.append(node);
+    }
+    if (!eds.length) list.append(tpl.content.firstElementChild!.cloneNode(true));
+    renumber();
+    calc();
+    return true;
+  }
+
+  const msg = root.querySelector<HTMLElement>('[data-msg]')!;
+  root.querySelector('[data-share]')!.addEventListener('click', async () => {
+    saveToUrl();
+    try {
+      await navigator.clipboard.writeText(location.href);
+      msg.textContent = 'Enlace copiado. Quien lo abra verá este mismo cálculo.';
+    } catch {
+      msg.textContent = `Copia este enlace: ${location.href}`;
+    }
+  });
+
+  // ---------- Calendario de muestreo (.ics) ----------
+  const startInput = root.querySelector<HTMLInputElement>('[data-start]')!;
+  {
+    // Por defecto, el primer lunes del mes que viene.
+    const d = new Date();
+    d.setMonth(d.getMonth() + 1, 1);
+    while (d.getDay() !== 1) d.setDate(d.getDate() + 1);
+    startInput.value = d.toISOString().slice(0, 10);
+  }
+  const icsEscape = (t: string) =>
+    t
+      .replace(/\\/g, '\\\\')
+      .replace(/[,;]/g, (m) => `\\${m}`)
+      .replace(/\n/g, '\\n');
+  const fold = (line: string) => {
+    const out: string[] = [];
+    let rest = line;
+    while (rest.length > 74) {
+      out.push(rest.slice(0, 74));
+      rest = ' ' + rest.slice(74);
+    }
+    out.push(rest);
+    return out.join('\r\n');
+  };
+  root.querySelector('[data-ics]')!.addEventListener('click', () => {
+    const start = new Date(`${startInput.value || new Date().toISOString().slice(0, 10)}T00:00:00`);
+    const ymd = (d: Date) =>
+      `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+    const stamp = new Date()
+      .toISOString()
+      .replace(/[-:]/g, '')
+      .replace(/\.\d+Z$/, 'Z');
+    const lines = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Ensayum//Calculadora de muestras//ES',
+      'CALSCALE:GREGORIAN',
+      'X-WR-CALNAME:Muestreos de agua',
+    ];
+    series.forEach((s, i) => {
+      const first = new Date(start);
+      first.setMonth(first.getMonth() + (s.offset ?? 0));
+      const next = new Date(first);
+      next.setDate(next.getDate() + 1);
+      lines.push(
+        'BEGIN:VEVENT',
+        `UID:${stamp}-${i}@calculadora`,
+        `DTSTAMP:${stamp}`,
+        `DTSTART;VALUE=DATE:${ymd(first)}`,
+        `DTEND;VALUE=DATE:${ymd(next)}`,
+        fold(`SUMMARY:${icsEscape(`Muestreo · ${s.title}`)}`),
+        fold(
+          `DESCRIPTION:${icsEscape(`${s.detail}\nOrientativo: mínimos para instalaciones con PPCL. Confírmalo con el plan de cada instalación.\nCalculado en ${location.origin}/calculadora/`)}`,
+        ),
+        ...(s.count > 1 ? [`RRULE:FREQ=MONTHLY;INTERVAL=${s.interval};COUNT=${s.count}`] : []),
+        'BEGIN:VALARM',
+        'ACTION:DISPLAY',
+        'DESCRIPTION:Muestreo en dos días',
+        'TRIGGER:-P2D',
+        'END:VALARM',
+        'END:VEVENT',
+      );
+    });
+    lines.push('END:VCALENDAR');
+    const blob = new Blob([lines.join('\r\n') + '\r\n'], { type: 'text/calendar;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'calendario-muestreo.ics';
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    msg.textContent = `Calendario descargado con ${series.length} series de muestreo.`;
+  });
+
+  if (!loadFromUrl()) addBuilding();
 </script>
 
 <style>
@@ -740,6 +977,47 @@ const faq = [
     color: var(--color-text-muted);
   }
   .calc__empty[hidden] {
+    display: none;
+  }
+  .tools {
+    display: grid;
+    gap: 0.7rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--color-border);
+  }
+  .tools[hidden] {
+    display: none;
+  }
+  .tools__date {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    font-size: 0.88rem;
+  }
+  .tools__date input {
+    padding: 0.45rem 0.6rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font: inherit;
+  }
+  .tools__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .tools__row :global(svg) {
+    width: 1rem;
+    height: 1rem;
+  }
+  .tools__msg {
+    font-size: 0.85rem;
+    color: var(--color-accent-strong);
+    overflow-wrap: anywhere;
+  }
+  .tools__msg:empty {
     display: none;
   }
 </style>

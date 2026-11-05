@@ -103,6 +103,8 @@ const glosario = defineCollection({
     term: z.string(),
     def: z.string().max(320),
     link: z.string().startsWith('/').optional(),
+    /** Formas en que aparece en los textos (se enlazan solas al glosario). */
+    match: z.array(z.string()).default([]),
   }),
 });
 

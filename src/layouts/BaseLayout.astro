@@ -52,7 +52,7 @@ const crumbs = breadcrumbs.length ? [{ name: 'Inicio', href: '/' }, ...breadcrum
       Saltar al contenido
     </a>
     <Header />
-    <main id="contenido">
+    <main id="contenido" data-pagefind-body={seo.noindex ? undefined : true}>
       {crumbs.length > 0 && <Breadcrumbs items={crumbs} />}
       <slot />
     </main>

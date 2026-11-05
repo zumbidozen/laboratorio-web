@@ -9,7 +9,7 @@ import CtaBanner from '@/components/CtaBanner.astro';
 import Icon from '@/components/Icon.astro';
 import RelatedGuides from '@/components/RelatedGuides.astro';
 import { primaryCta } from '@/config/site';
-import { getServicios, servicioUrl, formatDate, isoDate } from '@/lib/content';
+import { getServicios, servicioUrl, formatDate, isoDate, analisisDeServicio } from '@/lib/content';
 import { service, faqPage } from '@/lib/schema';
 
 export const getStaticPaths = (async () => {
@@ -30,6 +30,10 @@ const { data } = entry;
 const { Content } = await render(entry);
 const href = servicioUrl(entry);
 const soon = data.status === 'proximamente';
+// «Pedir tarifa» llega al formulario con este análisis ya marcado.
+const quoteHref = analisisDeServicio[entry.id]
+  ? `${primaryCta.href}?analisis=${encodeURIComponent(analisisDeServicio[entry.id])}`
+  : primaryCta.href;
 ---
 
 <BaseLayout
@@ -128,7 +132,7 @@ const soon = data.status === 'proximamente';
           <dd>Tarifa profesional según volumen</dd>
         </div>
       </dl>
-      <a class="btn" href={primaryCta.href}>
+      <a class="btn" href={quoteHref}>
         {soon ? 'Avísame cuando esté' : primaryCta.label}
         <Icon name="arrow-right" />
       </a>

@@ -35,6 +35,14 @@ const isActive = (href: string) => current.startsWith(href);
           </li>
         ))}
       </ul>
+      <a
+        class="header__search"
+        href="/buscar/"
+        aria-current={current.startsWith('/buscar') ? 'page' : undefined}
+      >
+        <Icon name="search" />
+        <span class="header__search-label">Buscar</span>
+      </a>
       {site.contact.phone && (
         <a class="header__phone" href={`tel:${site.contact.phone}`}>
           <Icon name="phone" />
@@ -162,6 +170,18 @@ const isActive = (href: string) => current.startsWith(href);
     color: var(--color-brand);
   }
 
+  .header__search {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .header__search :global(svg) {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
   .header__phone {
     display: inline-flex;
     align-items: center;
@@ -179,6 +199,27 @@ const isActive = (href: string) => current.startsWith(href);
   @media (min-width: 1120px) {
     .header__toggle {
       display: none;
+    }
+    .header__search {
+      display: grid;
+      place-items: center;
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 999px;
+      color: var(--color-text-muted);
+    }
+    .header__search:hover,
+    .header__search[aria-current='page'] {
+      background: var(--color-surface);
+      color: var(--color-text);
+    }
+    .header__search-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
     }
     .header__nav {
       display: flex;

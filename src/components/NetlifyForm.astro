@@ -43,6 +43,9 @@ const action = isNetlify ? success : form;
     netlify-honeypot={isNetlify ? 'empresa-web' : undefined}
   >
     {isNetlify && <input type="hidden" name="form-name" value={name} />}
+    {/* Página donde se rellena y página de la que se venía: para saber qué páginas traen contactos. */}
+    <input type="hidden" name="pagina" data-form-meta="pagina" />
+    <input type="hidden" name="llegada" data-form-meta="llegada" />
     <p class="visually-hidden">
       <label>
         No rellenes este campo: <input name="empresa-web" tabindex="-1" autocomplete="off" />
@@ -64,3 +67,21 @@ const action = isNetlify ? success : form;
     Escríbenos a <a href={`mailto:${email}?subject=${encodeURIComponent(mailSubject)}`}>{email}</a>.
   </p>
 )}
+
+<script>
+  // Rellena los campos ocultos de origen de todos los formularios de la página.
+  const here = location.pathname;
+  let from = '';
+  try {
+    const ref = document.referrer ? new URL(document.referrer) : null;
+    if (ref && ref.origin === location.origin && ref.pathname !== here) from = ref.pathname;
+  } catch {
+    /* referrer no válido */
+  }
+  document
+    .querySelectorAll<HTMLInputElement>('[data-form-meta="pagina"]')
+    .forEach((i) => (i.value = here));
+  document
+    .querySelectorAll<HTMLInputElement>('[data-form-meta="llegada"]')
+    .forEach((i) => (i.value = from || new URLSearchParams(location.search).get('desde') || ''));
+</script>

@@ -42,3 +42,17 @@ export const formatDate = (d: Date) =>
   d.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
 
 export const isoDate = (d: Date) => d.toISOString().slice(0, 10);
+
+/**
+ * Qué casilla de «¿Qué analizas?» del formulario de contacto corresponde a cada servicio.
+ * Se usa para llegar a «Pedir tarifa» con el análisis ya marcado.
+ */
+export const analisisDeServicio: Record<string, string> = {
+  legionella: 'Legionella',
+  'legionella-qpcr': 'Legionella',
+  'planes-legionella': 'Legionella',
+  'agua-de-consumo': 'Agua de consumo',
+  piscinas: 'Piscinas',
+  'torres-y-calderas': 'Torres y calderas',
+  'otros-analisis': 'Otros',
+};

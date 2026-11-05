@@ -5,7 +5,7 @@ export interface Props {
 const { items } = Astro.props;
 ---
 
-<nav class="container crumbs" aria-label="Migas de pan">
+<nav data-pagefind-ignore class="container crumbs" aria-label="Migas de pan">
   <ol>
     {items.map((it, i) => (
       <li>

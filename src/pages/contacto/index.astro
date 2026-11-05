@@ -4,8 +4,21 @@ import PageHeader from '@/components/PageHeader.astro';
 import Icon from '@/components/Icon.astro';
 import NetlifyForm from '@/components/NetlifyForm.astro';
 import { site, addressLine } from '@/config/site';
+import { getGuias, analisisDeServicio } from '@/lib/content';
 
 const { contact } = site;
+// Página de procedencia → análisis que se marca solo (fichas de servicio y guías).
+const guias = await getGuias();
+const prefill: Record<string, string> = {
+  ...Object.fromEntries(
+    Object.entries(analisisDeServicio).map(([id, label]) => [`/servicios/${id}/`, label]),
+  ),
+  ...Object.fromEntries(
+    guias
+      .map((g) => [`/guias/${g.id}/`, analisisDeServicio[g.data.services[0]?.id ?? '']])
+      .filter(([, label]) => label),
+  ),
+};
 const analyses = ['Legionella', 'Agua de consumo', 'Piscinas', 'Torres y calderas', 'Otros'];
 const next = [
   'Te escribimos para conocer tu volumen, tu laboratorio actual y cuándo vence tu contrato.',
@@ -129,7 +142,25 @@ const next = [
   </section>
 </BaseLayout>
 
+<script type="application/json" id="prefill-map" set:html={JSON.stringify(prefill)} />
 <script>
+  // Marca el análisis según de dónde se viene: ?analisis=Legionella o la ficha/guía anterior.
+  try {
+    const map = JSON.parse(document.getElementById('prefill-map')?.textContent || '{}') as Record<
+      string,
+      string
+    >;
+    const params = new URLSearchParams(location.search);
+    const wanted = new Set(params.getAll('analisis'));
+    const ref = document.referrer ? new URL(document.referrer) : null;
+    if (ref && ref.origin === location.origin && map[ref.pathname]) wanted.add(map[ref.pathname]);
+    document.querySelectorAll<HTMLInputElement>('input[name="analisis"]').forEach((box) => {
+      if (wanted.has(box.value)) box.checked = true;
+    });
+  } catch {
+    /* sin datos de procedencia: el formulario queda vacío */
+  }
+
   // Si se llega desde la calculadora, se rellena el mensaje con el resumen.
   try {
     const resumen = sessionStorage.getItem('ensayum-calculo');
