@@ -7,11 +7,11 @@ updated: 2026-11-05
 services: ['agua-de-consumo', 'legionella']
 tags: ['agua de consumo', 'normativa', 'RD 3/2023', 'edificios prioritarios']
 keyPoints:
-  - 'Parámetros: E. coli, recuento de colonias a 22 °C, color, turbidez, pH, conductividad, cloro libre residual y plomo.'
-  - 'En edificios prioritarios se añade Legionella; en las unidades de cuidados aumentados de hospitales, Pseudomonas aeruginosa y temperatura del agua.'
-  - 'Un edificio prioritario hace 2, 4 o 6 análisis al año según sus puntos de acceso al agua, y uno más por cada 100 puntos por encima de 200.'
-  - 'El valor paramétrico de Legionella en grifo es de 100 UFC/L, y «no detectable» en los grifos asistenciales de cuidados aumentados.'
-  - 'Los resultados se notifican en SINAC en 10 días laborables, o en 4 si hay incumplimiento.'
+  - 'Parámetros: E. coli, recuento de colonias a 22 °C, color, turbidez, pH, conductividad, cloro libre residual y plomo. [1]'
+  - 'En edificios prioritarios se añade Legionella; en las unidades de cuidados aumentados de hospitales, Pseudomonas aeruginosa y temperatura del agua. [1]'
+  - 'Un edificio prioritario hace 2, 4 o 6 análisis al año según sus puntos de acceso al agua, y uno más por cada 100 puntos por encima de 200. [1]'
+  - 'El valor paramétrico de Legionella en grifo es de 100 UFC/L, y «no detectable» en los grifos asistenciales de cuidados aumentados. [1]'
+  - 'Los resultados se notifican en SINAC en 10 días laborables, o en 4 si hay incumplimiento. [2]'
 sources:
   - title: 'Real Decreto 3/2023, de 10 de enero (texto consolidado). BOE'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2023-628'

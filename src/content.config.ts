@@ -67,23 +67,38 @@ const sectores = defineCollection({
 
 const guias = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/guias' }),
-  schema: z.object({
-    ...seo,
-    /** Fecha de publicación (AAAA-MM-DD). */
-    published: z.coerce.date(),
-    /** Nombre de quien firma o revisa técnicamente la guía. */
-    author: z.string().default('Equipo técnico'),
-    /** Quién ha revisado técnicamente la guía (nombre y cargo). Vacío = no se muestra. */
-    reviewedBy: z.string().optional(),
-    /** 3–6 ideas clave: se muestran en la caja «En resumen» y en llms.txt. */
-    keyPoints: z.array(z.string()).min(3).max(6),
-    /** Fuentes oficiales citadas (BOE, Ministerio…). Se listan al final y en los datos estructurados. */
-    sources: z.array(z.object({ title: z.string(), url: z.url() })).min(1),
-    /** Servicios relacionados que se enlazan al final. */
-    services: z.array(reference('servicios')).default([]),
-    tags: z.array(z.string()).default([]),
-    faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
-  }),
+  schema: z
+    .object({
+      ...seo,
+      /** Fecha de publicación (AAAA-MM-DD). */
+      published: z.coerce.date(),
+      /** Nombre de quien firma o revisa técnicamente la guía. */
+      author: z.string().default('Equipo técnico'),
+      /** Quién ha revisado técnicamente la guía (nombre y cargo). Vacío = no se muestra. */
+      reviewedBy: z.string().optional(),
+      /**
+       * 3–6 ideas clave: caja «En resumen», llms.txt y versión .md. Cada una tiene su propio enlace
+       * (#dato-…). Termínala con [n] para mostrar al lado la fuente n de `sources` (1 = la primera).
+       */
+      keyPoints: z.array(z.string()).min(3).max(6),
+      /** Fuentes oficiales citadas (BOE, Ministerio…). Se listan al final y en los datos estructurados. */
+      sources: z.array(z.object({ title: z.string(), url: z.url() })).min(1),
+      /** Servicios relacionados que se enlazan al final. */
+      services: z.array(reference('servicios')).default([]),
+      tags: z.array(z.string()).default([]),
+      faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
+    })
+    .superRefine((d, ctx) => {
+      d.keyPoints.forEach((k, i) => {
+        const n = Number(k.match(/\[(\d+)\]\s*$/)?.[1] ?? 0);
+        if (n > d.sources.length)
+          ctx.addIssue({
+            code: 'custom',
+            path: ['keyPoints', i],
+            message: `Cita la fuente [${n}], pero solo hay ${d.sources.length} en «sources».`,
+          });
+      });
+    }),
 });
 
 /** Preguntas frecuentes generales: un único archivo YAML fácil de editar. */
@@ -126,4 +141,35 @@ const planes = defineCollection({
   }),
 });
 
-export const collections = { servicios, sectores, guias, faq, planes, glosario };
+/**
+ * Páginas por norma (/normativa/<id>/): reúnen guías, frecuencias, fechas y análisis de cada norma.
+ * Un único archivo YAML. Las guías se eligen por etiqueta y las fechas por la fuente del calendario.
+ */
+const normativa = defineCollection({
+  loader: file('./src/content/normativa.yaml'),
+  schema: z.object({
+    ...seo,
+    order: z.number().default(100),
+    icon: z.string().default('landmark'),
+    /** Nombre corto de la norma, como se cita: "RD 487/2022". */
+    norma: z.string(),
+    /** Tema en una o dos palabras: es el filtro del listado de guías ("Legionella"). */
+    topic: z.string(),
+    /** Texto consolidado en el BOE. */
+    boe: z.url(),
+    /** Ideas clave (3–6), comprobadas en el BOE. */
+    keyPoints: z.array(z.string()).min(3).max(6),
+    /** Etiquetas de guía: entra cada guía que tenga alguna. */
+    guideTags: z.array(z.string()).min(1),
+    /** Textos que buscar en la fuente de cada fecha de src/data/calendario.ts. */
+    calendar: z.array(z.string()).default([]),
+    /** Tablas de src/components/FrequencyTables.astro que se muestran. */
+    frequencies: z
+      .array(z.enum(['legionella', 'puntos', 'desinfeccion', 'grifo', 'piscinas']))
+      .default([]),
+    services: z.array(reference('servicios')).default([]),
+    faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
+  }),
+});
+
+export const collections = { servicios, sectores, guias, faq, planes, glosario, normativa };

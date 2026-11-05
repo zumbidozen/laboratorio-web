@@ -7,10 +7,10 @@ updated: 2026-11-05
 services: ['agua-de-consumo', 'legionella', 'planes-legionella']
 tags: ['agua de consumo', 'edificios prioritarios', 'normativa', 'RD 3/2023']
 keyPoints:
-  - 'Son los edificios del anexo VIII: hospitales, residencias, hoteles, centros de enseñanza, instalaciones deportivas cubiertas y centros penitenciarios por encima de un tamaño.'
-  - 'El titular hace el control en grifo con Legionella, de 2 a 6 análisis al año o más según los puntos de acceso al agua.'
-  - 'Debían estar registrados en SINAC desde el 2 de julio de 2024.'
-  - 'Su Plan Sanitario del Agua debía estar documentado el 2 de enero de 2025, con las medidas correctoras aplicadas antes del 2 de enero de 2027.'
+  - 'Son los edificios del anexo VIII: hospitales, residencias, hoteles, centros de enseñanza, instalaciones deportivas cubiertas y centros penitenciarios por encima de un tamaño. [1]'
+  - 'El titular hace el control en grifo con Legionella, de 2 a 6 análisis al año o más según los puntos de acceso al agua. [1]'
+  - 'Debían estar registrados en SINAC desde el 2 de julio de 2024. [1]'
+  - 'Su Plan Sanitario del Agua debía estar documentado el 2 de enero de 2025, con las medidas correctoras aplicadas antes del 2 de enero de 2027. [1]'
 sources:
   - title: 'Real Decreto 3/2023, art. 2, art. 16, anexos II y VIII y disposición adicional 9.ª. BOE'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2023-628'

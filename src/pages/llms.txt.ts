@@ -4,7 +4,16 @@
  */
 import type { APIRoute } from 'astro';
 import { site, absoluteUrl } from '@/config/site';
-import { getServicios, getSectores, getGuias, getFaq, getPlanes, getGlosario } from '@/lib/content';
+import {
+  getServicios,
+  getSectores,
+  getGuias,
+  getFaq,
+  getPlanes,
+  getGlosario,
+  getNormativa,
+} from '@/lib/content';
+import { frecuencias } from '@/lib/referencia';
 
 export const GET: APIRoute = async () => {
   const [servicios, sectores, guias, faq, planes] = await Promise.all([
@@ -14,7 +23,7 @@ export const GET: APIRoute = async () => {
     getFaq(),
     getPlanes(),
   ]);
-  const glosario = await getGlosario();
+  const [glosario, normas] = await Promise.all([getGlosario(), getNormativa()]);
   const link = (title: string, path: string, note: string) =>
     `- [${title}](${absoluteUrl(path)}): ${note}`;
 
@@ -28,7 +37,7 @@ export const GET: APIRoute = async () => {
       ? `Laboratorio acreditado por ENAC (n.º ${site.accreditation.enacNumber}).`
       : 'Los ensayos que requieren acreditación los realiza y firma un laboratorio acreditado por ENAC, identificado en cada informe.',
     '',
-    'Cada página tiene una versión en Markdown añadiendo `.md` a su ruta sin la barra final. Todo el contenido junto: ' +
+    'Las fichas de servicios, sectores, guías y normas, y las páginas de frecuencias, calendario, glosario, planes y «Cómo trabajamos», tienen versión en Markdown añadiendo `.md` a su ruta sin la barra final. Todo el contenido junto: ' +
       absoluteUrl('/llms-full.txt'),
     '',
     '## Análisis y servicios',
@@ -58,6 +67,16 @@ export const GET: APIRoute = async () => {
     '',
     ...sectores.map((s) => link(s.data.name, `/sectores/${s.id}.md`, s.data.summary)),
     '',
+    '## Normativa',
+    '',
+    link(frecuencias.title, '/frecuencias-de-analisis.md', frecuencias.summary),
+    ...normas.map((n) => link(n.data.title, `/normativa/${n.id}.md`, n.data.summary)),
+    link(
+      'Calendario normativo',
+      '/calendario-normativo.md',
+      'fechas clave hasta 2030 con su fuente en el BOE',
+    ),
+    '',
     '## Guías de normativa',
     '',
     ...guias.map((g) => link(g.data.title, `/guias/${g.id}.md`, g.data.summary)),
@@ -74,7 +93,7 @@ export const GET: APIRoute = async () => {
     '',
     link(
       'Cómo trabajamos',
-      '/como-trabajamos/',
+      '/como-trabajamos.md',
       'portal, API, plazos máximos e informes en co-marca',
     ),
     link(
@@ -82,12 +101,8 @@ export const GET: APIRoute = async () => {
       '/calculadora/',
       'muestras al año según RD 487/2022 (anexo V), RD 3/2023 y RD 742/2013, con la tabla de frecuencias',
     ),
-    link(
-      'Calendario normativo',
-      '/calendario-normativo/',
-      'fechas clave hasta 2030 con su fuente en el BOE',
-    ),
-    link('Glosario', '/glosario/', 'términos de análisis de agua y Legionella'),
+    link('Glosario', '/glosario.md', 'términos de análisis de agua y Legionella'),
+    link('Planes por cuota', '/planes.md', 'qué incluye cada plan, sin precios'),
     link('Programa Partner', '/partners/', 'condiciones para empresas que revenden el análisis'),
     link(
       'Informe de ejemplo',

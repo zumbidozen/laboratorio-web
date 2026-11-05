@@ -1,0 +1,194 @@
+---
+/**
+ * Tabla resumen de frecuencias mínimas de análisis (Legionella, control en grifo y piscinas),
+ * cada una con su fuente en el BOE. Datos: src/data/frecuencias.ts. Versión .md: /frecuencias-de-analisis.md
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import FrequencyTables from '@/components/FrequencyTables.astro';
+import Faq from '@/components/Faq.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import Icon from '@/components/Icon.astro';
+import { article, faqPage } from '@/lib/schema';
+import { formatDate, isoDate } from '@/lib/content';
+import { frecuencias } from '@/lib/referencia';
+
+const href = '/frecuencias-de-analisis/';
+const { title, description, summary, updated, keyFacts, faq, sources } = frecuencias;
+const contents = [
+  { href: '#legionella', label: 'Legionella, aerobios y hierro' },
+  { href: '#puntos-de-muestreo', label: 'Puntos de muestreo en agua sanitaria' },
+  { href: '#tras-desinfeccion', label: 'Después de una desinfección' },
+  { href: '#control-en-grifo', label: 'Control en grifo' },
+  { href: '#piscinas', label: 'Piscinas' },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image="/og/paginas/frecuencias-de-analisis.png"
+  type="article"
+  published={updated}
+  updated={updated}
+  breadcrumbs={[{ name: 'Frecuencias de análisis', href }]}
+  schema={[
+    article({
+      title,
+      description,
+      href,
+      published: updated,
+      updated,
+      author: 'Equipo técnico',
+      keywords: ['frecuencias', 'Legionella', 'RD 487/2022', 'RD 3/2023', 'RD 742/2013'],
+      citations: sources,
+      abstract: summary,
+      image: '/og/paginas/frecuencias-de-analisis.png',
+    }),
+    faqPage(faq),
+  ]}
+>
+  <PageHeader eyebrow="Referencia" icon="clipboard" title={title} summary={summary}>
+    <p class="updated">
+      Comprobado en el BOE el <time datetime={isoDate(updated)}>{formatDate(updated)}</time>
+    </p>
+  </PageHeader>
+
+  <section class="section section--tight">
+    <div class="container top">
+      <div class="facts">
+        <h2 id="en-resumen">En resumen</h2>
+        <ul class="checklist">
+          {keyFacts.map((k) => (
+            <li id={k.id}>
+              <Icon name="check" />
+              <span>
+                {k.text} <a href={`#${k.see}`}>Ver tabla</a>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <nav class="contents" aria-label="Contenido">
+        <p class="contents__title">En esta página</p>
+        <ol>
+          {contents.map((c) => (
+            <li>
+              <a href={c.href}>{c.label}</a>
+            </li>
+          ))}
+        </ol>
+        <a class="contents__cta" href="/calculadora/">
+          <Icon name="gauge" />
+          <span>
+            Suma tus instalaciones en la <strong>calculadora</strong>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <FrequencyTables />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <Faq items={faq} split />
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <p class="muted small note">
+        Resumen de divulgación de los mínimos legales. No sustituye al texto oficial ni al plan de
+        cada instalación. Por norma: <a href="/normativa/rd-487-2022/">RD 487/2022</a>,{' '}
+        <a href="/normativa/rd-3-2023/">RD 3/2023</a> y <a href="/normativa/piscinas/">piscinas</a>.
+      </p>
+    </div>
+  </section>
+
+  <CtaBanner />
+</BaseLayout>
+
+<style>
+  .updated {
+    margin-top: var(--space-3);
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+  .top {
+    display: grid;
+    gap: var(--space-5);
+  }
+  @media (min-width: 960px) {
+    .top {
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+  .facts {
+    padding: 1.5rem 1.75rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+  .facts h2 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: var(--space-3);
+  }
+  .facts li {
+    scroll-margin-top: 6rem;
+    border-radius: var(--radius);
+  }
+  .facts li:target {
+    background: var(--color-accent-soft);
+  }
+  .facts a {
+    font-size: 0.85rem;
+    color: var(--color-accent-strong);
+    white-space: nowrap;
+  }
+  .contents {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .contents__title {
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent-strong);
+  }
+  .contents ol {
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.35rem;
+  }
+  .contents ol a {
+    color: var(--color-text);
+  }
+  .contents__cta {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  .contents__cta :global(svg) {
+    flex: none;
+    width: 1.3rem;
+    height: 1.3rem;
+    color: var(--color-accent-strong);
+  }
+  .contents__cta:hover {
+    border-color: var(--color-accent);
+  }
+  .note {
+    max-width: var(--container-text);
+  }
+</style>

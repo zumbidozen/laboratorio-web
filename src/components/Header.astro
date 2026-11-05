@@ -12,6 +12,15 @@ const isActive = (href: string) => current.startsWith(href);
       <Logo />
     </a>
     <button
+      class="header__theme header__theme--bar"
+      type="button"
+      data-theme-toggle
+      aria-label="Cambiar a modo oscuro"
+    >
+      <Icon name="moon" class="i-moon" />
+      <Icon name="sun" class="i-sun" />
+    </button>
+    <button
       class="header__toggle"
       type="button"
       aria-expanded="false"
@@ -43,6 +52,15 @@ const isActive = (href: string) => current.startsWith(href);
         <Icon name="search" />
         <span class="header__search-label">Buscar</span>
       </a>
+      <button
+        class="header__theme header__theme--nav"
+        type="button"
+        data-theme-toggle
+        aria-label="Cambiar a modo oscuro"
+      >
+        <Icon name="moon" class="i-moon" />
+        <Icon name="sun" class="i-sun" />
+      </button>
       {site.contact.phone && (
         <a class="header__phone" href={`tel:${site.contact.phone}`}>
           <Icon name="phone" />
@@ -102,6 +120,40 @@ const isActive = (href: string) => current.startsWith(href);
   }
   .header__brand {
     text-decoration: none;
+  }
+  .header__theme {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-left: auto;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-bg);
+    color: var(--color-text);
+    cursor: pointer;
+  }
+  .header__theme :global(svg) {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+  .header__theme--nav,
+  .header__theme :global(.i-sun) {
+    display: none;
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .header__theme :global(.i-sun) {
+      display: block;
+    }
+    :global(:root:not([data-theme='light'])) .header__theme :global(.i-moon) {
+      display: none;
+    }
+  }
+  :global(:root[data-theme='dark']) .header__theme :global(.i-sun) {
+    display: block;
+  }
+  :global(:root[data-theme='dark']) .header__theme :global(.i-moon) {
+    display: none;
   }
   .header__toggle {
     display: grid;
@@ -197,8 +249,23 @@ const isActive = (href: string) => current.startsWith(href);
     color: var(--color-accent-strong);
   }
   @media (min-width: 1120px) {
-    .header__toggle {
+    .header__toggle,
+    .header__theme--bar {
       display: none;
+    }
+    .header__theme--nav {
+      display: grid;
+      width: 2.4rem;
+      height: 2.4rem;
+      margin: 0 0 0 calc(var(--space-5) * -0.6);
+      border: 0;
+      border-radius: 999px;
+      background: none;
+      color: var(--color-text-muted);
+    }
+    .header__theme--nav:hover {
+      background: var(--color-surface);
+      color: var(--color-text);
     }
     .header__search {
       display: grid;
@@ -254,6 +321,34 @@ const isActive = (href: string) => current.startsWith(href);
   const header = document.querySelector<HTMLElement>('[data-header]');
   const toggle = document.querySelector<HTMLButtonElement>('[data-toggle]');
   const nav = document.getElementById('menu-principal');
+  // Modo claro u oscuro. Sin elección, sigue al sistema; si eliges el mismo que el sistema,
+  // se borra la preferencia guardada. El <head> la aplica antes de pintar (BaseLayout).
+  const root = document.documentElement;
+  const system = window.matchMedia('(prefers-color-scheme: dark)');
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : system.matches);
+  const themeButtons = document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]');
+  const syncTheme = () =>
+    themeButtons.forEach((b) =>
+      b.setAttribute('aria-label', isDark() ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'),
+    );
+  themeButtons.forEach((b) =>
+    b.addEventListener('click', () => {
+      const next = isDark() ? 'light' : 'dark';
+      const matchesSystem = (next === 'dark') === system.matches;
+      try {
+        if (matchesSystem) localStorage.removeItem('tema');
+        else localStorage.setItem('tema', next);
+      } catch {
+        /* Sin almacenamiento: el cambio vale solo para esta página. */
+      }
+      if (matchesSystem) delete root.dataset.theme;
+      else root.dataset.theme = next;
+      syncTheme();
+    }),
+  );
+  system.addEventListener('change', syncTheme);
+  syncTheme();
+
   toggle?.addEventListener('click', () => {
     const open = toggle.getAttribute('aria-expanded') !== 'true';
     toggle.setAttribute('aria-expanded', String(open));

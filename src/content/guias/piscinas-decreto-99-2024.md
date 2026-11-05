@@ -7,10 +7,10 @@ updated: 2026-11-05
 services: ['piscinas', 'legionella']
 tags: ['piscinas', 'normativa', 'RD 742/2013']
 keyPoints:
-  - 'Control inicial en la quincena anterior a la apertura y tras más de dos semanas con el vaso cerrado.'
-  - 'Control de rutina diario in situ y control periódico al menos una vez al mes en laboratorio.'
-  - 'Parámetros de laboratorio: pH, turbidez, desinfectante, ácido isocianúrico si se usa, E. coli y P. aeruginosa.'
-  - 'Legionella (menos de 100 UFC/L) solo en vasos climatizados con aerosolización.'
+  - 'Control inicial en la quincena anterior a la apertura y tras más de dos semanas con el vaso cerrado. [2]'
+  - 'Control de rutina diario in situ y control periódico al menos una vez al mes en laboratorio. [2]'
+  - 'Parámetros de laboratorio: pH, turbidez, desinfectante, ácido isocianúrico si se usa, E. coli y P. aeruginosa. [2]'
+  - 'Legionella (menos de 100 UFC/L) solo en vasos climatizados con aerosolización. [1]'
   - 'El Decreto 99/2024 de Madrid ya no exige Staphylococcus aureus.'
 sources:
   - title: 'Real Decreto 742/2013, de 27 de septiembre (texto consolidado). BOE'

@@ -33,6 +33,13 @@ const crumbs = breadcrumbs.length ? [{ name: 'Inicio', href: '/' }, ...breadcrum
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
+    <script is:inline>
+      // Modo claro u oscuro elegido con el botón de la cabecera; se aplica antes de pintar.
+      try {
+        const tema = localStorage.getItem('tema');
+        if (tema === 'light' || tema === 'dark') document.documentElement.dataset.theme = tema;
+      } catch {}
+    </script>
     <link rel="preload" href={jostLatin} as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -96,6 +103,15 @@ const crumbs = breadcrumbs.length ? [{ name: 'Inicio', href: '/' }, ...breadcrum
           { passive: true },
         );
       }
+
+      // Tablas que no caben (móvil): se desplazan dentro de su caja y deben poder recorrerse con teclado.
+      const scrollables = () =>
+        document.querySelectorAll<HTMLElement>('.prose table').forEach((t) => {
+          if (t.scrollWidth > t.clientWidth + 1) t.tabIndex = 0;
+          else if (!t.hasAttribute('aria-labelledby')) t.removeAttribute('tabindex');
+        });
+      scrollables();
+      window.addEventListener('resize', scrollables, { passive: true });
 
       // Botón fijo «Pedir tarifa» en móvil: aparece al bajar y se oculta al llegar al pie.
       const cta = document.querySelector<HTMLElement>('[data-sticky-cta]');

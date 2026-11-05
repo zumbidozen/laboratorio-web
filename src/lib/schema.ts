@@ -120,6 +120,8 @@ export function article(opts: {
   wordCount?: number;
   citations?: { title: string; url: string }[];
   abstract?: string;
+  /** Imagen propia para redes (ruta); si no, la general. */
+  image?: string;
 }): Json {
   return {
     '@type': 'Article',
@@ -140,7 +142,34 @@ export function article(opts: {
         ? { '@id': orgId }
         : { '@type': 'Person', name: opts.author, worksFor: { '@id': orgId } },
     publisher: { '@id': orgId },
-    image: absoluteUrl(site.ogImage),
+    image: absoluteUrl(opts.image ?? site.ogImage),
+  };
+}
+
+/** Página que reúne el contenido de una norma (páginas /normativa/…). */
+export function collectionPage(opts: {
+  title: string;
+  description: string;
+  href: string;
+  updated: Date;
+  legislation: { name: string; url: string };
+  parts: { title: string; href: string }[];
+}): Json {
+  return {
+    '@type': 'CollectionPage',
+    name: opts.title,
+    description: opts.description,
+    url: absoluteUrl(opts.href),
+    dateModified: opts.updated.toISOString(),
+    inLanguage: site.locale,
+    isPartOf: { '@id': websiteId },
+    publisher: { '@id': orgId },
+    about: { '@type': 'Legislation', name: opts.legislation.name, url: opts.legislation.url },
+    hasPart: opts.parts.map((p) => ({
+      '@type': 'Article',
+      headline: p.title,
+      url: absoluteUrl(p.href),
+    })),
   };
 }
 

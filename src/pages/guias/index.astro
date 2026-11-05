@@ -3,9 +3,29 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
 import LeadMagnet from '@/components/LeadMagnet.astro';
 import Card from '@/components/Card.astro';
-import { getGuias, guiaUrl, formatDate } from '@/lib/content';
+import Icon from '@/components/Icon.astro';
+import { getGuias, getNormativa, guiasDeNorma, guiaUrl, normaUrl, formatDate } from '@/lib/content';
 
-const guias = await getGuias();
+const [guias, normas] = await Promise.all([getGuias(), getNormativa()]);
+// Temas del filtro: uno por norma (src/content/normativa.yaml) y «Otros» para el resto.
+const topicsOf = (g: (typeof guias)[number]) =>
+  normas.filter((n) => guiasDeNorma(n, [g]).length).map((n) => n.id);
+const topics = [
+  ...normas.map((n) => ({
+    id: n.id,
+    label: n.data.topic,
+    count: guiasDeNorma(n, guias).length,
+    href: normaUrl(n),
+    norma: n.data.norma,
+  })),
+  {
+    id: 'otros',
+    label: 'Otros',
+    count: guias.filter((g) => !topicsOf(g).length).length,
+    href: '',
+    norma: '',
+  },
+];
 ---
 
 <BaseLayout
@@ -20,18 +40,49 @@ const guias = await getGuias();
     summary="Explicamos en corto qué piden las normas de Legionella, agua de consumo y piscinas y cómo se traduce en análisis."
   />
   <section class="section">
-    <div class="container grid">
-      {guias.map((g) => (
-        <Card
-          level={2}
-          href={guiaUrl(g)}
-          title={g.data.title}
-          text={g.data.description}
-          meta={formatDate(g.data.published)}
-          icon="file"
-          cta="Leer la guía"
-        />
-      ))}
+    <div class="container">
+      <div class="filters" data-filters hidden data-pagefind-ignore>
+        <div class="filters__chips" role="group" aria-label="Filtrar guías por tema">
+          <button type="button" class="filter" aria-pressed="true" data-topic="">
+            Todas <span class="filter__n">{guias.length}</span>
+          </button>
+          {topics
+            .filter((t) => t.count)
+            .map((t) => (
+              <button type="button" class="filter" aria-pressed="false" data-topic={t.id}>
+                {t.label} <span class="filter__n">{t.count}</span>
+              </button>
+            ))}
+        </div>
+        <p class="filters__status" aria-live="polite" data-status></p>
+        {topics
+          .filter((t) => t.href)
+          .map((t) => (
+            <a class="filters__hub" href={t.href} data-hub={t.id} hidden>
+              <Icon name="landmark" />
+              Todo sobre el {t.norma}: frecuencias, fechas y guías
+              <Icon name="arrow-right" />
+            </a>
+          ))}
+      </div>
+      <div class="grid">
+        {guias.map((g) => {
+          const t = topicsOf(g);
+          return (
+            <div class="item" data-topics={t.length ? t.join(' ') : 'otros'}>
+              <Card
+                level={2}
+                href={guiaUrl(g)}
+                title={g.data.title}
+                text={g.data.description}
+                meta={formatDate(g.data.published)}
+                icon="file"
+                cta="Leer la guía"
+              />
+            </div>
+          );
+        })}
+      </div>
     </div>
   </section>
   <section class="section section--tight">
@@ -40,3 +91,117 @@ const guias = await getGuias();
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .filters {
+    display: grid;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+  }
+  .filters[hidden] {
+    display: none;
+  }
+  .filters__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 2.6rem;
+    padding: 0.45rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font: inherit;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition:
+      background 0.15s,
+      border-color 0.15s;
+  }
+  .filter:hover {
+    border-color: var(--color-accent);
+  }
+  .filter[aria-pressed='true'] {
+    background: var(--color-brand);
+    border-color: var(--color-brand);
+    color: var(--color-on-brand);
+  }
+  .filter__n {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+  .filter[aria-pressed='true'] .filter__n {
+    color: inherit;
+  }
+  .filters__status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .filters__hub {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-self: start;
+    color: var(--color-accent-strong);
+    font-weight: 500;
+  }
+  .filters__hub :global(svg) {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+  .filters__hub[hidden] {
+    display: none;
+  }
+  .item {
+    display: grid;
+  }
+  .item[hidden] {
+    display: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .filter {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Filtro por tema. Sin JavaScript se ven todas las guías y los botones no aparecen.
+  const box = document.querySelector<HTMLElement>('[data-filters]');
+  if (box) {
+    const buttons = [...box.querySelectorAll<HTMLButtonElement>('[data-topic]')];
+    const items = [...document.querySelectorAll<HTMLElement>('[data-topics]')];
+    const hubs = [...box.querySelectorAll<HTMLElement>('[data-hub]')];
+    const status = box.querySelector<HTMLElement>('[data-status]');
+    const apply = (topic: string, push = true) => {
+      if (topic && !buttons.some((b) => b.dataset.topic === topic)) topic = '';
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.topic === topic)));
+      let shown = 0;
+      items.forEach((el) => {
+        const show = !topic || el.dataset.topics!.split(' ').includes(topic);
+        el.hidden = !show;
+        if (show) shown++;
+      });
+      hubs.forEach((h) => (h.hidden = h.dataset.hub !== topic));
+      if (status) status.textContent = `${shown} ${shown === 1 ? 'guía' : 'guías'}`;
+      if (push) {
+        const url = new URL(location.href);
+        if (topic) url.searchParams.set('tema', topic);
+        else url.searchParams.delete('tema');
+        history.replaceState(null, '', url);
+      }
+    };
+    buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.topic ?? '')));
+    box.hidden = false;
+    apply(new URLSearchParams(location.search).get('tema') ?? '', false);
+  }
+</script>

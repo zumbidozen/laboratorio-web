@@ -7,9 +7,9 @@ updated: 2026-11-05
 services: ['legionella', 'toma-de-muestras']
 tags: ['Legionella', 'normativa', 'toma de muestras', 'RD 614/2024']
 keyPoints:
-  - 'El RD 614/2024 exige que la toma para cultivo de Legionella la haga una entidad acreditada para la toma (art. 11.5).'
-  - 'Hay un periodo transitorio hasta el 1 de enero de 2030; mientras tanto, la toma se hace según el anexo VI.'
-  - 'Según el Ministerio de Sanidad, hasta esa fecha puede tomarla personal de la propia empresa.'
+  - 'El RD 614/2024 exige que la toma para cultivo de Legionella la haga una entidad acreditada para la toma (art. 11.5). [1]'
+  - 'Hay un periodo transitorio hasta el 1 de enero de 2030; mientras tanto, la toma se hace según el anexo VI. [1]'
+  - 'Según el Ministerio de Sanidad, hasta esa fecha puede tomarla personal de la propia empresa. [2]'
   - 'El análisis por cultivo ya debe hacerlo un laboratorio acreditado desde el 2 de enero de 2025.'
   - 'Un laboratorio que tome muestras con sus propios medios debe tener la toma dentro de su alcance de acreditación.'
 sources:

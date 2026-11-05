@@ -7,10 +7,10 @@ updated: 2026-11-05
 services: ['agua-de-consumo']
 tags: ['agua de consumo', 'PFAS', 'RD 3/2023', 'normativa']
 keyPoints:
-  - 'Valor paramétrico: 0,10 µg/L para la suma de 20 PFAS (RD 3/2023, anexo I, parte B).'
-  - 'Control obligatorio desde el 2 de enero de 2025 y cumplimiento del valor desde el 2 de enero de 2026.'
-  - 'Se miden en el análisis completo, no en el de control.'
-  - 'El «total de PFAS» de 0,50 µg/L de la directiva europea no está en el RD 3/2023.'
+  - 'Valor paramétrico: 0,10 µg/L para la suma de 20 PFAS (RD 3/2023, anexo I, parte B). [1]'
+  - 'Control obligatorio desde el 2 de enero de 2025 y cumplimiento del valor desde el 2 de enero de 2026. [1]'
+  - 'Se miden en el análisis completo, no en el de control. [1]'
+  - 'El «total de PFAS» de 0,50 µg/L de la directiva europea no está en el RD 3/2023. [2]'
 sources:
   - title: 'Real Decreto 3/2023, anexo I (parte B), anexo II y disposición adicional 7.ª. BOE'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2023-628'

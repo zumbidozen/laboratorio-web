@@ -5,7 +5,7 @@
  */
 import type { CollectionEntry } from 'astro:content';
 import { site, absoluteUrl } from '@/config/site';
-import { servicioUrl, sectorUrl, guiaUrl, isoDate } from '@/lib/content';
+import { servicioUrl, sectorUrl, guiaUrl, isoDate, keyPoints } from '@/lib/content';
 
 type Entry = CollectionEntry<'servicios'> | CollectionEntry<'sectores'> | CollectionEntry<'guias'>;
 
@@ -31,7 +31,16 @@ export function entryToMarkdown(e: Entry): string {
     }
   }
   if (e.collection === 'guias') {
-    lines.push('', '## En resumen', '', ...e.data.keyPoints.map((k) => `- ${k}`));
+    const url = absoluteUrl(guiaUrl(e));
+    lines.push(
+      '',
+      '## En resumen',
+      '',
+      ...keyPoints(e).map(
+        (k) =>
+          `- ${k.text} ([enlace](${url}#${k.id})${k.source ? `; fuente: [${k.source.title}](${k.source.url})` : ''})`,
+      ),
+    );
   }
   lines.push('', (e.body ?? '').trim());
   if (e.collection === 'guias') {

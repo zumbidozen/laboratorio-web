@@ -7,10 +7,10 @@ updated: 2026-11-05
 services: ['otros-analisis']
 tags: ['APPCC', 'superficies', 'alimentación', 'normativa']
 keyPoints:
-  - 'El Reglamento 852/2004 exige verificar regularmente el APPCC y, si procede, muestrear y analizar.'
-  - 'El Reglamento 2073/2005 (art. 5.2) pide muestrear zonas de trabajo y equipos cuando sea necesario, con la ISO 18593 como método de referencia.'
-  - 'Con alimentos listos para el consumo y riesgo de Listeria monocytogenes, el muestreo de superficies es obligatorio.'
-  - 'Ninguna norma fija la frecuencia: AESAN pide establecerla según el riesgo.'
+  - 'El Reglamento 852/2004 exige verificar regularmente el APPCC y, si procede, muestrear y analizar. [1]'
+  - 'El Reglamento 2073/2005 (art. 5.2) pide muestrear zonas de trabajo y equipos cuando sea necesario, con la ISO 18593 como método de referencia. [2]'
+  - 'Con alimentos listos para el consumo y riesgo de Listeria monocytogenes, el muestreo de superficies es obligatorio. [3]'
+  - 'Ninguna norma fija la frecuencia: AESAN pide establecerla según el riesgo. [3]'
 sources:
   - title: 'Reglamento (CE) 852/2004, relativo a la higiene de los productos alimenticios (consolidado)'
     url: 'https://publications.europa.eu/resource/celex/02004R0852-20210324'

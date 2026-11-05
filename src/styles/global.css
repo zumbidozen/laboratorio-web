@@ -77,8 +77,12 @@
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
+/*
+ * Modo oscuro: sigue al sistema, salvo que el visitante elija otro con el botón de la
+ * cabecera (atributo data-theme en <html>). Si cambias un color, cámbialo en los dos bloques.
+ */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme='light']) {
     --color-logo: #ffffff;
     --color-brand: #1fb5a8;
     --color-brand-strong: #5fd3c8;
@@ -103,6 +107,37 @@
     --color-ink: #051f31;
     --color-ink-2: #051f31;
   }
+}
+:root[data-theme='dark'] {
+  --color-logo: #ffffff;
+  --color-brand: #1fb5a8;
+  --color-brand-strong: #5fd3c8;
+  --color-brand-soft: #123f5c;
+  --color-brand-tint: #0c3350;
+  --color-accent: #1fb5a8;
+  --color-accent-strong: #5fd3c8;
+  --color-accent-soft: #0f4450;
+  --color-ok: #5fd3c8;
+  --color-ok-soft: #0f4450;
+  --color-warn: #f3c56b;
+  --color-warn-soft: #3d3215;
+  --color-alert: #f2928a;
+  --color-alert-soft: #4a2024;
+  --color-bg: #072a42;
+  --color-surface: #0a3350;
+  --color-border: #1a4a6b;
+  --color-text: #ffffff;
+  --color-text-muted: #b9cddb;
+  --color-text-subtle: #7f99aa;
+  --color-on-brand: #072a42;
+  --color-ink: #051f31;
+  --color-ink-2: #051f31;
+}
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
 }
 
 /* Reset mínimo */

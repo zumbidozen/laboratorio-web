@@ -12,6 +12,7 @@ export const BOE = {
   rd487AnexoV: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-10297#av',
   rd3: 'https://www.boe.es/buscar/act.php?id=BOE-A-2023-628',
   rd742: 'https://www.boe.es/buscar/act.php?id=BOE-A-2013-10580',
+  rd742AnexoIII: 'https://www.boe.es/buscar/act.php?id=BOE-A-2013-10580#aniii',
   faqSanidad:
     'https://www.sanidad.gob.es/areas/sanidadAmbiental/calidadAguas/legionelosis/docs/preguntasRespuestasLegionella_7082024.pdf',
 } as const;
@@ -125,3 +126,28 @@ export const edificiosPrioritarios = [
   'Instalaciones deportivas cubiertas: 3.000 m²',
   'Centros penitenciarios: 1.000 plazas',
 ] as const;
+
+/**
+ * RD 742/2013, anexo III: controles de una piscina de uso público.
+ * Comunidad de Madrid: Decreto 99/2024 (ya no exige Staphylococcus aureus).
+ */
+export const piscinas = [
+  {
+    id: 'inicial',
+    control: 'Inicial',
+    cuando:
+      'En la quincena anterior a la apertura, y después de tener el vaso cerrado más de dos semanas',
+    donde: 'Laboratorio',
+  },
+  { id: 'rutina', control: 'De rutina', cuando: 'Cada día de uso', donde: 'In situ' },
+  {
+    id: 'periodico',
+    control: 'Periódico',
+    cuando: 'Al menos una vez al mes',
+    donde: 'Laboratorio',
+  },
+] as const;
+
+/** Parámetros de laboratorio del control inicial y del periódico (RD 742/2013, anexo III). */
+export const piscinasParametros =
+  'pH, turbidez, desinfectante (cloro libre y combinado, o bromo), ácido isocianúrico si se usan derivados del ácido cianúrico, Escherichia coli y Pseudomonas aeruginosa';

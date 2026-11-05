@@ -7,10 +7,10 @@ updated: 2026-11-05
 services: ['otros-analisis', 'legionella']
 tags: ['riego', 'agua regenerada', 'normativa', 'Legionella']
 keyPoints:
-  - 'El RD 1085/2024 sustituye al RD 1620/2007 para el agua regenerada.'
-  - 'Cuatro clases para uso agrícola (A.A a A.D), de 10 a 10.000 UFC de E. coli por 100 mL.'
+  - 'El RD 1085/2024 sustituye al RD 1620/2007 para el agua regenerada. [1]'
+  - 'Cuatro clases para uso agrícola (A.A a A.D), de 10 a 10.000 UFC de E. coli por 100 mL. [1]'
   - 'Legionella por debajo de 1.000 UFC/L cuando hay riesgo de aerosolización, con control mínimo dos veces al mes en riego agrícola.'
-  - 'El riego por aspersión en zonas urbanas y campos de golf es instalación del RD 487/2022.'
+  - 'El riego por aspersión en zonas urbanas y campos de golf es instalación del RD 487/2022. [3]'
   - 'Para agua de pozo o superficial no regenerada no hay límites microbiológicos estatales.'
 sources:
   - title: 'Real Decreto 1085/2024, de reutilización del agua (texto consolidado). BOE'

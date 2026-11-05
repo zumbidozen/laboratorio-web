@@ -1,0 +1,67 @@
+---
+/** Índice de páginas por norma. Contenido: src/content/normativa.yaml */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import Card from '@/components/Card.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import { getGuias, getNormativa, guiasDeNorma, normaUrl } from '@/lib/content';
+
+const [normas, guias] = await Promise.all([getNormativa(), getGuias()]);
+---
+
+<BaseLayout
+  title="Normativa de aguas por norma"
+  description="Legionella (RD 487/2022), agua de consumo (RD 3/2023) y piscinas (RD 742/2013): frecuencias, fechas clave, guías y análisis de cada norma en una página."
+  breadcrumbs={[{ name: 'Normativa', href: '/normativa/' }]}
+>
+  <PageHeader
+    eyebrow="Normativa"
+    icon="landmark"
+    title="Normativa de aguas, norma a norma"
+    summary="Cada página reúne lo que pide una norma: frecuencias de análisis, fechas clave hasta 2030, guías prácticas y los análisis que la cubren, con su fuente en el BOE."
+  />
+  <section class="section">
+    <div class="container grid">
+      {normas.map((n) => (
+        <Card
+          level={2}
+          href={normaUrl(n)}
+          title={n.data.norma}
+          text={n.data.summary}
+          meta={`${n.data.topic} · ${guiasDeNorma(n, guias).length} guías`}
+          icon={n.data.icon}
+          cta="Ver la norma"
+        />
+      ))}
+    </div>
+  </section>
+  <section class="section section--alt">
+    <div class="container grid">
+      <Card
+        level={2}
+        href="/frecuencias-de-analisis/"
+        title="Frecuencias de análisis: tabla resumen"
+        text="Todas las frecuencias mínimas de Legionella, control en grifo y piscinas en una página, con cada dato enlazado al BOE."
+        icon="clipboard"
+        cta="Ver la tabla"
+      />
+      <Card
+        level={2}
+        href="/calendario-normativo/"
+        title="Calendario normativo"
+        text="Las fechas que cambian algo hasta 2030: acreditación de laboratorios, toma de muestras acreditada y edificios prioritarios."
+        icon="clock"
+        cta="Ver el calendario"
+      />
+      <Card
+        level={2}
+        href="/calculadora/"
+        title="Calculadora de muestras"
+        text="Indica tus instalaciones y te decimos cuántos análisis te tocan al año según cada norma."
+        icon="gauge"
+        cta="Calcular"
+      />
+    </div>
+  </section>
+  <CtaBanner />
+</BaseLayout>

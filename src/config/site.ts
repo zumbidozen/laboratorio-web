@@ -125,8 +125,10 @@ export const resourcesNav = [
   { label: 'Informe de ejemplo', href: '/informe-de-ejemplo/' },
   { label: 'Cambiar de laboratorio', href: '/cambiar-de-laboratorio/' },
   { label: 'Reservar una demo', href: '/demo/' },
-  { label: 'Glosario', href: '/glosario/' },
+  { label: 'Normativa por norma', href: '/normativa/' },
+  { label: 'Frecuencias de análisis', href: '/frecuencias-de-analisis/' },
   { label: 'Calendario normativo', href: '/calendario-normativo/' },
+  { label: 'Glosario', href: '/glosario/' },
   { label: 'Checklist de Legionella (PDF)', href: '/recursos/checklist-legionella/' },
   { label: 'Preguntas frecuentes', href: '/preguntas-frecuentes/' },
 ] as const;

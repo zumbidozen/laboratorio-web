@@ -7,10 +7,10 @@ updated: 2026-11-05
 services: ['legionella', 'legionella-qpcr', 'planes-legionella']
 tags: ['Legionella', 'normativa', 'positivo']
 keyPoints:
-  - 'Las medidas dependen del recuento (UFC/L) y del tipo de instalación, según el anexo VIII del RD 487/2022.'
-  - 'En agua sanitaria, desde 1.000 UFC/L: revisión inmediata del plan, limpieza y desinfección.'
-  - 'En torres, desde 10.000 UFC/L, y en spas y otras instalaciones desde 1.000 UFC/L: parada de la instalación.'
-  - 'Tras la limpieza y desinfección, nueva Legionella en puntos representativos entre 15 y 30 días después.'
+  - 'Las medidas dependen del recuento (UFC/L) y del tipo de instalación, según el anexo VIII del RD 487/2022. [1]'
+  - 'En agua sanitaria, desde 1.000 UFC/L: revisión inmediata del plan, limpieza y desinfección. [1]'
+  - 'En torres, desde 10.000 UFC/L, y en spas y otras instalaciones desde 1.000 UFC/L: parada de la instalación. [1]'
+  - 'Tras la limpieza y desinfección, nueva Legionella en puntos representativos entre 15 y 30 días después. [2]'
   - 'Todo queda en el registro de la instalación: es lo primero que pide una inspección.'
 sources:
   - title: 'Real Decreto 487/2022, anexo VIII: niveles de actuación. BOE'
@@ -21,7 +21,7 @@ faq:
   - q: ¿Hay que cerrar la instalación?
     a: Depende del nivel y del tipo de instalación. Una torre se para a partir de 10.000 UFC/L, y un spa u otra instalación a partir de 1.000 UFC/L. En agua sanitaria, desde 1.000 UFC/L se revisa el plan y se limpia y desinfecta.
   - q: ¿Cuándo se repite el análisis?
-    a: Entre 15 y 30 días después de la limpieza y desinfección, según el anexo V del RD 487/2022. La qPCR permite saber antes, en uno o dos días, si la desinfección ha funcionado.
+    a: Entre 15 y 30 días después de la limpieza y desinfección, según el anexo V del RD 487/2022. Ese análisis debe hacerse por cultivo, y la qPCR no lo sustituye.
   - q: ¿Un positivo bajo en un grifo es tan grave como en el depósito?
     a: No tiene el mismo significado. Un recuento en el depósito o en el retorno apunta a toda la instalación; uno aislado en un punto terminal puede deberse a ese punto. Por eso importan el nivel y el porcentaje de muestras positivas.
 ---

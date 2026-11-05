@@ -30,10 +30,12 @@ Abre http://localhost:4321. Los cambios se ven al guardar.
 | Un análisis o servicio                                     | `src/content/servicios/<nombre>.md`                       |
 | Un sector (para quién)                                     | `src/content/sectores/<nombre>.md`                        |
 | Una guía o artículo                                        | `src/content/guias/<nombre>.md`                           |
+| Páginas por norma (RD 487/2022, RD 3/2023, piscinas)       | `src/content/normativa.yaml`                              |
+| Frecuencias de análisis (calculadora y tabla resumen)      | `src/data/frecuencias.ts`                                 |
 | Preguntas frecuentes generales                             | `src/content/faq.yaml`                                    |
 | Ventajas, pasos y plazos de la portada y "Cómo trabajamos" | `src/data/home.ts`                                        |
 | Textos legales                                             | `src/pages/aviso-legal.md`, `privacidad.md`, `cookies.md` |
-| Imagen al compartir en redes (general y una por guía)      | `npm run og` (ejecútalo al crear o renombrar una guía)    |
+| Imagen al compartir en redes (una por ficha y norma)       | `npm run og` (ejecútalo al crear o renombrar una ficha)   |
 | Rastreadores de IA permitidos                              | `src/pages/robots.txt.ts`                                 |
 | PDF de informe de ejemplo y cadena de custodia             | `npm run descargables` (los genera desde sus páginas)     |
 | Teléfono, WhatsApp y analítica sin cookies                 | `src/config/site.ts` → `contact` y `analytics`            |

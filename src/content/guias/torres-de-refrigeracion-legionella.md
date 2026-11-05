@@ -7,10 +7,10 @@ updated: 2026-11-05
 services: ['legionella', 'torres-y-calderas', 'legionella-qpcr']
 tags: ['Legionella', 'torres', 'normativa', 'RD 487/2022']
 keyPoints:
-  - 'Legionella y hierro cada mes; aerobios cada trimestre; conductividad cada mes (anexo V, tabla 3).'
-  - 'pH, temperatura y biocida se controlan a diario y la turbidez cada semana.'
-  - 'Al menos un punto por muestreo: el retorno o, si no, el depósito o la balsa.'
-  - 'Limpieza y desinfección al menos dos veces al año, preferiblemente al comienzo de la primavera y del otoño.'
+  - 'Legionella y hierro cada mes; aerobios cada trimestre; conductividad cada mes (anexo V, tabla 3). [1]'
+  - 'pH, temperatura y biocida se controlan a diario y la turbidez cada semana. [1]'
+  - 'Al menos un punto por muestreo: el retorno o, si no, el depósito o la balsa. [1]'
+  - 'Limpieza y desinfección al menos dos veces al año, preferiblemente al comienzo de la primavera y del otoño. [2]'
   - 'A partir de 10.000 UFC/L de Legionella se para la instalación.'
 sources:
   - title: 'Real Decreto 487/2022, anexo V: frecuencias y puntos de muestreo. BOE'

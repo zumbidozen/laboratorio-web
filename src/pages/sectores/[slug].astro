@@ -7,7 +7,7 @@ import Card from '@/components/Card.astro';
 import Faq from '@/components/Faq.astro';
 import CtaBanner from '@/components/CtaBanner.astro';
 import RelatedGuides from '@/components/RelatedGuides.astro';
-import { getSectores, sectorUrl, servicioUrl } from '@/lib/content';
+import { getSectores, sectorUrl, servicioUrl, ogImageFor } from '@/lib/content';
 import { faqPage } from '@/lib/schema';
 
 export const getStaticPaths = (async () => {
@@ -25,6 +25,7 @@ const href = sectorUrl(entry);
 <BaseLayout
   title={data.title}
   description={data.description}
+  image={ogImageFor('sectores', entry.id)}
   updated={data.updated}
   breadcrumbs={[
     { name: 'Para quién', href: '/sectores/' },

@@ -7,11 +7,11 @@ updated: 2026-11-05
 services: ['legionella', 'legionella-qpcr', 'planes-legionella', 'torres-y-calderas']
 tags: ['Legionella', 'normativa', 'RD 487/2022']
 keyPoints:
-  - 'Cada instalación de riesgo necesita un plan de prevención y control (PPCL) o un plan sanitario frente a Legionella (PSL).'
-  - 'Legionella cada mes en torres y condensadores, y cada trimestre en agua sanitaria caliente y fría (anexo V, tabla 3).'
-  - 'El cultivo debe hacerlo un laboratorio acreditado según UNE-EN ISO/IEC 17025 desde el 2 de enero de 2025.'
-  - 'Hasta el 1 de enero de 2030 la muestra puede tomarla personal propio; después, solo una entidad acreditada para la toma.'
-  - 'Tras una limpieza y desinfección hay que volver a analizar Legionella entre 15 y 30 días después.'
+  - 'Cada instalación de riesgo necesita un plan de prevención y control (PPCL) o un plan sanitario frente a Legionella (PSL). [1]'
+  - 'Legionella cada mes en torres y condensadores, y cada trimestre en agua sanitaria caliente y fría (anexo V, tabla 3). [2]'
+  - 'El cultivo debe hacerlo un laboratorio acreditado según UNE-EN ISO/IEC 17025 desde el 2 de enero de 2025. [1]'
+  - 'Hasta el 1 de enero de 2030 la muestra puede tomarla personal propio; después, solo una entidad acreditada para la toma. [3]'
+  - 'Tras una limpieza y desinfección hay que volver a analizar Legionella entre 15 y 30 días después. [2]'
 sources:
   - title: 'Real Decreto 487/2022, de 21 de junio (texto consolidado). BOE'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2022-10297'
@@ -21,7 +21,7 @@ sources:
     url: 'https://www.sanidad.gob.es/areas/sanidadAmbiental/calidadAguas/legionelosis/docs/preguntasRespuestasLegionella_7082024.pdf'
 faq:
   - q: ¿Qué método de análisis pide el RD 487/2022?
-    a: El cultivo según la norma ISO 11731, en un laboratorio acreditado para ese ensayo. La qPCR se admite como método complementario, por ejemplo tras una desinfección o ante un brote.
+    a: El cultivo según la norma ISO 11731, en un laboratorio acreditado para ese ensayo. La qPCR solo se admite como complemento del cultivo en las situaciones del anexo VII, como la investigación de casos o de un brote.
   - q: ¿Qué cambió el RD 614/2024?
     a: Modificó el RD 487/2022. Entre otros puntos, exige que la toma de muestras para cultivo de Legionella la haga una entidad acreditada, con un periodo transitorio hasta 2030, y obligó a actualizar los planes antes del 1 de julio de 2025.
   - q: ¿Cuántos puntos hay que muestrear en agua caliente sanitaria?

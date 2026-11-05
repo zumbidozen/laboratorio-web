@@ -1,0 +1,344 @@
+---
+/**
+ * Página por norma: reúne ideas clave, frecuencias, fechas, guías y análisis de una norma.
+ * Contenido: src/content/normativa.yaml. Versión .md: /normativa/<id>.md
+ */
+import type { GetStaticPaths } from 'astro';
+import { getEntries } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import Card from '@/components/Card.astro';
+import Faq from '@/components/Faq.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import Icon from '@/components/Icon.astro';
+import FrequencyTables from '@/components/FrequencyTables.astro';
+import {
+  getGuias,
+  getNormativa,
+  guiasDeNorma,
+  guiaUrl,
+  normaUrl,
+  servicioUrl,
+  formatDate,
+  isoDate,
+  ogImageFor,
+} from '@/lib/content';
+import { hitos } from '@/data/calendario';
+import { collectionPage, faqPage } from '@/lib/schema';
+
+export const getStaticPaths = (async () => {
+  const [normas, guias] = await Promise.all([getNormativa(), getGuias()]);
+  return normas.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry, guias: guiasDeNorma(entry, guias) },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry, guias } = Astro.props;
+const { data } = entry;
+const href = normaUrl(entry);
+const servicios = await getEntries(data.services);
+const fechas = hitos.filter((h) => data.calendar.some((c) => h.source.includes(c)));
+const today = new Date().toISOString().slice(0, 10);
+const soon = (s: (typeof servicios)[number]) =>
+  s.data.status === 'proximamente'
+    ? `Próximamente${s.data.availableFrom ? ` · ${s.data.availableFrom}` : ''}`
+    : undefined;
+---
+
+<BaseLayout
+  title={data.title}
+  description={data.description}
+  image={ogImageFor('normativa', entry.id)}
+  updated={data.updated}
+  breadcrumbs={[
+    { name: 'Normativa', href: '/normativa/' },
+    { name: data.norma, href },
+  ]}
+  schema={[
+    collectionPage({
+      title: data.title,
+      description: data.description,
+      href,
+      updated: data.updated,
+      legislation: { name: data.norma, url: data.boe },
+      parts: guias.map((g) => ({ title: g.data.title, href: guiaUrl(g) })),
+    }),
+    faqPage(data.faq),
+  ]}
+>
+  <PageHeader
+    eyebrow={`Normativa · ${data.topic}`}
+    icon={data.icon}
+    title={data.title}
+    summary={data.summary}
+  >
+    <p class="meta">
+      <a href={data.boe} rel="noopener" target="_blank">
+        {data.norma}: texto consolidado en el BOE <Icon name="arrow-right" />
+      </a>
+      <span>
+        Revisada el <time datetime={isoDate(data.updated)}>{formatDate(data.updated)}</time>
+      </span>
+    </p>
+  </PageHeader>
+
+  <section class="section section--tight">
+    <div class="container top">
+      <div class="essentials">
+        <h2>Lo esencial</h2>
+        <ul class="checklist">
+          {data.keyPoints.map((k) => (
+            <li>
+              <Icon name="check" />
+              <span>{k}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <nav class="jump" aria-label="En esta página" data-pagefind-ignore>
+        <p class="jump__title">En esta página</p>
+        <ol>
+          {data.frequencies.length > 0 && (
+            <li>
+              <a href="#frecuencias">Frecuencias de análisis</a>
+            </li>
+          )}
+          {fechas.length > 0 && (
+            <li>
+              <a href="#fechas">Fechas clave</a>
+            </li>
+          )}
+          <li>
+            <a href="#guias">Guías ({guias.length})</a>
+          </li>
+          <li>
+            <a href="#analisis">Análisis</a>
+          </li>
+        </ol>
+        <a class="jump__cta" href="/calculadora/">
+          <Icon name="gauge" />
+          <span>
+            ¿Cuántas muestras te tocan al año? <strong>Calcúlalo</strong>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </section>
+
+  {data.frequencies.length > 0 && (
+    <section class="section section--alt" id="frecuencias">
+      <div class="container">
+        <div class="section-head">
+          <h2>Frecuencias de análisis</h2>
+          <p class="lead">
+            Los mínimos de la norma, con su fuente. Todas las tablas juntas, en{' '}
+            <a href="/frecuencias-de-analisis/">frecuencias de análisis de agua</a>.
+          </p>
+        </div>
+        <FrequencyTables blocks={data.frequencies} level={3} linkToReference />
+      </div>
+    </section>
+  )}
+
+  {fechas.length > 0 && (
+    <section class="section" id="fechas">
+      <div class="container">
+        <div class="section-head">
+          <h2>Fechas clave</h2>
+          <p class="lead">
+            Del <a href="/calendario-normativo/">calendario normativo</a>, con su fuente en el BOE.
+          </p>
+        </div>
+        <ol class="dates">
+          {fechas.map((h) => (
+            <li class:list={['date', { 'date--past': h.date < today }]}>
+              <time datetime={h.date}>{formatDate(new Date(h.date))}</time>
+              <div>
+                <h3>{h.title}</h3>
+                <p>{h.text}</p>
+                <p class="date__src">
+                  <a href={h.sourceUrl} rel="noopener" target="_blank">
+                    {h.source}
+                  </a>
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )}
+
+  <section class="section section--alt" id="guias">
+    <div class="container">
+      <div class="section-head">
+        <h2>Guías sobre {data.topic.toLowerCase()}</h2>
+      </div>
+      <div class="grid">
+        {guias.map((g) => (
+          <Card
+            href={guiaUrl(g)}
+            title={g.data.title}
+            text={g.data.description}
+            icon="file"
+            cta="Leer la guía"
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="analisis">
+    <div class="container">
+      <div class="section-head">
+        <h2>Análisis relacionados</h2>
+      </div>
+      <div class="grid">
+        {servicios.map((s) => (
+          <Card
+            href={servicioUrl(s)}
+            title={s.data.name}
+            text={s.data.summary}
+            icon={s.data.icon}
+            badge={soon(s)}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {data.faq.length > 0 && (
+    <section class="section section--alt">
+      <div class="container">
+        <Faq items={data.faq} split />
+      </div>
+    </section>
+  )}
+
+  <CtaBanner />
+</BaseLayout>
+
+<style>
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.5rem;
+    margin-top: var(--space-3);
+    font-size: 0.92rem;
+    color: var(--color-text-muted);
+  }
+  .meta a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--color-accent-strong);
+    font-weight: 500;
+  }
+  .meta :global(svg) {
+    width: 1rem;
+    height: 1rem;
+  }
+  .top {
+    display: grid;
+    gap: var(--space-5);
+  }
+  @media (min-width: 960px) {
+    .top {
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+  .essentials {
+    padding: 1.5rem 1.75rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+  .essentials h2 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: var(--space-3);
+  }
+  .jump {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .jump__title {
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent-strong);
+  }
+  .jump ol {
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.35rem;
+  }
+  .jump ol a {
+    color: var(--color-text);
+  }
+  .jump__cta {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  .jump__cta:hover {
+    border-color: var(--color-accent);
+  }
+  .jump__cta :global(svg) {
+    flex: none;
+    width: 1.3rem;
+    height: 1.3rem;
+    color: var(--color-accent-strong);
+  }
+  section[id] {
+    scroll-margin-top: 4rem;
+  }
+  .dates {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-4);
+    max-width: var(--container-text);
+  }
+  .date {
+    display: grid;
+    gap: 0.3rem 1.5rem;
+    padding-left: 1.1rem;
+    border-left: 2px solid var(--color-accent);
+  }
+  @media (min-width: 720px) {
+    .date {
+      grid-template-columns: 11rem minmax(0, 1fr);
+    }
+  }
+  .date--past {
+    border-left-color: var(--color-border);
+  }
+  .date time {
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: var(--color-accent-strong);
+  }
+  .date--past time {
+    color: var(--color-text-muted);
+  }
+  .date h3 {
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+  .date p {
+    color: var(--color-text-muted);
+  }
+  .date__src {
+    font-size: 0.88rem;
+  }
+  .date__src a {
+    color: var(--color-accent-strong);
+  }
+</style>

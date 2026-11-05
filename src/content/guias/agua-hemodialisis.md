@@ -7,11 +7,11 @@ updated: 2026-11-05
 services: ['otros-analisis']
 tags: ['hemodiálisis', 'endotoxinas', 'normativa']
 keyPoints:
-  - 'Agua purificada: menos de 100 UFC/mL y endotoxinas por debajo de 0,25 UE/mL.'
-  - 'Nivel de actuación: el 50 % del límite, más de 50 UFC/mL.'
-  - 'Agua ultrapura: menos de 0,1 UFC/mL y menos de 0,03 UE/mL.'
-  - 'Cultivo en medio R2A, 7 días entre 17 y 23 °C.'
-  - 'Microbiología semanal el primer mes y después al menos mensual; endotoxinas, mensual.'
+  - 'Agua purificada: menos de 100 UFC/mL y endotoxinas por debajo de 0,25 UE/mL. [1]'
+  - 'Nivel de actuación: el 50 % del límite, más de 50 UFC/mL. [1]'
+  - 'Agua ultrapura: menos de 0,1 UFC/mL y menos de 0,03 UE/mL. [1]'
+  - 'Cultivo en medio R2A, 7 días entre 17 y 23 °C. [1]'
+  - 'Microbiología semanal el primer mes y después al menos mensual; endotoxinas, mensual. [1]'
 sources:
   - title: 'Guía de gestión de calidad del líquido de diálisis, 2.ª ed. Sociedad Española de Nefrología (Nefrología 2016;36(3))'
     url: 'https://revistanefrologia.com/es-guia-gestion-calidad-del-liquido-dialisis-ld-segunda-edicion-2015--articulo-S0211699516000047'

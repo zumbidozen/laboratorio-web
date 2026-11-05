@@ -1,7 +1,5 @@
 ---
 import type { GetStaticPaths } from 'astro';
-import { existsSync } from 'node:fs';
-import { join } from 'node:path';
 import { render, getEntries } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
@@ -10,7 +8,15 @@ import Faq from '@/components/Faq.astro';
 import LeadMagnet from '@/components/LeadMagnet.astro';
 import Icon from '@/components/Icon.astro';
 import ReadingProgress from '@/components/ReadingProgress.astro';
-import { getGuias, guiaUrl, servicioUrl, formatDate, isoDate } from '@/lib/content';
+import {
+  getGuias,
+  guiaUrl,
+  servicioUrl,
+  formatDate,
+  isoDate,
+  keyPoints,
+  ogImageFor,
+} from '@/lib/content';
 import { article, faqPage } from '@/lib/schema';
 
 export const getStaticPaths = (async () => {
@@ -35,10 +41,9 @@ const words = (entry.body ?? '').split(/\s+/).filter(Boolean).length;
 const minutes = Math.max(2, Math.round(words / 200));
 const services = await getEntries(data.services);
 const href = guiaUrl(entry);
+const points = keyPoints(entry);
 // Imagen para redes propia de la guía (la genera `npm run og`); si no existe, la general.
-const ogImage = existsSync(join(process.cwd(), 'public/og/guias', `${entry.id}.png`))
-  ? `/og/guias/${entry.id}.png`
-  : undefined;
+const ogImage = ogImageFor('guias', entry.id);
 ---
 
 <BaseLayout
@@ -64,6 +69,7 @@ const ogImage = existsSync(join(process.cwd(), 'public/og/guias', `${entry.id}.p
       wordCount: words,
       citations: data.sources,
       abstract: data.summary,
+      image: ogImage,
     }),
     faqPage(data.faq),
   ]}
@@ -106,10 +112,20 @@ const ogImage = existsSync(join(process.cwd(), 'public/og/guias', `${entry.id}.p
       <section class="keypoints" aria-labelledby="en-resumen">
         <h2 id="en-resumen">En resumen</h2>
         <ul class="checklist">
-          {data.keyPoints.map((k) => (
-            <li>
+          {points.map((k) => (
+            <li id={k.id} class="kp">
               <Icon name="check" />
-              <span>{k}</span>
+              <span>
+                {k.text}
+                {k.source && (
+                  <a class="kp__src" href={k.source.url} rel="noopener" target="_blank">
+                    Fuente<span class="visually-hidden">: {k.source.title}</span>
+                  </a>
+                )}
+              </span>
+              <a class="kp__link" href={`#${k.id}`}>
+                <Icon name="link" label="Enlace a este dato" />
+              </a>
             </li>
           ))}
         </ul>
@@ -286,6 +302,61 @@ const ogImage = existsSync(join(process.cwd(), 'public/og/guias', `${entry.id}.p
     font-size: 1.2rem;
     font-weight: 500;
     margin-bottom: var(--space-3);
+  }
+  /* Cada idea clave tiene su enlace (#dato-…) y, si la tiene, su fuente al lado. */
+  .kp {
+    position: relative;
+    margin: 0 -0.6rem;
+    padding: 0.35rem 2.4rem 0.35rem 0.6rem;
+    border-radius: var(--radius);
+    scroll-margin-top: 6rem;
+  }
+  .kp:target {
+    background: var(--color-accent-soft);
+  }
+  .kp__src {
+    margin-left: 0.4rem;
+    font-size: 0.82rem;
+    color: var(--color-accent-strong);
+    white-space: nowrap;
+  }
+  .kp__link {
+    position: absolute;
+    top: 0.35rem;
+    right: 0.4rem;
+    display: grid;
+    place-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 999px;
+    color: var(--color-text-subtle);
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .kp .kp__link :global(svg) {
+    width: 1rem;
+    height: 1rem;
+    margin: 0;
+    color: currentColor;
+  }
+  .kp:hover .kp__link,
+  .kp:target .kp__link,
+  .kp__link:focus-visible {
+    opacity: 1;
+  }
+  .kp__link:hover {
+    color: var(--color-text);
+    background: var(--color-bg);
+  }
+  @media (hover: none) {
+    .kp__link {
+      opacity: 1;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .kp__link {
+      transition: none;
+    }
   }
   .prose :global(h2) {
     scroll-margin-top: 6rem;

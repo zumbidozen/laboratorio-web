@@ -1,0 +1,350 @@
+---
+/**
+ * Tablas de frecuencias mínimas de análisis con su fuente en el BOE.
+ * Datos: src/data/frecuencias.ts. Se usa en /frecuencias-de-analisis/ (todas),
+ * en las páginas de cada norma (/normativa/…) y en la calculadora.
+ * Cada bloque y cada fila tienen un ancla estable (#legionella-torre, #grifo-…).
+ */
+import Icon from '@/components/Icon.astro';
+import {
+  BOE,
+  tabla2,
+  tabla3,
+  tabla13,
+  edificiosPrioritarios,
+  piscinas,
+  piscinasParametros,
+} from '@/data/frecuencias';
+
+export type Block = 'legionella' | 'puntos' | 'desinfeccion' | 'grifo' | 'piscinas';
+
+export interface Props {
+  blocks?: Block[];
+  /** Nivel de los títulos de cada bloque. */
+  level?: 2 | 3;
+  /** Fuera de /frecuencias-de-analisis/, enlaza cada bloque a su sitio en esa página. */
+  linkToReference?: boolean;
+}
+
+const {
+  blocks = ['legionella', 'puntos', 'desinfeccion', 'grifo', 'piscinas'],
+  level = 2,
+  linkToReference = false,
+} = Astro.props;
+const H = level === 2 ? 'h2' : 'h3';
+const label = (f: string | null) => (f ? f.charAt(0).toUpperCase() + f.slice(1) : '—');
+const tramo = (i: number) =>
+  i === 0 ? `Hasta ${tabla2[0].max}` : `${tabla2[i - 1].max + 1} a ${tabla2[i].max}`;
+const anchor = (id: string) => (linkToReference ? `/frecuencias-de-analisis/#${id}` : `#${id}`);
+const titles: Record<Block, string> = {
+  legionella: 'Legionella, aerobios y hierro (RD 487/2022)',
+  puntos: 'Puntos de muestreo en agua sanitaria (RD 487/2022)',
+  desinfeccion: 'Después de una limpieza y desinfección (RD 487/2022)',
+  grifo: 'Control en grifo en edificios prioritarios (RD 3/2023)',
+  piscinas: 'Piscinas de uso público (RD 742/2013)',
+};
+---
+
+<div class="freqs">
+  {blocks.includes('legionella') && (
+    <section class="freq" id="legionella" aria-labelledby="legionella-h">
+      <H id="legionella-h" class="freq__title">
+        {titles.legionella}
+        <a class="freq__anchor" href={anchor('legionella')}>
+          <Icon name="link" label="Enlace a esta tabla" />
+        </a>
+      </H>
+      <p class="freq__lead">
+        Mínimos con un plan de prevención y control (PPCL). Con un plan sanitario (PSL) o por
+        criterio de la autoridad sanitaria pueden cambiar. pH, temperatura, turbidez y biocida se
+        miden in situ con más frecuencia.
+      </p>
+      <div class="prose wide">
+        <table tabindex="0" aria-labelledby="legionella-h">
+          <thead>
+            <tr>
+              <th scope="col">Instalación</th>
+              <th scope="col">Legionella</th>
+              <th scope="col">Aerobios</th>
+              <th scope="col">Hierro</th>
+              <th scope="col">Nota</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tabla3.map((r) => (
+              <tr id={`legionella-${r.id}`}>
+                <th scope="row">{r.instalacion}</th>
+                <td>{label(r.legionella)}</td>
+                <td>{label(r.aerobios)}</td>
+                <td>{label(r.hierro)}</td>
+                <td>{r.nota}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="freq__src">
+        Fuente:
+        <a href={BOE.rd487AnexoV} rel="noopener" target="_blank">
+          RD 487/2022, anexo V, tabla 3 (BOE)
+        </a>
+      </p>
+    </section>
+  )}
+
+  {blocks.includes('puntos') && (
+    <section class="freq" id="puntos-de-muestreo" aria-labelledby="puntos-h">
+      <H id="puntos-h" class="freq__title">
+        {titles.puntos}
+        <a class="freq__anchor" href={anchor('puntos-de-muestreo')}>
+          <Icon name="link" label="Enlace a esta tabla" />
+        </a>
+      </H>
+      <p class="freq__lead">
+        En cada muestreo: depósito, acumulador y retorno, si existen, más estos puntos terminales
+        (grifos y duchas). En hoteles y residencias, todos los puntos de una habitación cuentan como
+        uno.
+      </p>
+      <div class="prose">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Puntos terminales de la instalación</th>
+              <th scope="col">Muestras de agua caliente</th>
+              <th scope="col">Muestras de agua fría</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tabla2.map((r, i) => (
+              <tr id={`puntos-hasta-${r.max}`}>
+                <th scope="row">{tramo(i)}</th>
+                <td>{r.caliente}</td>
+                <td>{r.fria}</td>
+              </tr>
+            ))}
+            <tr id="puntos-mas-de-350">
+              <th scope="row">Más de 350</th>
+              <td colspan="2">Se aumenta proporcionalmente</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="freq__src">
+        Fuente:
+        <a href={BOE.rd487AnexoV} rel="noopener" target="_blank">
+          RD 487/2022, anexo V, tabla 2 (BOE)
+        </a>
+        y
+        <a href={BOE.faqSanidad} rel="noopener" target="_blank">
+          preguntas y respuestas del Ministerio de Sanidad
+        </a>
+      </p>
+    </section>
+  )}
+
+  {blocks.includes('desinfeccion') && (
+    <section class="freq" id="tras-desinfeccion" aria-labelledby="desinfeccion-h">
+      <H id="desinfeccion-h" class="freq__title">
+        {titles.desinfeccion}
+        <a class="freq__anchor" href={anchor('tras-desinfeccion')}>
+          <Icon name="link" label="Enlace a este dato" />
+        </a>
+      </H>
+      <p class="freq__lead">
+        Nueva determinación de Legionella en puntos representativos de la instalación{' '}
+        <strong>entre 15 y 30 días después</strong> de la limpieza y desinfección. En torres de
+        refrigeración, además, limpieza y desinfección preventiva al menos dos veces al año.
+      </p>
+      <p class="freq__src">
+        Fuente:
+        <a href={BOE.rd487AnexoV} rel="noopener" target="_blank">
+          RD 487/2022, anexos IV y V (BOE)
+        </a>
+      </p>
+    </section>
+  )}
+
+  {blocks.includes('grifo') && (
+    <section class="freq" id="control-en-grifo" aria-labelledby="grifo-h">
+      <H id="grifo-h" class="freq__title">
+        {titles.grifo}
+        <a class="freq__anchor" href={anchor('control-en-grifo')}>
+          <Icon name="link" label="Enlace a esta tabla" />
+        </a>
+      </H>
+      <p class="freq__lead">
+        Incluye E. coli, recuento de colonias a 22 °C, color, turbidez, pH, conductividad, cloro
+        libre residual, plomo y, en los edificios prioritarios, Legionella. Número mínimo de
+        análisis al año según los puntos de acceso al agua:
+      </p>
+      <div class="prose">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Puntos de acceso al agua</th>
+              <th scope="col">Análisis al año</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="grifo-menos-de-50">
+              <th scope="row">Menos de 50</th>
+              <td>{tabla13[0].analisis}</td>
+            </tr>
+            <tr id="grifo-50-a-100">
+              <th scope="row">De 50 a 100</th>
+              <td>{tabla13[1].analisis}</td>
+            </tr>
+            <tr id="grifo-100-a-200">
+              <th scope="row">De 100 a 200</th>
+              <td>{tabla13[2].analisis}</td>
+            </tr>
+            <tr id="grifo-mas-de-200">
+              <th scope="row">Más de 200</th>
+              <td>6 por los primeros 200 y 1 más por cada 100 o fracción</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <details class="freq__more" id="edificios-prioritarios">
+        <summary>Qué es un edificio prioritario</summary>
+        <ul>
+          {edificiosPrioritarios.map((e) => (
+            <li>{e}</li>
+          ))}
+        </ul>
+      </details>
+      <p class="freq__src">
+        Fuente:
+        <a href={BOE.rd3} rel="noopener" target="_blank">
+          RD 3/2023, anexo II (tabla 13) y anexo VIII (BOE)
+        </a>
+      </p>
+    </section>
+  )}
+
+  {blocks.includes('piscinas') && (
+    <section class="freq" id="piscinas" aria-labelledby="piscinas-h">
+      <H id="piscinas-h" class="freq__title">
+        {titles.piscinas}
+        <a class="freq__anchor" href={anchor('piscinas')}>
+          <Icon name="link" label="Enlace a esta tabla" />
+        </a>
+      </H>
+      <p class="freq__lead">
+        En laboratorio, en el control inicial y en el periódico: {piscinasParametros}. En los vasos
+        climatizados con aerosolización (spa, hidromasaje), además Legionella: menos de 100 UFC/L.
+      </p>
+      <div class="prose">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Control</th>
+              <th scope="col">Cuándo</th>
+              <th scope="col">Dónde</th>
+            </tr>
+          </thead>
+          <tbody>
+            {piscinas.map((r) => (
+              <tr id={`piscinas-${r.id}`}>
+                <th scope="row">{r.control}</th>
+                <td>{r.cuando}</td>
+                <td>{r.donde}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="freq__src">
+        Fuente:
+        <a href={BOE.rd742AnexoIII} rel="noopener" target="_blank">
+          RD 742/2013, anexos I y III (BOE)
+        </a>
+        <span>
+          En la Comunidad de Madrid, el Decreto 99/2024 ya no exige Staphylococcus aureus.
+        </span>
+      </p>
+    </section>
+  )}
+</div>
+
+<style>
+  .freqs {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-5);
+  }
+  /* minmax(0, 1fr): en móvil la tabla ancha se desplaza dentro de su caja, no desborda la página. */
+  .freq {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3);
+    scroll-margin-top: 6rem;
+  }
+  .freq__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: clamp(1.3rem, 2.4vw, 1.6rem);
+    font-weight: 400;
+  }
+  .freq__anchor {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 999px;
+    color: var(--color-text-subtle);
+  }
+  .freq__anchor:hover,
+  .freq__anchor:focus-visible {
+    color: var(--color-text);
+    background: var(--color-surface);
+  }
+  .freq__anchor :global(svg) {
+    width: 1rem;
+    height: 1rem;
+  }
+  .freq__lead {
+    max-width: var(--container-text);
+    color: var(--color-text-muted);
+  }
+  .freq__src {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+  .freq__src a {
+    color: var(--color-accent-strong);
+  }
+  .wide {
+    max-width: none;
+  }
+  /* Cabecera de fila: como una celda, en negrita suave (la de columna sigue en gris). */
+  .freq tbody th {
+    background: none;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+  .freq tr:last-child th {
+    border-bottom: 0;
+  }
+  .freq tr {
+    scroll-margin-top: 6rem;
+  }
+  .freq tr:target {
+    background: var(--color-accent-soft);
+  }
+  .freq__more {
+    max-width: var(--container-text);
+  }
+  .freq__more summary {
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .freq__more ul {
+    margin-top: 0.5rem;
+    padding-left: 1.2rem;
+    color: var(--color-text-muted);
+  }
+</style>

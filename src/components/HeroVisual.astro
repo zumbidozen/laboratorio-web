@@ -320,24 +320,43 @@ import Icon from '@/components/Icon.astro';
   }
 
   @media (prefers-color-scheme: dark) {
-    .float {
+    :global(:root:not([data-theme='light'])) .float {
       background: rgb(7 42 66 / 0.72);
       border-color: rgb(255 255 255 / 0.12);
       color: #fff;
     }
-    .float__text,
-    .float__kicker {
+    :global(:root:not([data-theme='light'])) .float__text,
+    :global(:root:not([data-theme='light'])) .float__kicker {
       color: #b9cddb;
     }
-    .float__text strong {
+    :global(:root:not([data-theme='light'])) .float__text strong {
       color: #fff;
     }
-    .visual__orb--a {
+    :global(:root:not([data-theme='light'])) .visual__orb--a {
       background: radial-gradient(circle at 35% 35%, #11546a, #0c4257 45%, transparent 70%);
     }
-    .visual__orb--b {
+    :global(:root:not([data-theme='light'])) .visual__orb--b {
       background: radial-gradient(circle at 50% 50%, #0f3d5c, transparent 70%);
     }
+  }
+
+  :global(:root[data-theme='dark']) .float {
+    background: rgb(7 42 66 / 0.72);
+    border-color: rgb(255 255 255 / 0.12);
+    color: #fff;
+  }
+  :global(:root[data-theme='dark']) .float__text,
+  :global(:root[data-theme='dark']) .float__kicker {
+    color: #b9cddb;
+  }
+  :global(:root[data-theme='dark']) .float__text strong {
+    color: #fff;
+  }
+  :global(:root[data-theme='dark']) .visual__orb--a {
+    background: radial-gradient(circle at 35% 35%, #11546a, #0c4257 45%, transparent 70%);
+  }
+  :global(:root[data-theme='dark']) .visual__orb--b {
+    background: radial-gradient(circle at 50% 50%, #0f3d5c, transparent 70%);
   }
 
   @media (prefers-reduced-motion: no-preference) {

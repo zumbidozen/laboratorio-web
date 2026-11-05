@@ -7,10 +7,10 @@ updated: 2026-11-05
 services: ['otros-analisis', 'agua-de-consumo']
 tags: ['agua de consumo', 'pozo', 'RD 3/2023']
 keyPoints:
-  - 'Zona tipo 0: menos de 10 m³/día y sin actividad pública o comercial. Es la autoridad sanitaria la que decide qué debe cumplir.'
-  - 'Zona tipo 1: menos de 10 m³/día con actividad pública o comercial (hotel rural, camping, gasolinera con restaurante).'
-  - 'En Madrid, para la zona tipo 1: análisis de control cada año y análisis completo al inicio y cada 5 años.'
-  - 'Valores clave: E. coli 0 UFC/100 mL y nitratos hasta 50 mg/L.'
+  - 'Zona tipo 0: menos de 10 m³/día y sin actividad pública o comercial. Es la autoridad sanitaria la que decide qué debe cumplir. [2]'
+  - 'Zona tipo 1: menos de 10 m³/día con actividad pública o comercial (hotel rural, camping, gasolinera con restaurante). [1]'
+  - 'En Madrid, para la zona tipo 1: análisis de control cada año y análisis completo al inicio y cada 5 años. [3]'
+  - 'Valores clave: E. coli 0 UFC/100 mL y nitratos hasta 50 mg/L. [1]'
 sources:
   - title: 'Real Decreto 3/2023, arts. 2 y 3 y anexos I y II. BOE'
     url: 'https://www.boe.es/buscar/act.php?id=BOE-A-2023-628'

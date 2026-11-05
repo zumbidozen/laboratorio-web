@@ -9,10 +9,10 @@ import LeadMagnet from '@/components/LeadMagnet.astro';
 import Icon from '@/components/Icon.astro';
 import Faq from '@/components/Faq.astro';
 import PetriDish from '@/components/PetriDish.astro';
-import { BOE, tabla2, tabla3, tabla13, edificiosPrioritarios, perYear } from '@/data/frecuencias';
+import FrequencyTables from '@/components/FrequencyTables.astro';
+import { tabla2, tabla13, perYear } from '@/data/frecuencias';
 import { faqPage } from '@/lib/schema';
 
-const label = (f: string | null) => (f ? f.charAt(0).toUpperCase() + f.slice(1) : '—');
 const data = { tabla2, tabla13, perYear };
 
 const faq = [
@@ -278,91 +278,13 @@ const faq = [
     <div class="container">
       <div class="section-head">
         <p class="eyebrow">Referencia</p>
-        <h2>Frecuencias mínimas del RD 487/2022</h2>
+        <h2>Frecuencias mínimas en las que se basa el cálculo</h2>
         <p class="lead">
-          Tabla 3 del anexo V, parámetros que se analizan en laboratorio. pH, temperatura, turbidez
-          y biocida se miden in situ con más frecuencia.
-          <a href={BOE.rd487AnexoV} rel="noopener" target="_blank">
-            Ver en el BOE
-          </a>
-          .
+          Con su fuente en el BOE. Todas las tablas, también las de piscinas, en{' '}
+          <a href="/frecuencias-de-analisis/">frecuencias de análisis de agua</a>.
         </p>
       </div>
-      <div class="prose wide">
-        <table>
-          <thead>
-            <tr>
-              <th>Instalación</th>
-              <th>Legionella</th>
-              <th>Aerobios</th>
-              <th>Hierro</th>
-              <th>Nota</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tabla3.map((r) => (
-              <tr>
-                <td>{r.instalacion}</td>
-                <td>{label(r.legionella)}</td>
-                <td>{label(r.aerobios)}</td>
-                <td>{label(r.hierro)}</td>
-                <td>{r.nota}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <div class="refs">
-        <div class="prose">
-          <h3>Puntos terminales por muestreo (tabla 2)</h3>
-          <p>
-            Agua sanitaria de uso colectivo. Además: depósito, acumulador y retorno, si existen.
-          </p>
-          <table>
-            <thead>
-              <tr>
-                <th>Puntos terminales</th>
-                <th>Caliente</th>
-                <th>Fría</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tabla2.map((r, i) => (
-                <tr>
-                  <td>{i === 0 ? `Hasta ${r.max}` : `${tabla2[i - 1].max + 1}–${r.max}`}</td>
-                  <td>{r.caliente}</td>
-                  <td>{r.fria}</td>
-                </tr>
-              ))}
-              <tr>
-                <td>Más de 350</td>
-                <td colspan="2">Aumentar proporcionalmente</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="prose">
-          <h3>Edificios prioritarios (RD 3/2023)</h3>
-          <p>
-            Anexo VIII. Hacen control en grifo con Legionella:
-            <a href={BOE.rd3} rel="noopener" target="_blank">
-              ver en el BOE
-            </a>
-            .
-          </p>
-          <ul>
-            {edificiosPrioritarios.map((e) => (
-              <li>{e}</li>
-            ))}
-          </ul>
-          <p>
-            Análisis al año (anexo II, tabla 13): {tabla13[0].analisis} con menos de 50 puntos de
-            acceso; {tabla13[1].analisis} entre 50 y 100; {tabla13[2].analisis} entre 100 y 200; y
-            por encima de 200, uno más por cada 100 puntos o fracción.
-          </p>
-        </div>
-      </div>
+      <FrequencyTables blocks={['legionella', 'puntos', 'grifo']} level={3} linkToReference />
     </div>
   </section>
 
@@ -952,19 +874,6 @@ const faq = [
   .fine {
     font-size: 0.78rem;
     color: var(--color-text-muted);
-  }
-  .wide {
-    max-width: none;
-  }
-  .refs {
-    display: grid;
-    gap: var(--space-5);
-    margin-top: var(--space-5);
-  }
-  @media (min-width: 900px) {
-    .refs {
-      grid-template-columns: 1fr 1fr;
-    }
   }
   .calc__empty {
     display: flex;

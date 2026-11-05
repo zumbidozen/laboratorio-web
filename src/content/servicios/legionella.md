@@ -46,4 +46,4 @@ El cultivo de Legionella es el ensayo de referencia que exige el **RD 487/2022**
 
 ## Quién firma el ensayo
 
-Mientras completamos nuestra acreditación, el cultivo de Legionella lo realiza y firma un laboratorio acreditado por ENAC para ese ensayo, identificado en cada informe. Tú trabajas con nosotros igual: un solo pedido, un solo portal y una sola factura.
+Los ensayos que requieren acreditación, como el cultivo de Legionella, los realiza y firma un laboratorio acreditado por ENAC, identificado en cada informe. Tú trabajas con nosotros igual: un solo pedido, un solo portal y una sola factura.
