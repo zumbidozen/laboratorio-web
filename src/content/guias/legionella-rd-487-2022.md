@@ -3,7 +3,7 @@ title: 'RD 487/2022: guía de análisis de Legionella'
 description: 'Guía práctica del RD 487/2022 y el RD 614/2024: qué instalaciones analizar, frecuencias, puntos de muestreo, quién toma y analiza y qué hacer ante un positivo.'
 summary: 'El RD 487/2022 obliga a tener un plan de prevención y control de Legionella en cada instalación de riesgo y a analizar Legionella por cultivo en laboratorio acreditado: cada mes en torres de refrigeración y cada trimestre en agua caliente y fría sanitaria.'
 published: 2026-11-05
-updated: 2026-11-06
+updated: 2026-11-05
 services: ['legionella', 'legionella-qpcr', 'planes-legionella', 'torres-y-calderas']
 tags: ['Legionella', 'normativa', 'RD 487/2022']
 keyPoints:

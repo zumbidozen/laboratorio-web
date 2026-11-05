@@ -2,8 +2,8 @@
 title: 'Torres de refrigeración: qué analizar y cada cuánto'
 description: 'Análisis obligatorios en torres de refrigeración y condensadores según el RD 487/2022: Legionella mensual, hierro, aerobios, conductividad, puntos y limpiezas.'
 summary: 'Una torre de refrigeración o un condensador evaporativo debe analizar Legionella y hierro cada mes, aerobios cada trimestre y conductividad cada mes, tomando la muestra en el retorno o en la balsa, y limpiarse y desinfectarse al menos dos veces al año.'
-published: 2026-11-06
-updated: 2026-11-06
+published: 2026-11-05
+updated: 2026-11-05
 services: ['legionella', 'torres-y-calderas', 'legionella-qpcr']
 tags: ['Legionella', 'torres', 'normativa', 'RD 487/2022']
 keyPoints:

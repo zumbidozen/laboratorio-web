@@ -2,8 +2,8 @@
 title: 'Positivo de Legionella: qué hacer paso a paso'
 description: 'Qué hacer cuando un análisis de Legionella sale positivo: niveles de actuación del RD 487/2022, desinfección, nuevo análisis a los 15–30 días y registro.'
 summary: 'Ante un positivo de Legionella hay que aplicar las medidas que fija el anexo VIII del RD 487/2022 para ese nivel y tipo de instalación, limpiar y desinfectar cuando toca, repetir el análisis entre 15 y 30 días después y dejarlo todo registrado.'
-published: 2026-11-06
-updated: 2026-11-06
+published: 2026-11-05
+updated: 2026-11-05
 services: ['legionella', 'legionella-qpcr', 'planes-legionella']
 tags: ['Legionella', 'normativa', 'positivo']
 keyPoints:

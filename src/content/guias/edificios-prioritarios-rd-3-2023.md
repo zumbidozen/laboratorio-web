@@ -2,8 +2,8 @@
 title: 'Edificios prioritarios del RD 3/2023: lista y obligaciones'
 description: 'Qué es un edificio prioritario según el RD 3/2023, la lista del anexo VIII, el control en grifo con Legionella, el Plan Sanitario del Agua y las fechas clave.'
 summary: 'Los edificios prioritarios son los grandes edificios del anexo VIII del RD 3/2023, como hoteles de 500 plazas o residencias y hospitales de 200 camas. Deben hacer control en grifo con Legionella, tener un Plan Sanitario del Agua y estar registrados en SINAC.'
-published: 2026-11-06
-updated: 2026-11-06
+published: 2026-11-05
+updated: 2026-11-05
 services: ['agua-de-consumo', 'legionella', 'planes-legionella']
 tags: ['agua de consumo', 'edificios prioritarios', 'normativa', 'RD 3/2023']
 keyPoints:

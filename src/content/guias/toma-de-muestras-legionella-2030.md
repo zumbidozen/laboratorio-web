@@ -2,8 +2,8 @@
 title: 'Toma de muestras de Legionella: quién puede hacerla'
 description: 'Quién puede tomar las muestras de Legionella según el RD 614/2024: personal propio hasta el 1 de enero de 2030 y, después, solo una entidad acreditada.'
 summary: 'Hasta el 1 de enero de 2030, la muestra para el cultivo de Legionella puede tomarla personal de la propia empresa siguiendo el anexo VI del RD 487/2022. Desde esa fecha, solo una entidad acreditada para el acto de la toma según UNE-EN ISO/IEC 17025.'
-published: 2026-11-06
-updated: 2026-11-06
+published: 2026-11-05
+updated: 2026-11-05
 services: ['legionella', 'toma-de-muestras']
 tags: ['Legionella', 'normativa', 'toma de muestras', 'RD 614/2024']
 keyPoints:

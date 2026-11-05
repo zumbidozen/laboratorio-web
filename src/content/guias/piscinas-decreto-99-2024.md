@@ -2,8 +2,8 @@
 title: 'Piscinas en Madrid: análisis según el Decreto 99/2024'
 description: 'Controles de agua que piden el RD 742/2013 y el Decreto 99/2024 a las piscinas de Madrid: inicial, rutina diaria, control mensual y Legionella en spas.'
 summary: 'Una piscina de uso público hace un control inicial en la quincena antes de abrir, un control de rutina diario in situ y un control periódico mensual en laboratorio, con E. coli y Pseudomonas aeruginosa. En Madrid, el Decreto 99/2024 dejó de exigir Staphylococcus aureus.'
-published: 2026-11-06
-updated: 2026-11-06
+published: 2026-11-05
+updated: 2026-11-05
 services: ['piscinas', 'legionella']
 tags: ['piscinas', 'normativa', 'RD 742/2013']
 keyPoints:

@@ -3,7 +3,7 @@ title: 'Control en grifo del RD 3/2023: parámetros y frecuencia'
 description: 'Qué incluye el control en grifo del RD 3/2023, cuántos análisis hace un edificio prioritario, el límite de Legionella y los plazos de notificación en SINAC.'
 summary: 'El control en grifo comprueba la calidad del agua donde se consume. Incluye E. coli, recuento a 22 °C, color, turbidez, pH, conductividad, cloro libre residual y plomo, y en los edificios prioritarios también Legionella, de 2 a 6 veces al año o más según los puntos de acceso al agua.'
 published: 2026-11-05
-updated: 2026-11-06
+updated: 2026-11-05
 services: ['agua-de-consumo', 'legionella']
 tags: ['agua de consumo', 'normativa', 'RD 3/2023', 'edificios prioritarios']
 keyPoints:
