@@ -46,7 +46,8 @@ for await (const file of htmlFiles(DIST)) {
   if (h1 !== 1) err(`tiene ${h1} <h1> (debe haber 1)`);
 
   for (const img of html.match(/<img\b[^>]*>/g) ?? [])
-    if (!/\balt=/.test(img)) err(`imagen sin alt: ${img.slice(0, 80)}`);
+    // alt vacío (alt o alt="") es válido para imágenes decorativas.
+    if (!/\salt(=|[\s>])/.test(img)) err(`imagen sin alt: ${img.slice(0, 80)}`);
 
   for (const m of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
     try {
