@@ -5,18 +5,31 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
 import Card from '@/components/Card.astro';
 import Faq from '@/components/Faq.astro';
-import CtaBanner from '@/components/CtaBanner.astro';
+import LeadMagnet from '@/components/LeadMagnet.astro';
+import Icon from '@/components/Icon.astro';
 import { getGuias, guiaUrl, servicioUrl, formatDate, isoDate } from '@/lib/content';
 import { article, faqPage } from '@/lib/schema';
 
 export const getStaticPaths = (async () => {
   const guias = await getGuias();
-  return guias.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+  return guias.map((entry) => {
+    // Relacionadas: primero las que comparten etiquetas, luego las más recientes.
+    const related = guias
+      .filter((g) => g.id !== entry.id)
+      .map((g) => ({ g, score: g.data.tags.filter((t) => entry.data.tags.includes(t)).length }))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 3)
+      .map(({ g }) => g);
+    return { params: { slug: entry.id }, props: { entry, related } };
+  });
 }) satisfies GetStaticPaths;
 
-const { entry } = Astro.props;
+const { entry, related } = Astro.props;
 const { data } = entry;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
+const toc = headings.filter((h) => h.depth === 2);
+const words = (entry.body ?? '').split(/\s+/).filter(Boolean).length;
+const minutes = Math.max(2, Math.round(words / 200));
 const services = await getEntries(data.services);
 const href = guiaUrl(entry);
 ---
@@ -39,25 +52,89 @@ const href = guiaUrl(entry);
       published: data.published,
       updated: data.updated,
       author: data.author,
+      keywords: data.tags,
+      wordCount: words,
+      citations: data.sources,
+      abstract: data.summary,
     }),
     faqPage(data.faq),
   ]}
 >
   <PageHeader eyebrow="Guía" icon="file" title={data.title} summary={data.summary}>
-    <p class="muted byline">
-      {data.author} · Publicada el{' '}
-      <time datetime={isoDate(data.published)}>{formatDate(data.published)}</time>
-      {data.updated > data.published && (
-        <>
-          {' '}
-          · actualizada el <time datetime={isoDate(data.updated)}>{formatDate(data.updated)}</time>
-        </>
-      )}
+    <p class="byline">
+      <span>{data.author}</span>
+      {data.reviewedBy && <span>Revisión técnica: {data.reviewedBy}</span>}
+      <span>
+        Actualizada el <time datetime={isoDate(data.updated)}>{formatDate(data.updated)}</time>
+      </span>
+      <span>{minutes} min de lectura</span>
     </p>
   </PageHeader>
-  <article class="container prose section">
-    <Content />
-  </article>
+
+  <div class="container layout section section--tight">
+    <aside class="side">
+      {toc.length > 2 && (
+        <nav class="toc" aria-label="Índice de la guía">
+          <p class="toc__title">En esta guía</p>
+          <ol>
+            {toc.map((h) => (
+              <li>
+                <a href={`#${h.slug}`}>{h.text}</a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )}
+      <a class="side__cta" href="/calculadora/">
+        <Icon name="gauge" />
+        <span>
+          ¿Cuántas muestras te tocan al año? <strong>Calcúlalo</strong>
+        </span>
+      </a>
+    </aside>
+
+    <article class="main">
+      <section class="keypoints" aria-labelledby="en-resumen">
+        <h2 id="en-resumen">En resumen</h2>
+        <ul class="checklist">
+          {data.keyPoints.map((k) => (
+            <li>
+              <Icon name="check" />
+              <span>{k}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      <section class="sources" aria-labelledby="fuentes">
+        <h2 id="fuentes">Fuentes oficiales</h2>
+        <ul>
+          {data.sources.map((s) => (
+            <li>
+              <a href={s.url} rel="noopener" target="_blank">
+                {s.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p class="muted small">
+          Guía de divulgación. No sustituye al texto oficial ni al plan de prevención y control de
+          cada instalación.
+        </p>
+      </section>
+    </article>
+  </div>
+
+  <section class="section section--tight">
+    <div class="container">
+      <LeadMagnet origin={`guia-${entry.id}`} />
+    </div>
+  </section>
+
   {data.faq.length > 0 && (
     <section class="section section--alt">
       <div class="container">
@@ -65,6 +142,7 @@ const href = guiaUrl(entry);
       </div>
     </section>
   )}
+
   {services.length > 0 && (
     <section class="section">
       <div class="container">
@@ -84,11 +162,140 @@ const href = guiaUrl(entry);
       </div>
     </section>
   )}
-  <CtaBanner />
+
+  {related.length > 0 && (
+    <section class="section section--alt">
+      <div class="container">
+        <div class="section-head">
+          <h2>Sigue leyendo</h2>
+        </div>
+        <div class="grid">
+          {related.map((g) => (
+            <Card
+              href={guiaUrl(g)}
+              title={g.data.title}
+              text={g.data.description}
+              icon="file"
+              cta="Leer la guía"
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 </BaseLayout>
 
 <style>
   .byline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 1.2rem;
     font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+  .layout {
+    display: grid;
+    gap: var(--space-5);
+    align-items: start;
+  }
+  @media (min-width: 1000px) {
+    .layout {
+      grid-template-columns: 15rem minmax(0, 1fr);
+      gap: var(--space-6);
+    }
+    .side {
+      position: sticky;
+      top: 6.5rem;
+    }
+  }
+  .side {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .toc__title {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-accent-strong);
+    margin-bottom: 0.6rem;
+  }
+  .toc ol {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.15rem;
+    border-left: 1px solid var(--color-border);
+  }
+  .toc a {
+    display: block;
+    padding: 0.3rem 0 0.3rem 0.9rem;
+    margin-left: -1px;
+    border-left: 2px solid transparent;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+  .toc a:hover {
+    color: var(--color-text);
+    border-left-color: var(--color-accent);
+  }
+  .side__cta {
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    padding: 1rem;
+    border-radius: var(--radius);
+    background: var(--color-accent-soft);
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  .side__cta :global(svg) {
+    flex: none;
+    width: 1.3rem;
+    height: 1.3rem;
+    color: var(--color-accent-strong);
+  }
+  .side__cta strong {
+    font-weight: 500;
+    color: var(--color-accent-strong);
+  }
+  .main {
+    display: grid;
+    gap: var(--space-5);
+    min-width: 0;
+  }
+  .keypoints {
+    padding: 1.5rem 1.75rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    max-width: var(--container-text);
+  }
+  .keypoints h2 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: var(--space-3);
+  }
+  .prose :global(h2) {
+    scroll-margin-top: 6rem;
+  }
+  .sources {
+    max-width: var(--container-text);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+  }
+  .sources h2 {
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+  .sources ul {
+    margin-top: 0.6rem;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.3rem;
+  }
+  .small {
+    margin-top: 0.8rem;
+    font-size: 0.85rem;
   }
 </style>

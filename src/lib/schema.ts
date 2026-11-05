@@ -116,9 +116,18 @@ export function article(opts: {
   published: Date;
   updated: Date;
   author: string;
+  keywords?: string[];
+  wordCount?: number;
+  citations?: { title: string; url: string }[];
+  abstract?: string;
 }): Json {
   return {
     '@type': 'Article',
+    keywords: opts.keywords?.length ? opts.keywords.join(', ') : undefined,
+    wordCount: opts.wordCount,
+    abstract: opts.abstract,
+    citation: opts.citations?.map((c) => ({ '@type': 'CreativeWork', name: c.title, url: c.url })),
+    isAccessibleForFree: true,
     headline: opts.title,
     description: opts.description,
     url: absoluteUrl(opts.href),

@@ -1,0 +1,96 @@
+---
+/**
+ * Bloque de descarga del lead magnet (checklist en PDF a cambio del email).
+ * Se usa en las guías, el glosario, el calendario y la calculadora.
+ */
+import NetlifyForm from '@/components/NetlifyForm.astro';
+import Icon from '@/components/Icon.astro';
+import { checklist } from '@/data/recursos';
+
+export interface Props {
+  /** Dónde se muestra (se guarda con el envío para saber qué página convierte). */
+  origin: string;
+}
+const { origin } = Astro.props;
+---
+
+<aside class="magnet" aria-labelledby={`magnet-${origin}`}>
+  <div class="magnet__copy">
+    <p class="eyebrow">Descarga gratuita · PDF</p>
+    <h2 id={`magnet-${origin}`}>{checklist.title}</h2>
+    <p>{checklist.pitch}</p>
+    <ul class="checklist">
+      {checklist.bullets.map((b) => (
+        <li>
+          <Icon name="check" />
+          <span>{b}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+  <div class="magnet__form">
+    <NetlifyForm
+      name={checklist.formName}
+      submit="Descargar la checklist"
+      success={checklist.thanks}
+      mailSubject={checklist.title}
+      compact
+    >
+      <input type="hidden" name="origen" value={origin} />
+      <label class="field">
+        <span>Email profesional</span>
+        <input name="email" type="email" autocomplete="email" required />
+      </label>
+      <label class="field">
+        <span>Empresa</span>
+        <input name="empresa" autocomplete="organization" />
+      </label>
+      <label class="field">
+        <span>Tú eres…</span>
+        <select name="perfil">
+          <option>Empresa de mantenimiento o de control de Legionella</option>
+          <option>Responsable de un edificio o instalación</option>
+          <option>Gestor de piscinas</option>
+          <option>Otro</option>
+        </select>
+      </label>
+    </NetlifyForm>
+  </div>
+</aside>
+
+<style>
+  .magnet {
+    display: grid;
+    gap: var(--space-4);
+    padding: clamp(1.5rem, 4vw, 2.75rem);
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(40rem 20rem at 100% 0%, var(--color-accent-soft), transparent 70%),
+      var(--color-brand-tint);
+    border: 1px solid var(--color-border);
+  }
+  @media (min-width: 900px) {
+    .magnet {
+      grid-template-columns: 1.2fr 1fr;
+      gap: var(--space-5);
+      align-items: center;
+    }
+  }
+  .magnet h2 {
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    margin-top: 0.4rem;
+  }
+  .magnet__copy > p:not(.eyebrow) {
+    margin-top: 0.6rem;
+    color: var(--color-text-muted);
+  }
+  .magnet .checklist {
+    margin-top: var(--space-3);
+  }
+  .magnet__form {
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-bg);
+    box-shadow: var(--shadow);
+  }
+</style>

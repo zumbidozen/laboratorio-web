@@ -2,6 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
 import CtaBanner from '@/components/CtaBanner.astro';
+import LeadMagnet from '@/components/LeadMagnet.astro';
 import Icon from '@/components/Icon.astro';
 import { getGlosario } from '@/lib/content';
 import { definedTermSet } from '@/lib/schema';
@@ -61,6 +62,12 @@ const groups = [...new Set(terms.map((t) => letterOf(t.data.term)))].map((letter
           </dl>
         </section>
       ))}
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <LeadMagnet origin="glosario" />
     </div>
   </section>
 

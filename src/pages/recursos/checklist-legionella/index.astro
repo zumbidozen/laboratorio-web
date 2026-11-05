@@ -1,0 +1,50 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import LeadMagnet from '@/components/LeadMagnet.astro';
+import Icon from '@/components/Icon.astro';
+import { checklist } from '@/data/recursos';
+---
+
+<BaseLayout
+  title={`${checklist.short} (PDF gratis)`}
+  description="Descarga gratis la checklist de cumplimiento de Legionella: frecuencias del RD 487/2022, toma de muestras, niveles de actuación y fechas hasta 2030."
+  breadcrumbs={[
+    { name: 'Recursos', href: checklist.landing },
+    { name: checklist.short, href: checklist.landing },
+  ]}
+>
+  <PageHeader
+    eyebrow="Recurso gratuito"
+    icon="clipboard"
+    title={checklist.title}
+    summary="Todo lo que exige la norma de Legionella en dos páginas, para tenerlo a mano en cada visita y planificar el año sin dejarte ningún muestreo."
+  />
+  <section class="section">
+    <div class="container stack">
+      <LeadMagnet origin="landing" />
+      <p class="note">
+        <Icon name="shield" />
+        <span>
+          Usamos tu email solo para enviarte este recurso y responderte si nos escribes. Más
+          información en la <a href="/privacidad/">política de privacidad</a>.
+        </span>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .note {
+    display: flex;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+  .note :global(svg) {
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    color: var(--color-accent-strong);
+  }
+</style>

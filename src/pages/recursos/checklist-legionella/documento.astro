@@ -1,0 +1,349 @@
+---
+/**
+ * Documento imprimible de la checklist (fuente del PDF del lead magnet).
+ * Se genera con `npm run descargables`. No se indexa.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Logo from '@/components/Logo.astro';
+import { site, absoluteUrl } from '@/config/site';
+import { tabla3, perYear } from '@/data/frecuencias';
+import { hitos } from '@/data/calendario';
+import { checklist } from '@/data/recursos';
+import { formatDate } from '@/lib/content';
+
+const label = (f: string | null) => (f ? f.charAt(0).toUpperCase() + f.slice(1) : '—');
+const proximos = hitos.filter((h) => h.date >= '2025-07-01');
+const meses = ['E', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
+void perYear;
+---
+
+<BaseLayout
+  title={checklist.title}
+  description="Checklist de cumplimiento de Legionella en PDF: frecuencias, toma de muestras, positivos y fechas hasta 2030."
+  noindex
+>
+  <article class="doc">
+    <header class="doc__head">
+      <Logo height={22} />
+      <div>
+        <p class="doc__label">Checklist · Legionella</p>
+        <p class="doc__meta">
+          Actualizada en noviembre de 2026 · Fuentes: BOE y Ministerio de Sanidad
+        </p>
+      </div>
+    </header>
+    <h1>{checklist.title}</h1>
+    <p class="doc__intro">
+      Mínimos para instalaciones con plan de prevención y control (PPCL) según el RD 487/2022
+      modificado por el RD 614/2024, y control en grifo del RD 3/2023. Con un plan sanitario (PSL) o
+      por criterio de la autoridad sanitaria pueden cambiar.
+    </p>
+
+    <section>
+      <h2>1. Antes de empezar</h2>
+      <ul class="boxes">
+        <li>
+          Cada instalación de riesgo tiene su PPCL (o PSL), actualizado al RD 614/2024 (plazo: 1 de
+          julio de 2025).
+        </li>
+        <li>
+          El plan identifica los puntos de muestreo: depósito, acumulador, retorno y puntos
+          terminales (tabla 2 del anexo V).
+        </li>
+        <li>
+          El cultivo de Legionella lo hace un laboratorio acreditado según UNE-EN ISO/IEC 17025
+          (obligatorio desde el 2 de enero de 2025).
+        </li>
+        <li>El registro de mantenimiento, tratamientos y resultados está al día.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>2. Frecuencias mínimas de laboratorio (RD 487/2022, anexo V, tabla 3)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Instalación</th>
+            <th>Legionella</th>
+            <th>Aerobios</th>
+            <th>Hierro</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tabla3.map((r) => (
+            <tr>
+              <td>{r.instalacion}</td>
+              <td>{label(r.legionella)}</td>
+              <td>{label(r.aerobios)}</td>
+              <td>{label(r.hierro)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p class="small">
+        Torres: además, conductividad mensual. Agua sanitaria: hierro solo si hay partes metálicas
+        con hierro; aerobios y hierro en el mismo acto y punto que la Legionella.
+      </p>
+    </section>
+
+    <section>
+      <h2>3. En cada toma</h2>
+      <ul class="boxes">
+        <li>
+          Medir in situ temperatura, desinfectante residual y pH si el desinfectante depende de él;
+          en torres, también conductividad (art. 14.1).
+        </li>
+        <li>
+          Usar envase estéril con neutralizante si el agua lleva biocida oxidante, y transportarlo
+          refrigerado.
+        </li>
+        <li>Anotar punto, fecha, hora y responsable en la cadena de custodia.</li>
+        <li>
+          Hasta el 1 de enero de 2030 puede tomar la muestra personal propio según el anexo VI;
+          desde entonces, solo una entidad acreditada para la toma (art. 11.5 y disp. trans. 6.ª).
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>4. Si sale positivo (anexo VIII)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Instalación</th>
+            <th>Nivel (UFC/L)</th>
+            <th>Qué implica</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Agua sanitaria</td>
+            <td>100 a menos de 1.000</td>
+            <td>Medidas según el porcentaje de muestras positivas</td>
+          </tr>
+          <tr>
+            <td>Agua sanitaria</td>
+            <td>1.000 o más</td>
+            <td>Revisión inmediata del plan, limpieza y desinfección</td>
+          </tr>
+          <tr>
+            <td>Torres y condensadores</td>
+            <td>100 a menos de 10.000</td>
+            <td>Medidas correctoras crecientes según el nivel</td>
+          </tr>
+          <tr>
+            <td>Torres y condensadores</td>
+            <td>10.000 o más</td>
+            <td>Parada de la instalación</td>
+          </tr>
+          <tr>
+            <td>Spa y otras instalaciones</td>
+            <td>1.000 o más</td>
+            <td>Parada de la instalación</td>
+          </tr>
+        </tbody>
+      </table>
+      <ul class="boxes">
+        <li>
+          Nueva determinación de Legionella entre 15 y 30 días después de la limpieza y
+          desinfección.
+        </li>
+        <li>Serogrupado de L. pneumophila en las muestras positivas.</li>
+        <li>Comprobar en el plan si el nivel obliga a comunicarlo a la autoridad sanitaria.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>5. Torres y edificios prioritarios</h2>
+      <ul class="boxes">
+        <li>
+          Torres: limpieza y desinfección al menos dos veces al año, preferiblemente al comienzo de
+          la primavera y del otoño.
+        </li>
+        <li>
+          Edificios prioritarios (RD 3/2023): control en grifo con Legionella, de 2 a 6 análisis al
+          año según los puntos de acceso al agua (más de 200 puntos: uno más por cada 100).
+        </li>
+        <li>
+          Notificación en SINAC en 10 días laborables desde el informe, o 4 si hay incumplimiento.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>6. Fechas clave</h2>
+      <table>
+        <tbody>
+          {proximos.map((h) => (
+            <tr>
+              <td class="nowrap">{formatDate(new Date(h.date + 'T00:00:00'))}</td>
+              <td>{h.title}</td>
+              <td class="small">{h.source}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+
+    <section class="page-break">
+      <h2>7. Calendario de muestreo anual</h2>
+      <p class="small">Marca en cada mes las tomas previstas de cada instalación y punto.</p>
+      <table class="cal">
+        <thead>
+          <tr>
+            <th>Instalación / punto</th>
+            {meses.map((m) => (
+              <th>{m}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {Array.from({ length: 16 }).map(() => (
+            <tr>
+              <td />
+              {meses.map(() => (
+                <td />
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+
+    <footer class="doc__foot">
+      <p>
+        {site.name} · {site.descriptor} · {site.contact.email} ·{' '}
+        {absoluteUrl('/').replace(/\/$/, '')}
+      </p>
+      <p>Documento de divulgación. No sustituye al texto oficial ni al plan de cada instalación.</p>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .doc {
+    max-width: 52rem;
+    margin: var(--space-5) auto;
+    padding: 2rem;
+    background: #fff;
+    color: #0b3c5d;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    --color-logo: #0b3c5d;
+  }
+  .doc__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.8rem;
+    border-bottom: 2px solid #0b3c5d;
+  }
+  .doc__head > div {
+    text-align: right;
+  }
+  .doc__label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #138a80;
+  }
+  .doc__meta {
+    font-size: 0.72rem;
+    color: #4a5e6d;
+  }
+  h1 {
+    font-size: 1.7rem;
+    font-weight: 400;
+    margin-top: 1rem;
+    color: #0b3c5d;
+  }
+  .doc__intro {
+    margin-top: 0.4rem;
+    color: #4a5e6d;
+  }
+  h2 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 1.1rem 0 0.4rem;
+    color: #0b3c5d;
+  }
+  .boxes {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.25rem;
+  }
+  .boxes li {
+    position: relative;
+    padding-left: 1.4rem;
+  }
+  .boxes li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.25em;
+    width: 0.8rem;
+    height: 0.8rem;
+    border: 1.5px solid #0b3c5d;
+    border-radius: 2px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.3rem 0;
+  }
+  th,
+  td {
+    border: 1px solid #dde6ec;
+    padding: 0.3rem 0.45rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: #f3f6f8;
+    font-weight: 500;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .small {
+    font-size: 0.75rem;
+    color: #4a5e6d;
+  }
+  .nowrap {
+    white-space: nowrap;
+  }
+  .cal td {
+    height: 1.9rem;
+  }
+  .cal th:not(:first-child) {
+    text-align: center;
+    width: 5.5%;
+  }
+  .doc__foot {
+    margin-top: 1.2rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid #dde6ec;
+    font-size: 0.7rem;
+    color: #4a5e6d;
+  }
+  @media print {
+    :global(.header),
+    :global(.footer),
+    :global(.whatsapp) {
+      display: none !important;
+    }
+    .doc {
+      margin: 0;
+      padding: 0;
+      max-width: none;
+    }
+    .page-break {
+      break-before: page;
+    }
+    @page {
+      size: A4;
+      margin: 12mm;
+    }
+  }
+</style>

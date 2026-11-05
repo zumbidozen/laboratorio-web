@@ -15,17 +15,27 @@ export interface Props {
   submit?: string;
   /** Asunto del email si no hay formulario. */
   mailSubject?: string;
+  /** Página a la que se va tras enviar (solo con Netlify Forms). */
+  success?: string;
+  /** Oculta la casilla de privacidad y la pone como texto (formularios cortos). */
+  compact?: boolean;
 }
 
-const { name, submit = 'Enviar', mailSubject = 'Contacto desde la web' } = Astro.props;
+const {
+  name,
+  submit = 'Enviar',
+  mailSubject = 'Contacto desde la web',
+  success = '/contacto/gracias/',
+  compact = false,
+} = Astro.props;
 const { form, email } = site.contact;
 const isNetlify = form === 'netlify';
-const action = isNetlify ? '/contacto/gracias/' : form;
+const action = isNetlify ? success : form;
 ---
 
 {form ? (
   <form
-    class="form"
+    class:list={['form', { 'form--compact': compact }]}
     name={name}
     method="POST"
     action={action}

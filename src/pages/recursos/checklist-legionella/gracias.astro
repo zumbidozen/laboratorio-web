@@ -1,0 +1,36 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import Icon from '@/components/Icon.astro';
+import { checklist } from '@/data/recursos';
+---
+
+<BaseLayout
+  title="Tu checklist está lista"
+  description="Descarga la checklist de cumplimiento de Legionella 2027 en PDF. Gracias por tu interés en Ensayum, laboratorio de análisis de aguas en Madrid."
+  noindex
+>
+  <PageHeader
+    eyebrow="Descarga"
+    icon="circle-check"
+    title="Tu checklist está lista"
+    summary="Gracias. Aquí tienes el PDF. Si quieres que revisemos tu calendario de muestreo, escríbenos."
+  >
+    <p class="actions">
+      <a class="btn" href={checklist.pdf} download>
+        Descargar el PDF <Icon name="arrow-right" />
+      </a>
+      <a class="btn btn--ghost" href="/calculadora/">
+        Calcula tus muestras al año
+      </a>
+    </p>
+  </PageHeader>
+</BaseLayout>
+
+<style>
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+</style>

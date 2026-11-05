@@ -73,6 +73,12 @@ const guias = defineCollection({
     published: z.coerce.date(),
     /** Nombre de quien firma o revisa técnicamente la guía. */
     author: z.string().default('Equipo técnico'),
+    /** Quién ha revisado técnicamente la guía (nombre y cargo). Vacío = no se muestra. */
+    reviewedBy: z.string().optional(),
+    /** 3–6 ideas clave: se muestran en la caja «En resumen» y en llms.txt. */
+    keyPoints: z.array(z.string()).min(3).max(6),
+    /** Fuentes oficiales citadas (BOE, Ministerio…). Se listan al final y en los datos estructurados. */
+    sources: z.array(z.object({ title: z.string(), url: z.url() })).min(1),
     /** Servicios relacionados que se enlazan al final. */
     services: z.array(reference('servicios')).default([]),
     tags: z.array(z.string()).default([]),

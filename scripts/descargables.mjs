@@ -36,6 +36,7 @@ const base = `http://localhost:${server.address().port}`;
 const jobs = [
   ['/informe-de-ejemplo/', 'informe-ejemplo-ensayum.pdf'],
   ['/cadena-de-custodia/', 'cadena-de-custodia-ensayum.pdf'],
+  ['/recursos/checklist-legionella/documento/', 'checklist-legionella-2027-ensayum.pdf'],
 ];
 await mkdir(join(root, 'public/descargas'), { recursive: true });
 const browser = await chromium.launch();

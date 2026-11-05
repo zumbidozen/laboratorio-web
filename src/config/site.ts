@@ -127,6 +127,7 @@ export const resourcesNav = [
   { label: 'Reservar una demo', href: '/demo/' },
   { label: 'Glosario', href: '/glosario/' },
   { label: 'Calendario normativo', href: '/calendario-normativo/' },
+  { label: 'Checklist de Legionella (PDF)', href: '/recursos/checklist-legionella/' },
   { label: 'Preguntas frecuentes', href: '/preguntas-frecuentes/' },
 ] as const;
 

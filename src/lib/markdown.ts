@@ -30,7 +30,13 @@ export function entryToMarkdown(e: Entry): string {
       lines.push('', '## Qué incluye', '', ...s.includes.map((i) => `- ${i}`));
     }
   }
+  if (e.collection === 'guias') {
+    lines.push('', '## En resumen', '', ...e.data.keyPoints.map((k) => `- ${k}`));
+  }
   lines.push('', (e.body ?? '').trim());
+  if (e.collection === 'guias') {
+    lines.push('', '## Fuentes', '', ...e.data.sources.map((s) => `- [${s.title}](${s.url})`));
+  }
   if (d.faq.length) {
     lines.push('', '## Preguntas frecuentes', '');
     for (const { q, a } of d.faq) lines.push(`### ${q}`, '', a, '');
