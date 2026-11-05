@@ -1,0 +1,174 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import Faq from '@/components/Faq.astro';
+import Icon from '@/components/Icon.astro';
+import { primaryCta } from '@/config/site';
+import { faqPage } from '@/lib/schema';
+
+const signs = [
+  'Tu laboratorio ha perdido o tiene suspendida la acreditación ENAC de Legionella.',
+  'Los resultados tardan más de dos semanas y no sabes en qué punto está cada muestra.',
+  'Recibes informes en PDF que tienes que renombrar, reenviar y archivar a mano.',
+  'Cada envío es una factura distinta y cuadrarlas con tus instalaciones te lleva horas.',
+];
+
+const steps = [
+  {
+    title: 'Revisamos tu situación',
+    text: 'Instalaciones, puntos, frecuencias y la fecha en que vence tu contrato actual.',
+  },
+  {
+    title: 'Prueba con muestras duplicadas',
+    text: 'Durante 2 meses analizamos en paralelo con tu laboratorio para que compares plazos y resultados.',
+  },
+  {
+    title: 'Alta sin cortes',
+    text: 'Damos de alta tus instalaciones en el portal y te enviamos envases y etiquetas antes del primer muestreo.',
+  },
+];
+
+const faq = [
+  {
+    q: '¿Cómo compruebo si mi laboratorio está acreditado?',
+    a: 'En el buscador de entidades acreditadas de ENAC (enac.es) puedes ver si un laboratorio tiene la acreditación en vigor y para qué ensayos. Para la Legionella debe figurar el cultivo según ISO 11731.',
+  },
+  {
+    q: '¿Qué pasa con los muestreos ya programados?',
+    a: 'Planificamos el cambio a partir de tu calendario para que ningún punto se quede sin analizar en su fecha.',
+  },
+  {
+    q: '¿Tengo que cambiar mi forma de trabajar?',
+    a: 'No. Sigues tomando y enviando las muestras igual; lo que cambia es que pides en el portal o por API y recibes el informe con tu marca.',
+  },
+];
+---
+
+<BaseLayout
+  title="¿Cambias de laboratorio de Legionella?"
+  description="Cambia de laboratorio de análisis de agua sin cortes: revisamos tus instalaciones, hacemos una prueba de 2 meses con muestras duplicadas y te damos de alta."
+  breadcrumbs={[{ name: 'Cambiar de laboratorio', href: '/cambiar-de-laboratorio/' }]}
+  schema={[faqPage(faq)]}
+>
+  <PageHeader
+    eyebrow="Cambiar de laboratorio"
+    icon="activity"
+    title="Cambiar de laboratorio, sin cortes"
+    summary="Si tu laboratorio actual te frena, te ayudamos a cambiar sin perder ningún muestreo: prueba de 2 meses con muestras duplicadas y alta de todas tus instalaciones en el portal."
+  >
+    <p class="actions">
+      <a class="btn" href={primaryCta.href}>
+        Hablemos <Icon name="arrow-right" />
+      </a>
+    </p>
+  </PageHeader>
+
+  <section class="section">
+    <div class="container split">
+      <div class="section-head">
+        <p class="eyebrow">01 — Señales</p>
+        <h2>Cuándo conviene cambiar</h2>
+      </div>
+      <ul class="signs">
+        {signs.map((s) => (
+          <li>
+            <Icon name="check" />
+            <span>{s}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">02 — Cómo lo hacemos</p>
+        <h2>Tres pasos y ningún muestreo perdido</h2>
+      </div>
+      <ol class="cards">
+        {steps.map((s, i) => (
+          <li class="reveal">
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <Faq items={faq} split />
+    </div>
+  </section>
+
+  <CtaBanner
+    title="¿Te vence pronto el contrato?"
+    text="Cuéntanos cuándo y preparamos el cambio con tiempo."
+  />
+</BaseLayout>
+
+<style>
+  .actions {
+    padding-top: var(--space-2);
+  }
+  .split {
+    display: grid;
+    gap: var(--space-5);
+    align-items: start;
+  }
+  @media (min-width: 1000px) {
+    .split {
+      grid-template-columns: 1fr 1.3fr;
+      gap: var(--space-6);
+    }
+  }
+  .signs {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .signs li {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem 1.2rem;
+    border-radius: var(--radius);
+    background: var(--color-surface);
+  }
+  .signs :global(svg) {
+    flex: none;
+    width: 1.15rem;
+    height: 1.15rem;
+    margin-top: 0.2em;
+    color: var(--color-accent-strong);
+  }
+  .cards {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  }
+  .cards li {
+    padding: 1.6rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-bg);
+    box-shadow: var(--shadow);
+  }
+  .num {
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--color-accent-strong);
+  }
+  .cards h3 {
+    margin-top: var(--space-2);
+  }
+  .cards p {
+    margin-top: var(--space-2);
+    color: var(--color-text-muted);
+  }
+</style>

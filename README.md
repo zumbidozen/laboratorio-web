@@ -35,6 +35,8 @@ Abre http://localhost:4321. Los cambios se ven al guardar.
 | Textos legales                                             | `src/pages/aviso-legal.md`, `privacidad.md`, `cookies.md` |
 | Imagen al compartir en redes                               | `npm run og` (la regenera con el nombre y el lema)        |
 | Rastreadores de IA permitidos                              | `src/pages/robots.txt.ts`                                 |
+| PDF de informe de ejemplo y cadena de custodia             | `npm run descargables` (los genera desde sus páginas)     |
+| Teléfono, WhatsApp y analítica sin cookies                 | `src/config/site.ts` → `contact` y `analytics`            |
 
 ### Añadir un servicio nuevo
 
@@ -58,7 +60,7 @@ Hace cuatro cosas: comprueba tipos y contenido, compila, revisa el SEO de cada p
 
 - [ ] Razón social y CIF en `src/config/site.ts` (el nombre comercial Ensayum ya está).
 - [ ] Dominio definitivo en `url`.
-- [ ] Email, teléfono y, cuando se firme el local, dirección.
+- [ ] Email, teléfono, WhatsApp, código postal y municipio (la calle ya está).
 - [ ] Formulario: con `contact.form: 'netlify'` funciona solo en Netlify (activa el aviso por email en Netlify → Forms). En otro hosting, pon la URL de Formspree o similar.
 - [ ] Horario de atención en `contact.hours`.
 - [ ] Textos legales revisados por asesoría.

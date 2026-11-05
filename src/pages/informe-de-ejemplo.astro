@@ -1,0 +1,484 @@
+---
+/**
+ * Informe de ejemplo en co-marca, con cada campo explicado.
+ * Datos ficticios. El PDF descargable se genera con `npm run descargables`.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import Icon from '@/components/Icon.astro';
+import Logo from '@/components/Logo.astro';
+import { site } from '@/config/site';
+
+const notes = [
+  {
+    n: 1,
+    title: 'Tu marca en la portada',
+    text: 'El logotipo de tu empresa encabeza el informe. Ensayum figura como emisor, como exige la normativa.',
+  },
+  {
+    n: 2,
+    title: 'Identificación única',
+    text: 'Número de informe y código de la muestra, el mismo de la etiqueta QR del envase.',
+  },
+  {
+    n: 3,
+    title: 'Instalación y punto',
+    text: 'Titular, instalación y punto de muestreo tal como están en tu plan de control.',
+  },
+  {
+    n: 4,
+    title: 'Datos de la toma',
+    text: 'Fecha y hora de toma y de recepción, temperatura de llegada y medidas in situ (temperatura del agua, cloro libre).',
+  },
+  {
+    n: 5,
+    title: 'Resultados con su norma',
+    text: 'Cada parámetro con su resultado, unidades, método y si el ensayo está acreditado.',
+  },
+  {
+    n: 6,
+    title: 'Valoración',
+    text: 'Comparación con el valor de referencia de tu plan de control: conforme o fuera de límite.',
+  },
+  {
+    n: 7,
+    title: 'Quién realiza y firma',
+    text: 'Laboratorio que realiza el ensayo, su acreditación y la firma del responsable técnico.',
+  },
+];
+---
+
+<BaseLayout
+  title="Informe de ejemplo con tu marca"
+  description="Así es un informe de Ensayum en co-marca: tu logotipo, los datos de la toma, resultados con su norma y la valoración frente a tu plan de control."
+  breadcrumbs={[{ name: 'Informe de ejemplo', href: '/informe-de-ejemplo/' }]}
+>
+  <PageHeader
+    eyebrow="Informe de ejemplo"
+    icon="file"
+    title="Así recibe el informe tu cliente"
+    summary="Un informe de Legionella en co-marca, con cada campo explicado. Los datos son ficticios."
+  >
+    <p class="actions">
+      <a class="btn" href="/descargas/informe-ejemplo-ensayum.pdf" download>
+        Descargar en PDF <Icon name="arrow-right" />
+      </a>
+    </p>
+  </PageHeader>
+
+  <section class="section">
+    <div class="container layout">
+      <article class="report" aria-label="Informe de ejemplo con datos ficticios">
+        <p class="report__stamp">Ejemplo · datos ficticios</p>
+        <header class="report__head">
+          <div class="report__partner">
+            <span class="mark">1</span>
+            <span class="report__partnerlogo">TU LOGOTIPO</span>
+          </div>
+          <div class="report__issuer">
+            <span>Emite</span>
+            <Logo height={18} />
+          </div>
+        </header>
+
+        <div class="report__title">
+          <span class="mark">2</span>
+          <p class="report__label">Informe de ensayo nº 2026-0418</p>
+          <h2>Legionella en agua caliente sanitaria</h2>
+          <p class="report__code">Muestra LG-2038 · Pedido P-1127</p>
+        </div>
+
+        <dl class="report__grid">
+          <span class="mark">3</span>
+          <div>
+            <dt>Titular</dt>
+            <dd>Residencia de ejemplo, S.L.</dd>
+          </div>
+          <div>
+            <dt>Instalación</dt>
+            <dd>Agua caliente sanitaria</dd>
+          </div>
+          <div>
+            <dt>Punto de muestreo</dt>
+            <dd>Retorno, sala de calderas</dd>
+          </div>
+          <div>
+            <dt>Tomada por</dt>
+            <dd>Técnico de muestreo</dd>
+          </div>
+        </dl>
+
+        <dl class="report__grid">
+          <span class="mark">4</span>
+          <div>
+            <dt>Toma</dt>
+            <dd>03/11/2026 · 09:10</dd>
+          </div>
+          <div>
+            <dt>Recepción</dt>
+            <dd>03/11/2026 · 14:25</dd>
+          </div>
+          <div>
+            <dt>Temperatura de llegada</dt>
+            <dd>6 °C</dd>
+          </div>
+          <div>
+            <dt>In situ</dt>
+            <dd>Agua 58 °C · cloro libre 0,4 mg/L</dd>
+          </div>
+        </dl>
+
+        <div class="report__results">
+          <span class="mark">5</span>
+          <table>
+            <thead>
+              <tr>
+                <th>Parámetro</th>
+                <th>Resultado</th>
+                <th>Método</th>
+                <th>Acreditado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Legionella spp.</td>
+                <td>No detectada</td>
+                <td>ISO 11731</td>
+                <td>Sí*</td>
+              </tr>
+              <tr>
+                <td>L. pneumophila</td>
+                <td>No detectada</td>
+                <td>ISO 11731</td>
+                <td>Sí*</td>
+              </tr>
+              <tr>
+                <td>Aerobios a 22 °C</td>
+                <td>12 UFC/mL</td>
+                <td>ISO 6222</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>Aerobios a 36 °C</td>
+                <td>4 UFC/mL</td>
+                <td>ISO 6222</td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="report__verdict">
+          <span class="mark">6</span>
+          <span class="chip chip--ok">
+            <Icon name="circle-check" /> Conforme
+          </span>
+          <p>
+            Resultados dentro de los valores de referencia del plan de control de la instalación.
+          </p>
+        </div>
+
+        <footer class="report__foot">
+          <span class="mark">7</span>
+          <p>
+            {site.accreditation.ownEnac
+              ? `* Ensayo acreditado por ENAC, n.º ${site.accreditation.enacNumber}.`
+              : '* Ensayo realizado y firmado por un laboratorio acreditado por ENAC para este ensayo, identificado aquí con su número de acreditación.'}
+          </p>
+          <p>Responsable técnico · firma electrónica</p>
+        </footer>
+      </article>
+
+      <ol class="notes">
+        {notes.map((n) => (
+          <li>
+            <span class="mark mark--static">{n.n}</span>
+            <div>
+              <h3>{n.title}</h3>
+              <p>{n.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <CtaBanner
+    title="¿Quieres este informe con tu logotipo?"
+    text="Mándanos tu logo y te enviamos un informe de prueba con tu marca."
+  />
+</BaseLayout>
+
+<style>
+  .actions {
+    padding-top: var(--space-2);
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-5);
+    align-items: start;
+  }
+  @media (min-width: 1000px) {
+    .layout {
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: var(--space-6);
+    }
+    .notes {
+      position: sticky;
+      top: 6.5rem;
+    }
+  }
+  .report {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.4rem;
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    border-radius: var(--radius);
+    background: #fff;
+    color: #0b3c5d;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-border);
+    font-size: 0.92rem;
+    --color-logo: #0b3c5d;
+  }
+  .report__stamp {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #9a6200;
+    background: #fdf1d8;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+  }
+  .report__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #0b3c5d;
+  }
+  .report__partner {
+    position: relative;
+  }
+  .report__partnerlogo {
+    display: inline-grid;
+    place-items: center;
+    width: 9rem;
+    height: 3rem;
+    border: 1.5px dashed #b9cddb;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: #4a5e6d;
+  }
+  .report__issuer {
+    display: grid;
+    justify-items: end;
+    gap: 0.25rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #4a5e6d;
+  }
+  .report__title,
+  .report__grid,
+  .report__results,
+  .report__verdict,
+  .report__foot {
+    position: relative;
+  }
+  .report__label {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #138a80;
+  }
+  .report__title h2 {
+    font-size: 1.5rem;
+    margin-top: 0.3rem;
+    color: #0b3c5d;
+  }
+  .report__code {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: #4a5e6d;
+  }
+  .report__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem 1.5rem;
+    padding: 1rem 1.1rem;
+    border-radius: 8px;
+    background: #f3f6f8;
+  }
+  .report__grid dt {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #4a5e6d;
+  }
+  .report__grid dd {
+    font-weight: 500;
+  }
+  .report table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .report__results {
+    min-width: 0;
+  }
+  @media (max-width: 720px) {
+    .report table {
+      table-layout: fixed;
+      font-size: 0.78rem;
+    }
+    .report th {
+      font-size: 0.58rem;
+      letter-spacing: 0;
+    }
+  }
+  .report th,
+  .report td {
+    text-align: left;
+    padding: 0.55rem 0.5rem;
+    border-bottom: 1px solid #dde6ec;
+  }
+  .report th {
+    font-weight: 500;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #4a5e6d;
+  }
+  .report__verdict {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .report__verdict .chip {
+    background: #e2f6f4;
+    color: #138a80;
+  }
+  .report__verdict :global(svg) {
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+  .report__foot {
+    display: grid;
+    gap: 0.3rem;
+    padding-top: 1rem;
+    border-top: 1px solid #dde6ec;
+    font-size: 0.8rem;
+    color: #4a5e6d;
+  }
+  .mark {
+    position: absolute;
+    left: -2.4rem;
+    top: 0;
+    display: grid;
+    place-items: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  .report__partner .mark {
+    left: -2.4rem;
+    top: 0.7rem;
+  }
+  @media (max-width: 720px) {
+    .report {
+      font-size: 0.85rem;
+    }
+    .report th,
+    .report td {
+      padding: 0.45rem 0.3rem;
+    }
+    .mark:not(.mark--static),
+    .report__partner .mark {
+      left: auto;
+      right: -0.6rem;
+      top: -0.6rem;
+    }
+    .report__partner .mark {
+      right: -1rem;
+    }
+    .report__partnerlogo {
+      width: 7rem;
+    }
+    .report__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .mark--static {
+    position: static;
+    flex: none;
+  }
+  .notes {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+  .notes li {
+    display: flex;
+    gap: 0.9rem;
+  }
+  .notes h3 {
+    font-size: 1.05rem;
+  }
+  .notes p {
+    margin-top: 0.2rem;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+
+  @media print {
+    :global(.header),
+    :global(.footer),
+    :global(.crumbs),
+    :global(.page-header),
+    :global(.cta),
+    .notes {
+      display: none !important;
+    }
+    .layout {
+      display: block;
+    }
+    :global(.section) {
+      padding: 0 !important;
+    }
+    .report {
+      box-shadow: none;
+      border: 0;
+      padding: 0;
+      gap: 1rem;
+      font-size: 0.85rem;
+    }
+    .report__head {
+      padding-top: 0;
+    }
+    .report__stamp {
+      top: -0.2rem;
+      right: 40%;
+    }
+    .report .report__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .mark {
+      display: none !important;
+    }
+  }
+</style>

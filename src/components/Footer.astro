@@ -1,5 +1,5 @@
 ---
-import { site, mainNav, legalNav } from '@/config/site';
+import { site, mainNav, resourcesNav, legalNav, addressLine } from '@/config/site';
 import Logo from '@/components/Logo.astro';
 import Icon from '@/components/Icon.astro';
 const year = new Date().getFullYear();
@@ -21,11 +21,18 @@ const { contact } = site;
           </li>
         ))}
         <li>
-          <a href="/preguntas-frecuentes/">Preguntas frecuentes</a>
-        </li>
-        <li>
           <a href="/contacto/">Contacto</a>
         </li>
+      </ul>
+    </nav>
+    <nav aria-label="Recursos">
+      <p class="footer__title">Recursos</p>
+      <ul>
+        {resourcesNav.map((i) => (
+          <li>
+            <a href={i.href}>{i.label}</a>
+          </li>
+        ))}
       </ul>
     </nav>
     <address>
@@ -45,11 +52,7 @@ const { contact } = site;
         )}
         <li>
           <Icon name="map-pin" />
-          <span>
-            {contact.address.street
-              ? `${contact.address.street}, ${contact.address.postalCode} ${contact.address.city}`
-              : contact.address.region}
-          </span>
+          <span>{addressLine()}</span>
         </li>
         {contact.hours && (
           <li>
@@ -95,7 +98,7 @@ const { contact } = site;
   }
   @media (min-width: 800px) {
     .footer__grid {
-      grid-template-columns: 2fr 1fr 1.4fr;
+      grid-template-columns: 1.6fr 1fr 1fr 1.3fr;
     }
   }
   .footer__about p {

@@ -12,7 +12,8 @@
     "verify": "npm run check && npm run build && npm run check:seo && npm run format:check",
     "og": "node scripts/og-image.mjs",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "descargables": "astro build && node scripts/descargables.mjs && astro build"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

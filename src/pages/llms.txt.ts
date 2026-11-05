@@ -72,6 +72,22 @@ export const GET: APIRoute = async () => {
       '/como-trabajamos/',
       'portal, API, plazos máximos e informes en co-marca',
     ),
+    link('Programa Partner', '/partners/', 'condiciones para empresas que revenden el análisis'),
+    link(
+      'Informe de ejemplo',
+      '/informe-de-ejemplo/',
+      'informe en co-marca con cada campo explicado',
+    ),
+    link(
+      'Enviar muestras',
+      '/enviar-muestras/',
+      'envases, datos de la toma, transporte y causas de rechazo',
+    ),
+    link(
+      'Cambiar de laboratorio',
+      '/cambiar-de-laboratorio/',
+      'cambio sin cortes con prueba de muestras duplicadas',
+    ),
     link('Contacto', '/contacto/', 'pedir tarifa profesional'),
     '',
   ];

@@ -39,14 +39,14 @@ export function organization(): Json {
       ? {
           '@type': 'PostalAddress',
           streetAddress: contact.address.street,
-          postalCode: contact.address.postalCode,
-          addressLocality: contact.address.city,
+          postalCode: contact.address.postalCode || undefined,
+          addressLocality: contact.address.city || undefined,
           addressRegion: contact.address.region,
           addressCountry: contact.address.country,
         }
       : {
           '@type': 'PostalAddress',
-          addressLocality: contact.address.city,
+          addressLocality: contact.address.city || undefined,
           addressRegion: contact.address.region,
           addressCountry: contact.address.country,
         },

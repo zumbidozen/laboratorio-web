@@ -52,11 +52,14 @@ export const site = {
     phone: '',
     /** Texto del teléfono tal y como se muestra. */
     phoneDisplay: '',
-    /** TODO: dirección cuando se firme el local. Vacío = no se muestra. */
+    /** TODO: WhatsApp en formato internacional sin "+" ni espacios (p. ej. 34600000000). Vacío = no se muestra. */
+    whatsapp: '',
     address: {
-      street: '',
+      street: 'Calle Iglesia, 12',
+      /** TODO: código postal. */
       postalCode: '',
-      city: 'Madrid',
+      /** TODO: municipio. */
+      city: '',
       region: 'Comunidad de Madrid',
       country: 'ES',
     },
@@ -74,6 +77,14 @@ export const site = {
 
   /** Zona de servicio (se usa en los datos estructurados). */
   areaServed: ['Comunidad de Madrid'],
+
+  /**
+   * Analítica sin cookies (no necesita banner). Pon el dominio tal como esté dado de alta
+   * en Plausible (https://plausible.io) para activarla. Vacío = sin analítica.
+   */
+  analytics: {
+    plausibleDomain: '',
+  },
 
   /** Perfiles sociales. Vacío = no se muestran. */
   social: {
@@ -98,10 +109,21 @@ export const site = {
 /** Menú principal. El orden aquí es el orden en pantalla. */
 export const mainNav = [
   { label: 'Servicios', href: '/servicios/' },
+  { label: 'Partners', href: '/partners/' },
   { label: 'Planes', href: '/planes/' },
-  { label: 'Para quién', href: '/sectores/' },
   { label: 'Cómo trabajamos', href: '/como-trabajamos/' },
   { label: 'Guías', href: '/guias/' },
+] as const;
+
+/** Enlaces de recursos del pie de página. */
+export const resourcesNav = [
+  { label: 'Para quién', href: '/sectores/' },
+  { label: 'Enviar muestras', href: '/enviar-muestras/' },
+  { label: 'Cadena de custodia', href: '/cadena-de-custodia/' },
+  { label: 'Informe de ejemplo', href: '/informe-de-ejemplo/' },
+  { label: 'Cambiar de laboratorio', href: '/cambiar-de-laboratorio/' },
+  { label: 'Reservar una demo', href: '/demo/' },
+  { label: 'Preguntas frecuentes', href: '/preguntas-frecuentes/' },
 ] as const;
 
 /** Llamada a la acción principal (botón de la cabecera). */
@@ -113,6 +135,13 @@ export const legalNav = [
   { label: 'Privacidad', href: '/privacidad/' },
   { label: 'Cookies', href: '/cookies/' },
 ] as const;
+
+/** Dirección en una línea, con las partes que estén rellenas. */
+export function addressLine(): string {
+  const a = site.contact.address;
+  const place = [a.postalCode, a.city].filter(Boolean).join(' ');
+  return [a.street, place || a.region].filter(Boolean).join(', ');
+}
 
 /** Construye una URL absoluta a partir de una ruta del sitio. */
 export function absoluteUrl(path = '/'): string {

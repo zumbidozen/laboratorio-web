@@ -1,0 +1,274 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import Faq from '@/components/Faq.astro';
+import Icon from '@/components/Icon.astro';
+import { primaryCta } from '@/config/site';
+import { faqPage, service } from '@/lib/schema';
+
+const benefits = [
+  {
+    icon: 'receipt',
+    title: 'Tarifa por volumen',
+    text: 'Descuento escalonado según las muestras que mueves al año y precio cerrado por contrato.',
+  },
+  {
+    icon: 'file',
+    title: 'Informe con tu marca',
+    text: 'Tu logotipo en la portada y nuestro laboratorio como emisor. Lo entregas tal cual al titular.',
+  },
+  {
+    icon: 'code',
+    title: 'Portal y API sin coste',
+    text: 'Pedidos, estado de cada muestra e informes en el portal, o directamente en tu software.',
+  },
+  {
+    icon: 'timer',
+    title: 'Plazos por contrato',
+    text: 'Plazo máximo firmado para cada análisis y objetivo del 95 % de muestras en plazo cada mes.',
+  },
+  {
+    icon: 'bell',
+    title: 'Aviso inmediato',
+    text: 'Llamada en menos de 2 horas si una torre supera 10.000 UFC/L o el centro es un hospital o una residencia.',
+  },
+  {
+    icon: 'layers',
+    title: 'Una factura al mes',
+    text: 'Con el detalle por instalación, para repercutirla a tus clientes sin trabajo extra.',
+  },
+] as const;
+
+const steps = [
+  {
+    title: 'Reunión de 45 minutos',
+    text: 'Vemos tu volumen, con qué laboratorio trabajas hoy y cuándo vence tu contrato.',
+  },
+  {
+    title: 'Prueba de 2 meses',
+    text: 'Analizamos muestras duplicadas con tu laboratorio actual para que compares plazos y resultados reales.',
+  },
+  {
+    title: 'Contrato y alta',
+    text: 'Firmamos plazos y tarifa, damos de alta a tu equipo en el portal y te enviamos envases y etiquetas.',
+  },
+  {
+    title: 'Trabajo diario',
+    text: 'Pides, envías y entregas el informe con tu marca. Una factura al mes.',
+  },
+];
+
+const roadmap = [
+  {
+    item: 'Planes de prevención de Legionella y Plan Sanitario del Agua en marca blanca',
+    from: '2027',
+  },
+  { item: 'Formación de Legionella para tus técnicos (25 h y reciclaje de 10 h)', from: '2027' },
+  { item: 'Toma de muestras por nuestro equipo', from: '2028' },
+  { item: 'Legionella por qPCR en 24–48 horas', from: '2028' },
+];
+
+const faq = [
+  {
+    q: '¿Quién puede ser partner?',
+    a: 'Empresas que mantienen instalaciones de riesgo y revenden el análisis: control de plagas y Legionella, mantenimiento de edificios, tratamiento de agua, gestión de piscinas y facility services.',
+  },
+  {
+    q: '¿El cliente final sabe que el análisis lo hace Ensayum?',
+    a: 'El informe lleva tu logotipo en la portada y nuestro laboratorio figura como emisor, como exige la normativa. La relación comercial con el titular sigue siendo tuya.',
+  },
+  {
+    q: '¿Hay un volumen mínimo?',
+    a: 'No hay mínimo para empezar. El descuento crece con las muestras al año; te lo concretamos en la propuesta.',
+  },
+  {
+    q: '¿Puedo conectar mi software de gestión?',
+    a: 'Sí. Con la API creas pedidos, sigues el estado de cada muestra y recibes resultados e informes en tu sistema.',
+  },
+];
+---
+
+<BaseLayout
+  title="Programa Partner para empresas de servicios"
+  description="Programa Partner de Ensayum para mantenedores y empresas de Legionella y plagas: tarifa por volumen, informe con tu marca, portal y API y una factura al mes."
+  breadcrumbs={[{ name: 'Partners', href: '/partners/' }]}
+  schema={[
+    service({
+      name: 'Programa Partner',
+      description:
+        'Análisis de agua para empresas de servicios que revenden el análisis: tarifa por volumen, informe en co-marca, portal y API y facturación mensual.',
+      href: '/partners/',
+      audience:
+        'Empresas de mantenimiento, control de Legionella y de plagas, tratamiento de agua y gestión de piscinas',
+    }),
+    faqPage(faq),
+  ]}
+>
+  <PageHeader
+    eyebrow="Programa Partner"
+    icon="shield"
+    title="Tu laboratorio, con tu marca"
+    summary="Si tomas muestras para tus clientes y revendes el análisis, el Programa Partner te da tarifa por volumen, informes con tu logotipo, portal y API, y una sola factura al mes."
+  >
+    <p class="actions">
+      <a class="btn" href={primaryCta.href}>
+        Quiero ser partner <Icon name="arrow-right" />
+      </a>
+      <a class="btn btn--ghost" href="/informe-de-ejemplo/">
+        Ver un informe de ejemplo
+      </a>
+    </p>
+  </PageHeader>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">01 — Qué incluye</p>
+        <h2>Todo lo que necesitas para revender el análisis</h2>
+      </div>
+      <ul class="benefits">
+        {benefits.map((b) => (
+          <li class="reveal">
+            <span class="icon-tile">
+              <Icon name={b.icon} />
+            </span>
+            <h3>{b.title}</h3>
+            <p>{b.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container split">
+      <div class="section-head">
+        <p class="eyebrow">02 — Cómo empezamos</p>
+        <h2>Compara antes de cambiar</h2>
+        <p class="lead">
+          No te pedimos que te fíes: hacemos una prueba con muestras duplicadas y decides con datos.
+        </p>
+      </div>
+      <ol class="timeline">
+        {steps.map((s, i) => (
+          <li class="reveal">
+            <span class="timeline__num">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div class="section-head">
+        <p class="eyebrow">03 — Lo que viene</p>
+        <h2>Más servicios para vender con tu marca</h2>
+        <p class="lead">
+          Iremos sumando servicios que puedes ofrecer a tus clientes sin montar nada por tu cuenta.
+        </p>
+      </div>
+      <ul class="roadmap">
+        {roadmap.map((r) => (
+          <li>
+            <span>{r.item}</span>
+            <span class="chip chip--soon">{r.from}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <Faq items={faq} title="Preguntas de partners" split />
+    </div>
+  </section>
+
+  <CtaBanner
+    title="¿Hablamos 45 minutos?"
+    text="Cuéntanos cuántas muestras mueves y con quién trabajas hoy. Te proponemos tarifa y una prueba de 2 meses con muestras duplicadas."
+  />
+</BaseLayout>
+
+<style>
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    padding-top: var(--space-2);
+  }
+  .benefits {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  }
+  .benefits li {
+    padding: 1.6rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-bg);
+    box-shadow: var(--shadow);
+  }
+  .benefits h3 {
+    margin-top: var(--space-3);
+  }
+  .benefits p {
+    margin-top: var(--space-2);
+    color: var(--color-text-muted);
+  }
+  .split {
+    display: grid;
+    gap: var(--space-5);
+    align-items: start;
+  }
+  @media (min-width: 1000px) {
+    .split {
+      grid-template-columns: 1fr 1.3fr;
+      gap: var(--space-6);
+    }
+  }
+  .timeline {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+  .timeline li {
+    display: flex;
+    gap: var(--space-4);
+    padding: 1.4rem 1.6rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-bg);
+    box-shadow: var(--shadow-sm);
+  }
+  .timeline__num {
+    font-size: 1.8rem;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--color-accent-strong);
+  }
+  .timeline p {
+    margin-top: 0.3rem;
+    color: var(--color-text-muted);
+  }
+  .roadmap {
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .roadmap li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+    padding-block: 1.1rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+</style>

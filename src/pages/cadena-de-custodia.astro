@@ -1,0 +1,274 @@
+---
+/**
+ * Hoja de cadena de custodia imprimible (también se descarga en PDF:
+ * public/descargas/cadena-de-custodia-ensayum.pdf, generado con `npm run descargables`).
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import Icon from '@/components/Icon.astro';
+import Logo from '@/components/Logo.astro';
+import { site } from '@/config/site';
+
+const general = [
+  'Empresa que envía',
+  'Persona de contacto y teléfono',
+  'Titular de la instalación',
+  'Dirección de la instalación',
+  'Nº de pedido',
+];
+const analyses = [
+  'Legionella (ISO 11731)',
+  'Legionella + aerobios',
+  'Combo torre (Legionella + aerobios + Fe / FQ)',
+  'Control en grifo (RD 3/2023)',
+  'Piscina (RD 742/2013)',
+  'Otro:',
+];
+const rows = 6;
+---
+
+<BaseLayout
+  title="Hoja de cadena de custodia"
+  description="Hoja de cadena de custodia de Ensayum para muestras de agua, con los campos de Legionella: punto, hora, temperatura, biocida residual y análisis pedidos."
+  breadcrumbs={[
+    { name: 'Enviar muestras', href: '/enviar-muestras/' },
+    { name: 'Cadena de custodia', href: '/cadena-de-custodia/' },
+  ]}
+>
+  <PageHeader
+    eyebrow="Enviar muestras"
+    icon="clipboard"
+    title="Hoja de cadena de custodia"
+    summary="Para envíos sin pedido en el portal. Con pedido online, estos datos se rellenan en el portal y la etiqueta QR sustituye a esta hoja."
+  >
+    <p class="actions">
+      <a class="btn" href="/descargas/cadena-de-custodia-ensayum.pdf" download>
+        Descargar en PDF <Icon name="arrow-right" />
+      </a>
+    </p>
+  </PageHeader>
+
+  <section class="section">
+    <div class="container">
+      <article class="sheet">
+        <header class="sheet__head">
+          <Logo height={22} />
+          <div>
+            <p class="sheet__label">Cadena de custodia · muestras de agua</p>
+            <p class="sheet__contact">{site.contact.email}</p>
+          </div>
+        </header>
+
+        <h2>1. Datos del envío</h2>
+        <dl class="fields">
+          {general.map((g) => (
+            <div>
+              <dt>{g}</dt>
+              <dd />
+            </div>
+          ))}
+        </dl>
+
+        <h2>2. Muestras</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Código / QR</th>
+                <th>Punto de muestreo</th>
+                <th>Tipo de agua</th>
+                <th>Fecha y hora</th>
+                <th>T.ª agua (°C)</th>
+                <th>Biocida y residual (mg/L)</th>
+                <th>Análisis</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Array.from({ length: rows }).map(() => (
+                <tr>
+                  <td />
+                  <td />
+                  <td />
+                  <td />
+                  <td />
+                  <td />
+                  <td />
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <h2>3. Análisis disponibles</h2>
+        <ul class="checks">
+          {analyses.map((a) => (
+            <li>
+              <span class="box" /> {a}
+            </li>
+          ))}
+        </ul>
+
+        <h2>4. Firmas</h2>
+        <div class="signs">
+          <div>
+            <p>Entrega (toma de muestras)</p>
+            <span>Nombre, fecha, hora y firma</span>
+          </div>
+          <div>
+            <p>Recepción en laboratorio</p>
+            <span>Nombre, fecha, hora, T.ª de llegada y firma</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .actions {
+    padding-top: var(--space-2);
+  }
+  .sheet {
+    max-width: 62rem;
+    margin-inline: auto;
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    background: #fff;
+    color: #0b3c5d;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    font-size: 0.9rem;
+    --color-logo: #0b3c5d;
+  }
+  .sheet__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #0b3c5d;
+  }
+  .sheet__head > div {
+    text-align: right;
+  }
+  .sheet__label {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #138a80;
+  }
+  .sheet__contact {
+    font-size: 0.8rem;
+    color: #4a5e6d;
+  }
+  h2 {
+    margin-top: 1.6rem;
+    margin-bottom: 0.7rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #0b3c5d;
+  }
+  .fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+    gap: 0.8rem 1.5rem;
+  }
+  .fields dt {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #4a5e6d;
+  }
+  .fields dd {
+    height: 1.6rem;
+    border-bottom: 1px solid #b9cddb;
+  }
+  .table-wrap {
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    min-width: 46rem;
+    border-collapse: collapse;
+  }
+  th,
+  td {
+    border: 1px solid #b9cddb;
+    padding: 0.4rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    font-weight: 500;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: #f3f6f8;
+  }
+  td {
+    height: 2.2rem;
+  }
+  .checks {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+    gap: 0.5rem 1.5rem;
+  }
+  .box {
+    display: inline-block;
+    width: 0.9rem;
+    height: 0.9rem;
+    border: 1.5px solid #0b3c5d;
+    border-radius: 3px;
+    vertical-align: -0.1em;
+    margin-right: 0.4rem;
+  }
+  .signs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+    gap: 1.5rem;
+  }
+  .signs div {
+    height: 6rem;
+    padding: 0.6rem;
+    border: 1px solid #b9cddb;
+    border-radius: 6px;
+  }
+  .signs p {
+    font-weight: 500;
+  }
+  .signs span {
+    font-size: 0.75rem;
+    color: #4a5e6d;
+  }
+
+  @media print {
+    :global(.header),
+    :global(.footer),
+    :global(.crumbs),
+    :global(.page-header) {
+      display: none !important;
+    }
+    .section {
+      padding: 0;
+    }
+    .sheet {
+      border: 0;
+      box-shadow: none;
+      max-width: none;
+      padding: 0;
+      font-size: 0.8rem;
+    }
+    table {
+      min-width: 0;
+      table-layout: fixed;
+    }
+    th {
+      font-size: 0.6rem;
+    }
+    td {
+      height: 2.6rem;
+    }
+  }
+</style>
