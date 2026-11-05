@@ -1,6 +1,6 @@
-# Web del laboratorio de aguas
+# Ensayum · web
 
-Web del laboratorio de análisis de aguas en Madrid (nombre comercial pendiente). Está hecha con [Astro](https://astro.build): genera HTML estático, rapidísimo y fácil de indexar, sin base de datos ni servidor.
+Web de Ensayum, laboratorio de ensayos microbiológicos y ambientales en Madrid. Está hecha con [Astro](https://astro.build): genera HTML estático, rapidísimo y fácil de indexar, sin base de datos ni servidor.
 
 - **SEO**: título, descripción, canonical, Open Graph, datos estructurados (schema.org), sitemap, RSS, migas de pan y revisión automática en cada cambio.
 - **IA**: `/llms.txt`, `/llms-full.txt`, versión Markdown de cada ficha (`/servicios/legionella.md`), robots.txt que permite a los asistentes de IA citar la web y textos con la respuesta directa al principio.
@@ -56,13 +56,13 @@ Hace cuatro cosas: comprueba tipos y contenido, compila, revisa el SEO de cada p
 
 ## Lista de lanzamiento
 
-- [ ] Nombre comercial, razón social y CIF en `src/config/site.ts`.
+- [ ] Razón social y CIF en `src/config/site.ts` (el nombre comercial Ensayum ya está).
 - [ ] Dominio definitivo en `url`.
 - [ ] Email, teléfono y, cuando se firme el local, dirección.
 - [ ] Formulario: con `contact.form: 'netlify'` funciona solo en Netlify (activa el aviso por email en Netlify → Forms). En otro hosting, pon la URL de Formspree o similar.
 - [ ] Horario de atención en `contact.hours`.
 - [ ] Textos legales revisados por asesoría.
-- [ ] Logotipo definitivo en `public/favicon.svg` y `npm run og`.
+- [x] Identidad Ensayum aplicada (logotipo, favicon, colores, Jost). Si cambias el lema, ejecuta `npm run og`.
 - [ ] Revisión técnica de las guías por el responsable técnico.
 - [ ] `indexable: true` y alta en Google Search Console y Bing Webmaster Tools con el sitemap `https://<dominio>/sitemap-index.xml`.
 
@@ -75,6 +75,10 @@ Es una web estática: el comando `npm run build` deja todo en `dist/`. Sirve cua
 - Versión de Node: 22
 
 Cada push a `main` se publica solo, y cada pull request tiene su vista previa.
+
+## Marca
+
+Hoja de marca en `docs/ensayum-hoja-de-marca.pdf`. Azul petróleo `#0B3C5D`, turquesa `#1FB5A8` y coral `#FF6B5B` solo para la colonia del logotipo. Tipografía Jost. Logotipo y símbolo en `public/brand/`.
 
 ## Reglas de contenido
 

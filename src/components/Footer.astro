@@ -10,7 +10,7 @@ const { contact } = site;
   <div class="container footer__grid">
     <div class="footer__about">
       <Logo inverted />
-      <p>{site.description}</p>
+      <p>{site.descriptor}</p>
     </div>
     <nav aria-label="Secciones">
       <p class="footer__title">Web</p>
@@ -62,7 +62,7 @@ const { contact } = site;
   </div>
   <div class="container footer__legal">
     <p>
-      © {year} {site.legalName}
+      © {year} {site.legalName || site.name}
     </p>
     <ul>
       {legalNav.map((i) => (
@@ -104,7 +104,7 @@ const { contact } = site;
   }
   .footer__title {
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 500;
     color: #fff;
     margin-bottom: var(--space-3);
   }

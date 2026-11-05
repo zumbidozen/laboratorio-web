@@ -10,12 +10,15 @@
  */
 
 export const site = {
-  /** TODO: nombre comercial definitivo (la SL está en constitución). */
-  name: 'Laboratorio de Aguas Madrid',
-  /** Nombre corto para la cabecera y el título de las pestañas. */
-  shortName: 'Lab Aguas',
-  /** Razón social para el aviso legal y los datos estructurados. TODO */
-  legalName: 'Nombre por definir, S.L.',
+  /** Nombre comercial (hoja de marca Ensayum v3). */
+  name: 'Ensayum',
+  /** Nombre corto para el título de las pestañas. */
+  shortName: 'Ensayum',
+  /** Descriptor de marca (hoja de marca). Se usa en el pie y en llms.txt. */
+  descriptor:
+    'Laboratorio de ensayos microbiológicos y ambientales. Aguas, alimentación, ambientes interiores y superficies.',
+  /** TODO: razón social exacta cuando se constituya la SL. Vacío = se muestra el nombre comercial. */
+  legalName: '',
   /** TODO: CIF cuando esté la sociedad constituida. */
   taxId: '',
 
@@ -34,7 +37,7 @@ export const site = {
 
   /** Entre 70 y 160 caracteres: es la descripción por defecto en Google y en redes. */
   description:
-    'Laboratorio de aguas en Madrid para empresas de servicios: Legionella, agua de consumo, piscinas y torres, con pedido online e informes en tu marca.',
+    'Ensayum, laboratorio de aguas en Madrid para empresas de servicios: Legionella, agua de consumo, piscinas y torres, con pedido online e informes en tu marca.',
 
   /** Título SEO de la portada (máx. ~55 caracteres; se le añade " · shortName"). */
   homeTitle: 'Laboratorio de análisis de aguas en Madrid',

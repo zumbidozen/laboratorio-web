@@ -3,40 +3,55 @@
  * Colores, tipografías y espaciados se cambian SOLO en :root.
  * Los componentes usan estas variables, nunca valores sueltos.
  */
-@import '@fontsource-variable/manrope';
-@import '@fontsource-variable/inter';
+@import '@fontsource-variable/jost';
 
+/*
+ * Identidad Ensayum (hoja de marca v3):
+ *   Azul petróleo #0B3C5D  principal: logotipo, texto, fondos en negativo
+ *   Turquesa      #1FB5A8  secundario: muestra del tubo, detalles
+ *   Coral         #FF6B5B  SOLO la colonia del logotipo (no usar en la interfaz)
+ *   Tipografía: Jost. SemiBold 600 en el logotipo; Regular 400 y Light 300 en titulares y texto.
+ */
 :root {
   /* Marca */
-  --color-brand: #0e7490;
-  --color-brand-strong: #0b5a70;
-  --color-brand-soft: #e3f4f8;
-  --color-brand-tint: #f1f9fb;
-  --color-accent: #14b8a6; /* aguamarina */
-  --color-ok: #059669;
-  --color-ok-soft: #d1fae5;
-  --color-warn: #b45309;
-  --color-warn-soft: #fef3c7;
-  --color-alert: #e11d48;
-  --color-alert-soft: #ffe4e6;
+  --color-petrol: #0b3c5d;
+  --color-petrol-2: #0f4b73;
+  --color-turquoise: #1fb5a8;
+  --color-logo: var(--color-petrol);
 
-  /* Neutros */
+  --color-brand: #0b3c5d;
+  --color-brand-strong: #072a42;
+  --color-brand-soft: #e6eef4;
+  --color-brand-tint: #f2f6f9;
+  --color-accent: #1fb5a8;
+  --color-accent-strong: #138a80;
+  --color-accent-soft: #e2f6f4;
+
+  /* Estados de la interfaz (no son colores de marca) */
+  --color-ok: #138a80;
+  --color-ok-soft: #e2f6f4;
+  --color-warn: #9a6200;
+  --color-warn-soft: #fdf1d8;
+  --color-alert: #c0362c;
+  --color-alert-soft: #fbe6e4;
+
+  /* Neutros (de la hoja de marca) */
   --color-bg: #ffffff;
-  --color-surface: #f5f8fa;
-  --color-border: #dfe7eb;
-  --color-text: #0f2530;
-  --color-text-muted: #51666f;
+  --color-surface: #f3f6f8;
+  --color-border: #dde6ec;
+  --color-text: #0b3c5d;
+  --color-text-muted: #4a5e6d;
   --color-on-brand: #ffffff;
 
-  /* Bloques oscuros (CTA, pie) */
-  --color-ink: #0a1d26;
-  --color-ink-2: #11303d;
-  --color-on-ink: #e8f3f6;
-  --color-on-ink-muted: #9bb6bf;
+  /* Bloques en negativo (CTA, pie) */
+  --color-ink: #0b3c5d;
+  --color-ink-2: #0b3c5d;
+  --color-on-ink: #ffffff;
+  --color-on-ink-muted: #b9cddb;
 
   /* Tipografía (autoalojada: sin peticiones a terceros) */
-  --font-display: 'Manrope Variable', system-ui, sans-serif;
-  --font-sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Jost Variable', 'Jost', system-ui, sans-serif;
+  --font-sans: 'Jost Variable', 'Jost', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
   --text-base: 1.0625rem;
   --leading: 1.65;
@@ -48,38 +63,41 @@
   --space-4: 1.5rem;
   --space-5: 2.5rem;
   --space-6: clamp(3.5rem, 7vw, 6rem);
-  --radius-sm: 8px;
-  --radius: 14px;
-  --radius-lg: 22px;
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 16px;
   --container: 76rem;
   --container-text: 46rem;
-  --shadow-sm: 0 1px 2px rgb(15 37 48 / 0.06);
-  --shadow: 0 1px 2px rgb(15 37 48 / 0.05), 0 8px 24px -8px rgb(15 37 48 / 0.12);
-  --shadow-lg: 0 2px 4px rgb(15 37 48 / 0.04), 0 24px 48px -16px rgb(15 37 48 / 0.22);
+  --shadow-sm: 0 1px 2px rgb(11 60 93 / 0.06);
+  --shadow: 0 1px 2px rgb(11 60 93 / 0.05), 0 8px 24px -8px rgb(11 60 93 / 0.14);
+  --shadow-lg: 0 2px 4px rgb(11 60 93 / 0.04), 0 24px 48px -16px rgb(11 60 93 / 0.25);
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-brand: #38bdd8;
-    --color-brand-strong: #7dd8ea;
-    --color-brand-soft: #0f3340;
-    --color-brand-tint: #0c2630;
-    --color-accent: #2dd4bf;
-    --color-ok: #34d399;
-    --color-ok-soft: #0d3b2e;
-    --color-warn: #fbbf24;
-    --color-warn-soft: #3d2e0a;
-    --color-alert: #fb7185;
-    --color-alert-soft: #4a1520;
-    --color-bg: #08161c;
-    --color-surface: #0d1f27;
-    --color-border: #1d3a46;
-    --color-text: #e6f1f4;
-    --color-text-muted: #9fb7bf;
-    --color-on-brand: #04202a;
-    --color-ink: #050f14;
-    --color-ink-2: #0b2029;
+    --color-logo: #ffffff;
+    --color-brand: #1fb5a8;
+    --color-brand-strong: #5fd3c8;
+    --color-brand-soft: #123f5c;
+    --color-brand-tint: #0c3350;
+    --color-accent: #1fb5a8;
+    --color-accent-strong: #5fd3c8;
+    --color-accent-soft: #0f4450;
+    --color-ok: #5fd3c8;
+    --color-ok-soft: #0f4450;
+    --color-warn: #f3c56b;
+    --color-warn-soft: #3d3215;
+    --color-alert: #f2928a;
+    --color-alert-soft: #4a2024;
+    --color-bg: #072a42;
+    --color-surface: #0a3350;
+    --color-border: #1a4a6b;
+    --color-text: #ffffff;
+    --color-text-muted: #b9cddb;
+    --color-on-brand: #072a42;
+    --color-ink: #051f31;
+    --color-ink-2: #051f31;
   }
 }
 
@@ -129,21 +147,24 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 400;
   line-height: 1.12;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.015em;
   text-wrap: balance;
+  color: var(--color-text);
 }
 h1 {
-  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  font-size: clamp(2.4rem, 5.4vw, 4rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
 }
 h2 {
   font-size: clamp(1.75rem, 3.4vw, 2.5rem);
 }
 h3 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0;
 }
 p {
   text-wrap: pretty;
@@ -162,7 +183,7 @@ a:hover {
   border-radius: 4px;
 }
 ::selection {
-  background: var(--color-brand-soft);
+  background: var(--color-accent-soft);
 }
 
 /* Maquetación */
@@ -209,11 +230,11 @@ a:hover {
   align-items: center;
   gap: var(--space-2);
   font-family: var(--font-display);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--color-brand);
+  color: var(--color-accent-strong);
 }
 .muted {
   color: var(--color-text-muted);
@@ -236,8 +257,9 @@ a:hover {
   padding: 0.8rem 1.35rem;
   border-radius: 999px;
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 0.98rem;
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
   line-height: 1.2;
   text-decoration: none;
   border: 1.5px solid var(--color-brand);
@@ -254,7 +276,7 @@ a:hover {
   border-color: var(--color-brand-strong);
   color: var(--color-on-brand);
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px -8px rgb(14 116 144 / 0.6);
+  box-shadow: 0 8px 20px -8px rgb(11 60 93 / 0.55);
 }
 .btn svg {
   width: 1.1em;
@@ -290,7 +312,7 @@ a:hover {
   align-items: center;
   gap: 0.35em;
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 500;
   text-decoration: none;
 }
 .link-arrow svg {
@@ -315,7 +337,7 @@ a:hover {
   align-items: center;
   gap: 0.35em;
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.4;
   padding: 0.2rem 0.65rem;
   border-radius: 999px;
@@ -344,8 +366,8 @@ a:hover {
   height: 2.75rem;
   flex: none;
   border-radius: 12px;
-  background: var(--color-brand-soft);
-  color: var(--color-brand);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
 }
 .icon-tile svg {
   width: 1.4rem;
@@ -397,7 +419,7 @@ a:hover {
   margin-top: 0.4em;
 }
 .prose li::marker {
-  color: var(--color-brand);
+  color: var(--color-accent);
 }
 .prose table {
   width: 100%;
@@ -422,11 +444,11 @@ a:hover {
 .prose th {
   background: var(--color-surface);
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 500;
   font-size: 0.85rem;
 }
 .prose blockquote {
-  border-left: 3px solid var(--color-brand);
+  border-left: 3px solid var(--color-accent);
   padding: 0.75em 1.1em;
   background: var(--color-brand-tint);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;

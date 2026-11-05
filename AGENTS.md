@@ -16,6 +16,13 @@ Web estática en Astro de un laboratorio de análisis de aguas en Madrid que ven
 - Estilos: variables en `:root` de `src/styles/global.css`. Los componentes usan esas variables; no metas colores sueltos.
 - Una página nueva va en `src/pages/` usando `BaseLayout` con `title`, `description` (70–160 caracteres) y `breadcrumbs`. Si es contenido repetible, mejor crea una colección.
 
+## Marca (Ensayum, hoja de marca en `docs/ensayum-hoja-de-marca.pdf`)
+
+- Colores: azul petróleo `#0B3C5D` (principal, logotipo, texto, negativos), turquesa `#1FB5A8` (secundario, detalles). Coral `#FF6B5B` **solo** en la colonia del logotipo: nunca en la interfaz.
+- Tipografía: Jost. Titulares en Regular 400 o Light 300; el SemiBold 600 es del logotipo.
+- Logotipo: `src/components/Logo.astro` (vectores oficiales; no redibujar). Negativo con `inverted`. Archivos en `public/brand/`.
+- Antetítulos en versales espaciadas y turquesa (`.eyebrow`), como en la hoja de marca.
+
 ## Diseño
 
 - Componentes reutilizables en `src/components/`: `Card`, `PageHeader`, `Faq`, `CtaBanner`, `Icon`, `Logo`, `PortalMock`. Úsalos antes de crear otros.
