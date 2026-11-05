@@ -1,0 +1,168 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Card from '@/components/Card.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import { site, primaryCta } from '@/config/site';
+import {
+  getServicios,
+  getSectores,
+  getGuias,
+  servicioUrl,
+  sectorUrl,
+  guiaUrl,
+} from '@/lib/content';
+import { promises, steps } from '@/data/home';
+
+const servicios = (await getServicios()).filter((s) => s.data.category === 'analisis');
+const sectores = await getSectores();
+const guias = (await getGuias()).slice(0, 3);
+---
+
+<BaseLayout title={site.homeTitle} description={site.description} path="/">
+  <section class="hero">
+    <div class="container stack">
+      <p class="eyebrow">Laboratorio de análisis de aguas · {site.contact.address.region}</p>
+      <h1>{site.tagline}</h1>
+      <p class="lead">
+        Analizamos Legionella, agua de consumo, piscinas y torres para empresas de mantenimiento y
+        control de Legionella. Pides online o por API, sigues cada muestra en tiempo real y recibes
+        el informe con tu logotipo.
+      </p>
+      <div class="hero__actions">
+        <a class="btn" href={primaryCta.href}>
+          {primaryCta.label}
+        </a>
+        <a class="btn btn--ghost" href="/servicios/">
+          Ver análisis
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Lo que cambia trabajando con nosotros</h2>
+      <ul class="grid promises">
+        {promises.map((p) => (
+          <li>
+            <h3>{p.title}</h3>
+            <p class="muted">{p.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container stack">
+      <h2>Análisis</h2>
+      <div class="grid">
+        {servicios.map((s) => (
+          <Card
+            href={servicioUrl(s)}
+            title={s.data.name}
+            text={s.data.summary}
+            badge={
+              s.data.status === 'proximamente'
+                ? `Próximamente${s.data.availableFrom ? ` · ${s.data.availableFrom}` : ''}`
+                : undefined
+            }
+          />
+        ))}
+      </div>
+      <p>
+        <a href="/servicios/">Todos los análisis y servicios →</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container stack">
+      <h2>Cómo funciona</h2>
+      <ol class="steps">
+        {steps.map((s) => (
+          <li>
+            <h3>{s.title}</h3>
+            <p class="muted">{s.text}</p>
+          </li>
+        ))}
+      </ol>
+      <p>
+        <a href="/como-trabajamos/">Plazos, portal e informes →</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container stack">
+      <h2>Para quién trabajamos</h2>
+      <div class="grid">
+        {sectores.map((s) => (
+          <Card href={sectorUrl(s)} title={s.data.name} text={s.data.summary} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {guias.length > 0 && (
+    <section class="section">
+      <div class="container stack">
+        <h2>Guías de normativa</h2>
+        <div class="grid">
+          {guias.map((g) => (
+            <Card href={guiaUrl(g)} title={g.data.title} text={g.data.description} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <CtaBanner />
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: var(--space-6);
+    background: linear-gradient(180deg, var(--color-brand-soft), var(--color-bg));
+  }
+  .hero h1 {
+    max-width: 20ch;
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    padding-top: var(--space-2);
+  }
+  .promises {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-4);
+  }
+  .promises h3 {
+    margin-bottom: var(--space-2);
+  }
+  .steps {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+  }
+  .steps li {
+    counter-increment: step;
+  }
+  .steps li::before {
+    content: counter(step);
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: var(--color-brand);
+    color: var(--color-on-brand);
+    font-weight: 700;
+    margin-bottom: var(--space-2);
+  }
+</style>

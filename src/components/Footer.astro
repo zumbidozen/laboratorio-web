@@ -1,0 +1,106 @@
+---
+import { site, mainNav, legalNav } from '@/config/site';
+const year = new Date().getFullYear();
+const { contact } = site;
+---
+
+<footer class="footer">
+  <div class="container footer__grid">
+    <div class="stack">
+      <p class="footer__brand">{site.name}</p>
+      <p class="muted">{site.description}</p>
+    </div>
+    <nav aria-label="Secciones">
+      <p class="footer__title">Secciones</p>
+      <ul>
+        {mainNav.map((i) => (
+          <li>
+            <a href={i.href}>{i.label}</a>
+          </li>
+        ))}
+        <li>
+          <a href="/contacto/">Contacto</a>
+        </li>
+      </ul>
+    </nav>
+    <address>
+      <p class="footer__title">Contacto</p>
+      <ul>
+        {contact.email && (
+          <li>
+            <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          </li>
+        )}
+        {contact.phone && (
+          <li>
+            <a href={`tel:${contact.phone}`}>{contact.phoneDisplay || contact.phone}</a>
+          </li>
+        )}
+        {contact.address.street && (
+          <li>
+            {contact.address.street}, {contact.address.postalCode} {contact.address.city}
+          </li>
+        )}
+        {!contact.address.street && <li>{contact.address.region}</li>}
+        <li class="muted">{contact.hours}</li>
+      </ul>
+    </address>
+  </div>
+  <div class="container footer__legal">
+    <p class="muted">
+      © {year} {site.legalName}
+    </p>
+    <ul>
+      {legalNav.map((i) => (
+        <li>
+          <a href={i.href}>{i.label}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: var(--space-6);
+    padding-block: var(--space-5) var(--space-4);
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    font-size: 0.95rem;
+  }
+  .footer__grid {
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  }
+  .footer__brand {
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .footer__title {
+    font-weight: 600;
+    margin-bottom: var(--space-2);
+  }
+  address {
+    font-style: normal;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-1);
+  }
+  .footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+  }
+  .footer__legal ul {
+    display: flex;
+    gap: var(--space-3);
+  }
+</style>

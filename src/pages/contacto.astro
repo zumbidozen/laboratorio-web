@@ -1,0 +1,135 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { site } from '@/config/site';
+
+const { contact } = site;
+---
+
+<BaseLayout
+  title="Contacto y tarifa profesional"
+  description="Pide tarifa profesional para tus análisis de agua: cuéntanos cuántas muestras mueves al mes y qué tipo de instalaciones mantienes."
+  breadcrumbs={[{ name: 'Contacto', href: '/contacto/' }]}
+>
+  <PageHeader
+    eyebrow="Contacto"
+    title="Pide tarifa profesional"
+    summary="Cuéntanos qué analizas y cuántas muestras mueves al mes, y te preparamos una tarifa con descuento por volumen."
+  />
+  <div class="container layout">
+    {contact.formEndpoint ? (
+      <form class="form stack" method="post" action={contact.formEndpoint}>
+        <label>
+          Nombre y apellidos
+          <input name="nombre" autocomplete="name" required />
+        </label>
+        <label>
+          Empresa
+          <input name="empresa" autocomplete="organization" required />
+        </label>
+        <label>
+          Email
+          <input name="email" type="email" autocomplete="email" required />
+        </label>
+        <label>
+          Teléfono
+          <input name="telefono" type="tel" autocomplete="tel" />
+        </label>
+        <label>
+          Muestras al mes (aprox.)
+          <select name="volumen">
+            <option>Menos de 50</option>
+            <option>50–100</option>
+            <option>100–300</option>
+            <option>Más de 300</option>
+          </select>
+        </label>
+        <label>
+          ¿Qué necesitas?
+          <textarea name="mensaje" rows="5" />
+        </label>
+        <label class="check">
+          <input type="checkbox" name="privacidad" required />
+          <span>
+            He leído y acepto la <a href="/privacidad/">política de privacidad</a>.
+          </span>
+        </label>
+        <button class="btn" type="submit">
+          Enviar
+        </button>
+      </form>
+    ) : (
+      <div class="stack">
+        <p>
+          Escríbenos a{' '}
+          <a href={`mailto:${contact.email}?subject=Tarifa profesional`}>{contact.email}</a> con:
+        </p>
+        <ul>
+          <li>Tu empresa y a qué os dedicáis.</li>
+          <li>Qué análisis necesitáis (Legionella, grifo, piscinas, torres…).</li>
+          <li>Cuántas muestras movéis al mes, aproximadamente.</li>
+        </ul>
+      </div>
+    )}
+    <aside class="stack">
+      <h2>Datos de contacto</h2>
+      <ul class="plain">
+        {contact.email && (
+          <li>
+            Email: <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          </li>
+        )}
+        {contact.phone && (
+          <li>
+            Teléfono: <a href={`tel:${contact.phone}`}>{contact.phoneDisplay || contact.phone}</a>
+          </li>
+        )}
+        {contact.address.street && (
+          <li>
+            {contact.address.street}, {contact.address.postalCode} {contact.address.city}
+          </li>
+        )}
+        <li>{contact.hours}</li>
+      </ul>
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .layout {
+    display: grid;
+    gap: var(--space-5);
+  }
+  @media (min-width: 900px) {
+    .layout {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    }
+  }
+  .form label {
+    display: grid;
+    gap: var(--space-1);
+    font-weight: 500;
+  }
+  .form input,
+  .form select,
+  .form textarea {
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+  .form .check {
+    display: flex;
+    gap: var(--space-2);
+    align-items: flex-start;
+    font-weight: 400;
+  }
+  ul {
+    padding-left: 1.25em;
+  }
+  .plain {
+    list-style: none;
+    padding: 0;
+  }
+</style>

@@ -1,0 +1,30 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import Card from '@/components/Card.astro';
+import { getGuias, guiaUrl, formatDate } from '@/lib/content';
+
+const guias = await getGuias();
+---
+
+<BaseLayout
+  title="Guías de normativa de aguas"
+  description="Guías prácticas sobre el RD 487/2022 de Legionella, el RD 3/2023 de agua de consumo y la normativa de piscinas, escritas para mantenedores."
+  breadcrumbs={[{ name: 'Guías', href: '/guias/' }]}
+>
+  <PageHeader
+    eyebrow="Guías"
+    title="Guías de normativa de aguas"
+    summary="Explicamos en corto qué piden las normas de Legionella, agua de consumo y piscinas y cómo se traduce en análisis."
+  />
+  <div class="container grid">
+    {guias.map((g) => (
+      <Card
+        href={guiaUrl(g)}
+        title={g.data.title}
+        text={g.data.description}
+        meta={formatDate(g.data.published)}
+      />
+    ))}
+  </div>
+</BaseLayout>

@@ -1,0 +1,75 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render, getEntries } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import Card from '@/components/Card.astro';
+import Faq from '@/components/Faq.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import { getGuias, guiaUrl, servicioUrl, formatDate, isoDate } from '@/lib/content';
+import { article, faqPage } from '@/lib/schema';
+
+export const getStaticPaths = (async () => {
+  const guias = await getGuias();
+  return guias.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+const services = await getEntries(data.services);
+const href = guiaUrl(entry);
+---
+
+<BaseLayout
+  title={data.title}
+  description={data.description}
+  type="article"
+  published={data.published}
+  updated={data.updated}
+  breadcrumbs={[
+    { name: 'Guías', href: '/guias/' },
+    { name: data.title, href },
+  ]}
+  schema={[
+    article({
+      title: data.title,
+      description: data.description,
+      href,
+      published: data.published,
+      updated: data.updated,
+      author: data.author,
+    }),
+    faqPage(data.faq),
+  ]}
+>
+  <PageHeader eyebrow="Guía" title={data.title} summary={data.summary}>
+    <p class="muted">
+      {data.author} · Publicada el{' '}
+      <time datetime={isoDate(data.published)}>{formatDate(data.published)}</time>
+      {data.updated > data.published && (
+        <>
+          {' '}
+          · actualizada el <time datetime={isoDate(data.updated)}>{formatDate(data.updated)}</time>
+        </>
+      )}
+    </p>
+  </PageHeader>
+  <article class="container prose">
+    <Content />
+  </article>
+  <div class="container section">
+    <Faq items={data.faq} />
+  </div>
+  {services.length > 0 && (
+    <section class="container stack">
+      <h2>Análisis relacionados</h2>
+      <div class="grid">
+        {services.map((s) => (
+          <Card href={servicioUrl(s)} title={s.data.name} text={s.data.summary} />
+        ))}
+      </div>
+    </section>
+  )}
+  <CtaBanner />
+</BaseLayout>

@@ -1,0 +1,42 @@
+---
+import { primaryCta } from '@/config/site';
+export interface Props {
+  title?: string;
+  text?: string;
+}
+const {
+  title = '¿Trabajas para varias instalaciones?',
+  text = 'Cuéntanos cuántas muestras mueves al mes y te enviamos tarifa profesional con descuento por volumen.',
+} = Astro.props;
+---
+
+<section class="cta">
+  <div class="container cta__inner">
+    <div class="stack">
+      <h2>{title}</h2>
+      <p>{text}</p>
+    </div>
+    <a class="btn" href={primaryCta.href}>
+      {primaryCta.label}
+    </a>
+  </div>
+</section>
+
+<style>
+  .cta {
+    margin-top: var(--space-6);
+    padding-block: var(--space-5);
+    background: var(--color-brand-soft);
+  }
+  .cta__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+  .cta p {
+    color: var(--color-text-muted);
+    max-width: 40rem;
+  }
+</style>

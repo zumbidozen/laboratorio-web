@@ -1,0 +1,23 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import Faq from '@/components/Faq.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import { getFaq } from '@/lib/content';
+import { faqPage } from '@/lib/schema';
+
+const faq = (await getFaq()).map((e) => e.data);
+---
+
+<BaseLayout
+  title="Preguntas frecuentes"
+  description="Respuestas sobre acreditación, zona de trabajo, precios, plazos de resultados, toma de muestras, API e informes con tu marca."
+  breadcrumbs={[{ name: 'Preguntas frecuentes', href: '/preguntas-frecuentes/' }]}
+  schema={[faqPage(faq)]}
+>
+  <PageHeader eyebrow="Ayuda" title="Preguntas frecuentes" />
+  <div class="container">
+    <Faq items={faq} title="Lo que más nos preguntan" />
+  </div>
+  <CtaBanner title="¿No está tu pregunta?" text="Escríbenos y te respondemos." />
+</BaseLayout>

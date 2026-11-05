@@ -1,0 +1,127 @@
+---
+import { site, mainNav, primaryCta } from '@/config/site';
+const current = Astro.url.pathname;
+const isActive = (href: string) => current.startsWith(href);
+---
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" href="/" aria-label={`${site.name}, inicio`}>
+      <img src="/favicon.svg" alt="" width="32" height="32" />
+      <span>{site.shortName}</span>
+    </a>
+    <details class="menu">
+      <summary aria-label="Abrir menú">Menú</summary>
+      <nav aria-label="Principal">
+        <ul>
+          {mainNav.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </details>
+    <a class="btn header__cta" href={primaryCta.href}>
+      {primaryCta.label}
+    </a>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--color-bg) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .header__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    min-height: 4rem;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  .menu {
+    margin-left: auto;
+  }
+  .menu summary {
+    cursor: pointer;
+    list-style: none;
+    font-weight: 600;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+  .menu summary::-webkit-details-marker {
+    display: none;
+  }
+  .menu nav {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 4rem;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-3);
+  }
+  .menu ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .menu a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .menu a[aria-current='page'] {
+    color: var(--color-brand);
+  }
+  .header__cta {
+    display: none;
+  }
+
+  @media (min-width: 900px) {
+    .menu summary {
+      display: none;
+    }
+    /* En escritorio el menú está siempre visible aunque <details> esté cerrado. */
+    .menu > nav {
+      display: block;
+      position: static;
+      border: 0;
+      padding: 0;
+      background: none;
+    }
+    .menu ul {
+      display: flex;
+      gap: var(--space-4);
+    }
+    .header__cta {
+      display: inline-flex;
+    }
+  }
+</style>
+
+<script>
+  // En escritorio <details> debe estar abierto para que el menú se vea.
+  const menu = document.querySelector<HTMLDetailsElement>('.menu');
+  const mq = window.matchMedia('(min-width: 900px)');
+  const sync = () => menu && (menu.open = mq.matches);
+  sync();
+  mq.addEventListener('change', sync);
+</script>

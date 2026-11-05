@@ -1,0 +1,44 @@
+---
+/**
+ * Lista de preguntas frecuentes accesible (<details>), visible para buscadores.
+ * El JSON-LD FAQPage lo añade la página que lo usa (faqPage() en lib/schema).
+ */
+export interface Props {
+  items: { q: string; a: string }[];
+  title?: string;
+}
+const { items, title = 'Preguntas frecuentes' } = Astro.props;
+---
+
+{items.length > 0 && (
+  <section class="faq" aria-labelledby="faq-title">
+    <h2 id="faq-title">{title}</h2>
+    {items.map(({ q, a }) => (
+      <details>
+        <summary>{q}</summary>
+        <p>{a}</p>
+      </details>
+    ))}
+  </section>
+)}
+
+<style>
+  .faq {
+    max-width: var(--container-text);
+  }
+  h2 {
+    margin-bottom: var(--space-3);
+  }
+  details {
+    border-bottom: 1px solid var(--color-border);
+    padding-block: var(--space-3);
+  }
+  summary {
+    cursor: pointer;
+    font-weight: 600;
+  }
+  details p {
+    margin-top: var(--space-2);
+    color: var(--color-text-muted);
+  }
+</style>

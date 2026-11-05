@@ -1,0 +1,22 @@
+---
+/** Cabecera de página: antetítulo, H1 y respuesta directa (resumen). */
+export interface Props {
+  title: string;
+  eyebrow?: string;
+  summary?: string;
+}
+const { title, eyebrow, summary } = Astro.props;
+---
+
+<header class="container page-header stack">
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <h1>{title}</h1>
+  {summary && <p class="lead">{summary}</p>}
+  <slot />
+</header>
+
+<style>
+  .page-header {
+    padding-block: var(--space-4) var(--space-5);
+  }
+</style>

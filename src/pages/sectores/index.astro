@@ -1,0 +1,27 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import Card from '@/components/Card.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import { getSectores, sectorUrl } from '@/lib/content';
+
+const sectores = await getSectores();
+---
+
+<BaseLayout
+  title="Para quién trabajamos"
+  description="Trabajamos para empresas de mantenimiento y control de Legionella, hoteles, residencias, gestores de piscinas y centros deportivos de la Comunidad de Madrid."
+  breadcrumbs={[{ name: 'Para quién', href: '/sectores/' }]}
+>
+  <PageHeader
+    eyebrow="Para quién"
+    title="Para quién trabajamos"
+    summary="Sobre todo para empresas que toman muestras y revenden el análisis, y también para los edificios que las contratan."
+  />
+  <div class="container grid">
+    {sectores.map((s) => (
+      <Card href={sectorUrl(s)} title={s.data.name} text={s.data.summary} />
+    ))}
+  </div>
+  <CtaBanner />
+</BaseLayout>

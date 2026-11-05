@@ -1,0 +1,32 @@
+# Preguntas frecuentes generales (página /preguntas-frecuentes/).
+# Cada entrada necesita un id único, la pregunta (q) y la respuesta (a).
+# `order` decide el orden (menor = antes).
+
+- id: quien-firma
+  order: 10
+  q: ¿Sois un laboratorio acreditado por ENAC?
+  a: Estamos en fase de puesta en marcha. Los ensayos que requieren acreditación los realiza y firma un laboratorio acreditado por ENAC para ese ensayo, identificado en cada informe. Tú trabajas con nosotros con un solo pedido, un solo portal y una sola factura.
+- id: zona
+  order: 20
+  q: ¿En qué zona trabajáis?
+  a: En la Comunidad de Madrid. Si estás fuera, consúltanos.
+- id: precios
+  order: 30
+  q: ¿Cuánto cuesta un análisis?
+  a: Trabajamos con tarifa profesional según el volumen mensual de muestras, con descuento por volumen y una factura mensual. Pídenos tarifa con tu volumen aproximado.
+- id: plazos
+  order: 40
+  q: ¿Cuánto tardan los resultados?
+  a: Fijamos plazos máximos por contrato, en días naturales desde la recepción. Legionella negativa en 10 días o menos, aviso de posible positivo en 5, aerobios y físico-químico en 4, piscinas y grifo en 5.
+- id: muestras
+  order: 50
+  q: ¿Quién toma las muestras?
+  a: Normalmente las toma tu equipo y nos las envía con la etiqueta QR del pedido. La toma por nuestro equipo llegará en 2028.
+- id: api
+  order: 60
+  q: ¿Tenéis API para integrarlo con nuestro software?
+  a: Sí. Puedes crear pedidos, seguir el estado de cada muestra y descargar resultados e informes desde tu propio sistema.
+- id: marca-blanca
+  order: 70
+  q: ¿Los informes pueden ir con nuestra marca?
+  a: Sí. El informe sale en co-marca, con tu logotipo en la portada y nuestro laboratorio como emisor.

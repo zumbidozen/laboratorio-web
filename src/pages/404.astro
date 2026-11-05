@@ -1,0 +1,21 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+---
+
+<BaseLayout
+  title="Página no encontrada"
+  description="La página que buscas no existe o ha cambiado de dirección. Vuelve al inicio o revisa nuestros análisis de agua."
+  noindex
+>
+  <PageHeader
+    title="Página no encontrada"
+    summary="La página que buscas no existe o ha cambiado de dirección."
+  >
+    <p>
+      <a class="btn" href="/">
+        Volver al inicio
+      </a>
+    </p>
+  </PageHeader>
+</BaseLayout>

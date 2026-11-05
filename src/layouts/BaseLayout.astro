@@ -1,0 +1,60 @@
+---
+/**
+ * Plantilla base de TODAS las páginas: <head> con SEO, cabecera, pie,
+ * migas de pan y enlace "saltar al contenido".
+ */
+import '@/styles/global.css';
+import { site } from '@/config/site';
+import Seo from '@/components/Seo.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import { breadcrumbs as breadcrumbsSchema } from '@/lib/schema';
+
+type SeoProps = import('@/components/Seo.astro').Props;
+
+export interface Props extends SeoProps {
+  /** Migas de pan sin incluir "Inicio" (se añade solo). Vacío = no se muestran. */
+  breadcrumbs?: { name: string; href: string }[];
+}
+
+const { breadcrumbs = [], schema = [], ...seo } = Astro.props;
+const crumbs = breadcrumbs.length ? [{ name: 'Inicio', href: '/' }, ...breadcrumbs] : [];
+---
+
+<!doctype html>
+<html lang={site.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="generator" content={Astro.generator} />
+    <Seo {...seo} schema={[...schema, crumbs.length ? breadcrumbsSchema(crumbs) : null]} />
+  </head>
+  <body>
+    <a class="skip" href="#contenido">
+      Saltar al contenido
+    </a>
+    <Header />
+    <main id="contenido">
+      {crumbs.length > 0 && <Breadcrumbs items={crumbs} />}
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .skip {
+    position: absolute;
+    left: -999px;
+    top: 0.5rem;
+    z-index: 100;
+    background: var(--color-bg);
+    padding: 0.5rem 1rem;
+  }
+  .skip:focus {
+    left: 0.5rem;
+  }
+</style>

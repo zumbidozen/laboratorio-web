@@ -1,0 +1,57 @@
+---
+/** Tarjeta enlazada para servicios, sectores y guías. */
+export interface Props {
+  href: string;
+  title: string;
+  text: string;
+  badge?: string;
+  meta?: string;
+}
+const { href, title, text, badge, meta } = Astro.props;
+---
+
+<article class="card">
+  {badge && <span class="chip chip--soon">{badge}</span>}
+  <h3>
+    <a href={href}>{title}</a>
+  </h3>
+  <p>{text}</p>
+  {meta && <p class="card__meta">{meta}</p>}
+</article>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-bg);
+    box-shadow: var(--shadow);
+  }
+  .card:hover {
+    border-color: var(--color-brand);
+  }
+  .card a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  /* Toda la tarjeta es clicable sin anidar enlaces. */
+  .card a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .card p {
+    color: var(--color-text-muted);
+  }
+  .card__meta {
+    font-size: 0.85rem;
+    margin-top: auto;
+  }
+  .chip {
+    align-self: flex-start;
+  }
+</style>

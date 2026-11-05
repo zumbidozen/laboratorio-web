@@ -1,0 +1,46 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import Card from '@/components/Card.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import { getServicios, servicioUrl } from '@/lib/content';
+
+const all = await getServicios();
+const groups = [
+  { title: 'Análisis', items: all.filter((s) => s.data.category === 'analisis') },
+  { title: 'Servicios', items: all.filter((s) => s.data.category === 'servicio') },
+];
+const badge = (s: (typeof all)[number]) =>
+  s.data.status === 'proximamente'
+    ? `Próximamente${s.data.availableFrom ? ` · ${s.data.availableFrom}` : ''}`
+    : undefined;
+---
+
+<BaseLayout
+  title="Análisis de agua y servicios"
+  description="Análisis de Legionella, agua de consumo, piscinas, torres y otros, más planes de prevención, formación y toma de muestras en la Comunidad de Madrid."
+  breadcrumbs={[{ name: 'Servicios', href: '/servicios/' }]}
+>
+  <PageHeader
+    eyebrow="Servicios"
+    title="Análisis de agua y servicios"
+    summary="Cubrimos los análisis obligatorios de Legionella, agua de consumo, piscinas y torres, y los servicios que los rodean."
+  />
+  {groups.map((g) => (
+    <section class="container section stack">
+      <h2>{g.title}</h2>
+      <div class="grid">
+        {g.items.map((s) => (
+          <Card
+            href={servicioUrl(s)}
+            title={s.data.name}
+            text={s.data.summary}
+            badge={badge(s)}
+            meta={s.data.regulations.join(' · ')}
+          />
+        ))}
+      </div>
+    </section>
+  ))}
+  <CtaBanner />
+</BaseLayout>

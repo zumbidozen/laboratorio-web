@@ -1,0 +1,71 @@
+---
+/**
+ * Todas las etiquetas SEO del <head>: título, descripción, canonical,
+ * Open Graph, Twitter, robots y JSON-LD. Lo usa BaseLayout; no hace falta
+ * tocarlo para añadir páginas.
+ */
+import { site, absoluteUrl } from '@/config/site';
+import { graph, organization, website } from '@/lib/schema';
+
+export interface Props {
+  title: string;
+  description: string;
+  /** Ruta canónica; por defecto la URL actual. */
+  path?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  /** Fuerza noindex en esta página (además del interruptor global). */
+  noindex?: boolean;
+  /** Nodos JSON-LD propios de la página (Service, Article, FAQPage, BreadcrumbList…). */
+  schema?: (Record<string, unknown> | null | undefined)[];
+  published?: Date;
+  updated?: Date;
+}
+
+const {
+  title,
+  description,
+  path = Astro.url.pathname,
+  image = site.ogImage,
+  type = 'website',
+  noindex = false,
+  schema = [],
+  published,
+  updated,
+} = Astro.props;
+
+const fullTitle = `${title} · ${site.shortName}`;
+const canonical = absoluteUrl(path);
+const imageUrl = absoluteUrl(image);
+const robots =
+  !site.indexable || noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large';
+const jsonLd = graph(organization(), website(), ...schema);
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta name="robots" content={robots} />
+
+<meta property="og:type" content={type} />
+<meta property="og:locale" content={site.locale.replace('-', '_')} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+{published && <meta property="article:published_time" content={published.toISOString()} />}
+{updated && <meta property="article:modified_time" content={updated.toISOString()} />}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="alternate" type="application/rss+xml" title={`Guías · ${site.name}`} href="/rss.xml" />
+<link rel="alternate" type="text/plain" title="Resumen para IA (llms.txt)" href="/llms.txt" />
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

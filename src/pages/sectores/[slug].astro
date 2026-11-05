@@ -1,0 +1,52 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render, getEntries } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import Card from '@/components/Card.astro';
+import Faq from '@/components/Faq.astro';
+import CtaBanner from '@/components/CtaBanner.astro';
+import { getSectores, sectorUrl, servicioUrl } from '@/lib/content';
+import { faqPage } from '@/lib/schema';
+
+export const getStaticPaths = (async () => {
+  const sectores = await getSectores();
+  return sectores.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+const services = await getEntries(data.services);
+const href = sectorUrl(entry);
+---
+
+<BaseLayout
+  title={data.title}
+  description={data.description}
+  updated={data.updated}
+  breadcrumbs={[
+    { name: 'Para quién', href: '/sectores/' },
+    { name: data.name, href },
+  ]}
+  schema={[faqPage(data.faq)]}
+>
+  <PageHeader eyebrow="Para quién" title={data.title} summary={data.summary} />
+  <article class="container prose">
+    <Content />
+  </article>
+  {services.length > 0 && (
+    <section class="container section stack">
+      <h2>Análisis y servicios más pedidos</h2>
+      <div class="grid">
+        {services.map((s) => (
+          <Card href={servicioUrl(s)} title={s.data.name} text={s.data.summary} />
+        ))}
+      </div>
+    </section>
+  )}
+  <div class="container">
+    <Faq items={data.faq} />
+  </div>
+  <CtaBanner />
+</BaseLayout>

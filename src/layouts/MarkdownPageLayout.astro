@@ -1,0 +1,25 @@
+---
+/**
+ * Plantilla para páginas sueltas escritas en Markdown dentro de src/pages
+ * (textos legales, etc.). Basta con poner en el frontmatter:
+ *   layout: '@/layouts/MarkdownPageLayout.astro'
+ *   title, description y, opcionalmente, noindex: true
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+
+const { frontmatter } = Astro.props;
+const path = Astro.url.pathname;
+---
+
+<BaseLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  noindex={frontmatter.noindex}
+  breadcrumbs={[{ name: frontmatter.title, href: path }]}
+>
+  <PageHeader title={frontmatter.title} />
+  <article class="container prose">
+    <slot />
+  </article>
+</BaseLayout>
