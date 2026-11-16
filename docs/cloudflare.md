@@ -60,14 +60,11 @@ Los avisos salen de `ensayum.com`, que no tiene buzones, para no tocar los regis
 
 Enviar a direcciones verificadas de la propia cuenta es gratis en el plan gratuito de Workers. Para mandar emails a cualquier destinatario (por ejemplo, la checklist al cliente) haría falta el plan de pago de Workers.
 
-## 7. Base de datos de envíos
+## 7. Base de datos de envíos (hecho)
 
-Cada envío se guarda aunque falle el email.
+Creada el 16 de noviembre de 2026: `ensayum-formularios`, con **jurisdicción UE** (los datos no salen de la Unión Europea), y ya enlazada en `wrangler.jsonc`. Cada envío se guarda aunque falle el email.
 
-1. `npx wrangler d1 create ensayum-formularios`, o desde **Almacenamiento y bases de datos → D1 → Crear**.
-2. Copia el bloque `d1_databases` que devuelve en `wrangler.jsonc` (está preparado en un comentario).
-3. La tabla `envios` se crea sola con el primer formulario.
-4. Para consultarla: **D1 → ensayum-formularios → Consola**, con `SELECT * FROM envios ORDER BY id DESC`.
+- Consulta: **Almacenamiento y bases de datos → D1 → ensayum-formularios → Consola**, con `SELECT * FROM envios ORDER BY id DESC`.
 
 ## 8. Lanzamiento
 

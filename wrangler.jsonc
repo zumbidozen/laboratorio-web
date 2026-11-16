@@ -22,8 +22,13 @@
     // TODO: remitente de un dominio dado de alta en Email Sending (p. ej. web@avisos.ensayum.es).
     "AVISOS_DESDE": "",
   },
-  // TODO: base de datos de envíos. Se crea con `npx wrangler d1 create ensayum-formularios`
-  // y se añade aquí el bloque que devuelve:
-  // "d1_databases": [{ "binding": "DB", "database_name": "ensayum-formularios", "database_id": "…" }],
+  // Base de datos de envíos (jurisdicción UE). Consulta: D1 → ensayum-formularios → Consola.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ensayum-formularios",
+      "database_id": "d30f0479-715d-4bea-aeff-c86fd1aa7bde",
+    },
+  ],
   "observability": { "enabled": true },
 }
