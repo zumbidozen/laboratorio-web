@@ -30,12 +30,12 @@ Web estática en Astro de un laboratorio de análisis de aguas en Madrid que ven
 
 ## Diseño
 
-- Componentes reutilizables en `src/components/`: `Card`, `PageHeader`, `Faq`, `CtaBanner`, `Icon`, `Logo`, `PortalMock`, `NetlifyForm`, `LeadMagnet`, `DocPreview`, `SampleTracker`, `NormMarquee`, `PetriDish`, `ReadingProgress`, `FrequencyTables`. Úsalos antes de crear otros.
+- Componentes reutilizables en `src/components/`: `Card`, `PageHeader`, `Faq`, `CtaBanner`, `Icon`, `Logo`, `PortalMock`, `WebForm`, `LeadMagnet`, `DocPreview`, `SampleTracker`, `NormMarquee`, `PetriDish`, `ReadingProgress`, `FrequencyTables`. Úsalos antes de crear otros.
 - Modo claro u oscuro: sigue al sistema salvo que el visitante lo cambie con el botón de la cabecera (`data-theme` en `<html>`). Los colores oscuros están en dos bloques de `global.css`; cambia los dos.
 - Efectos: foco de luz con la clase `.spotlight`; transición entre páginas nativa (`@view-transition` en `global.css`); cabecera que se compacta y botón fijo «Pedir tarifa» en móvil (`BaseLayout`, ocúltalo con `hideStickyCta` en páginas con formulario). Todo efecto nuevo debe respetar `prefers-reduced-motion` y mostrarse completo en reposo.
 - Glosario: cada término de `src/content/glosario.yaml` puede llevar `match` (formas en que aparece); su primera aparición en guías y servicios se enlaza sola (`src/lib/glosario-enlaces.mjs`).
 - Buscador: Pagefind indexa el `<main>` de las páginas indexables al compilar. Marca con `data-pagefind-ignore` los bloques que no son contenido (tarjetas, formularios, CTA).
-- Formularios: todos registran la página (`pagina`) y la página anterior (`llegada`). «Pedir tarifa» marca el análisis según `analisisDeServicio` en `src/lib/content.ts`.
+- Formularios (`WebForm`): los recibe el Worker de Cloudflare (`worker/index.ts`), que los guarda en D1 y avisa por email; configuración en `wrangler.jsonc` y `docs/cloudflare.md`. Todos registran la página (`pagina`) y la página anterior (`llegada`). «Pedir tarifa» marca el análisis según `analisisDeServicio` en `src/lib/content.ts`.
 - Iconos: `<Icon name="..." />` con los nombres del mapa de `Icon.astro` (Lucide). Para uno nuevo, impórtalo allí.
 - Clases globales en `global.css`: `.section`, `.section--alt`, `.section-head`, `.grid`, `.btn`, `.btn--ghost`, `.chip`, `.icon-tile`, `.checklist`, `.prose`, `.reveal`.
 - Revisa los cambios visuales en móvil (390 px) y escritorio, en modo claro y oscuro.
@@ -49,6 +49,7 @@ Web estática en Astro de un laboratorio de análisis de aguas en Madrid que ven
 5. **`summary`** responde en 1–2 frases a la pregunta de la página. Va primero en pantalla, en `llms.txt` y en las versiones `.md`.
 6. Servicios aún no disponibles: `status: proximamente` + `availableFrom`, nunca texto que diga que ya se hacen.
 7. Nada de dependencias, scripts de terceros, analítica ni cookies sin pedirlo: la página de cookies dice que no hay.
+8. **Alojamiento:** Cloudflare (Worker con recursos estáticos). No uses funciones exclusivas de otro alojamiento (Netlify Forms, redirecciones de Netlify…); las cabeceras van en `public/_headers`.
 
 ## SEO e IA (ya resuelto; no lo dupliques)
 

@@ -2,7 +2,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
 import Icon from '@/components/Icon.astro';
-import NetlifyForm from '@/components/NetlifyForm.astro';
+import WebForm from '@/components/WebForm.astro';
 import { site, addressLine } from '@/config/site';
 import { getGuias, analisisDeServicio } from '@/lib/content';
 
@@ -43,7 +43,7 @@ const next = [
   <section class="section">
     <div class="container layout">
       <div class="panel">
-        <NetlifyForm name="contacto" mailSubject="Tarifa profesional">
+        <WebForm name="contacto" mailSubject="Tarifa profesional">
           <div class="form__row">
             <label class="field">
               <span>Nombre y apellidos</span>
@@ -100,7 +100,7 @@ const next = [
             </span>
             <textarea name="mensaje" id="mensaje" rows="5"></textarea>
           </label>
-        </NetlifyForm>
+        </WebForm>
       </div>
 
       <aside class="stack">

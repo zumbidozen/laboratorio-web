@@ -9,3 +9,5 @@ dist/
 .netlify/
 capturas/
 boe-cambios.md
+.wrangler/
+.dev.vars

@@ -1,0 +1,29 @@
+// Configuración de Cloudflare (Workers con recursos estáticos). Pasos en docs/cloudflare.md.
+// La web estática sale de `npm run build` (carpeta dist/); worker/index.ts solo recibe los formularios.
+{
+  "name": "ensayum",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    // /guias/ sirve guias/index.html; las rutas sin barra final redirigen a la que la lleva.
+    "html_handling": "auto-trailing-slash",
+    // Rutas que no existen: dist/404.html con estado 404.
+    "not_found_handling": "404-page",
+    // Los formularios van siempre al Worker (si no, la capa estática contestaría 405).
+    "run_worker_first": ["/api/*"],
+  },
+  // Avisos por email de los formularios (gratis hacia direcciones verificadas de la cuenta).
+  "send_email": [{ "name": "EMAIL" }],
+  "vars": {
+    // TODO: buzón que recibe los avisos (verificado en Email Routing → Direcciones de destino).
+    "AVISOS_PARA": "",
+    // TODO: remitente de un dominio dado de alta en Email Sending (p. ej. web@avisos.ensayum.es).
+    "AVISOS_DESDE": "",
+  },
+  // TODO: base de datos de envíos. Se crea con `npx wrangler d1 create ensayum-formularios`
+  // y se añade aquí el bloque que devuelve:
+  // "d1_databases": [{ "binding": "DB", "database_name": "ensayum-formularios", "database_id": "…" }],
+  "observability": { "enabled": true },
+}

@@ -1,7 +1,8 @@
 ---
 /**
  * Formulario común de la web (contacto, demo, envases…).
- * Gestiona Netlify Forms, el campo trampa anti-spam, la casilla de privacidad,
+ * Según `site.contact.form`, lo recibe el Worker de Cloudflare (worker/index.ts), Netlify Forms
+ * u otra URL. Gestiona el campo trampa anti-spam, la casilla de privacidad,
  * el botón de envío y la alternativa por email si no hay formulario configurado.
  * Los campos van en el slot, con las clases globales de `global.css` (.form, .field, .pill…).
  */
@@ -9,13 +10,13 @@ import Icon from '@/components/Icon.astro';
 import { site } from '@/config/site';
 
 export interface Props {
-  /** Nombre del formulario en Netlify (aparece así en el panel Forms). */
+  /** Nombre del formulario: aparece en el aviso por email y en la base de datos. */
   name: string;
   /** Texto del botón. */
   submit?: string;
   /** Asunto del email si no hay formulario. */
   mailSubject?: string;
-  /** Página a la que se va tras enviar (solo con Netlify Forms). */
+  /** Página a la que se va tras enviar (con Cloudflare o Netlify). */
   success?: string;
   /** Oculta la casilla de privacidad y la pone como texto (formularios cortos). */
   compact?: boolean;
@@ -30,7 +31,8 @@ const {
 } = Astro.props;
 const { form, email } = site.contact;
 const isNetlify = form === 'netlify';
-const action = isNetlify ? success : form;
+const isCloudflare = form === 'cloudflare';
+const action = isCloudflare ? '/api/formulario' : isNetlify ? success : form;
 ---
 
 {form ? (
@@ -42,7 +44,8 @@ const action = isNetlify ? success : form;
     data-netlify={isNetlify ? 'true' : undefined}
     netlify-honeypot={isNetlify ? 'empresa-web' : undefined}
   >
-    {isNetlify && <input type="hidden" name="form-name" value={name} />}
+    <input type="hidden" name="form-name" value={name} />
+    {isCloudflare && <input type="hidden" name="exito" value={success} />}
     {/* Página donde se rellena y página de la que se venía: para saber qué páginas traen contactos. */}
     <input type="hidden" name="pagina" data-form-meta="pagina" />
     <input type="hidden" name="llegada" data-form-meta="llegada" />

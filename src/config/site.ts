@@ -22,8 +22,8 @@ export const site = {
   /** TODO: CIF cuando esté la sociedad constituida. */
   taxId: '',
 
-  /** TODO: cambiar por el dominio definitivo (con https y sin barra final). */
-  url: 'https://ensayum.netlify.app',
+  /** Dominio definitivo (con https y sin barra final). Se compra aparte: ver docs/cloudflare.md. */
+  url: 'https://ensayum.es',
 
   /**
    * Interruptor de lanzamiento.
@@ -67,12 +67,14 @@ export const site = {
     hours: '',
     /**
      * Cómo se envía el formulario de contacto:
+     * - 'cloudflare': lo recibe el Worker de la web (worker/index.ts), que lo guarda en la
+     *   base de datos D1 y avisa por email. Ver docs/cloudflare.md.
      * - 'netlify': Netlify Forms (funciona solo si la web está alojada en Netlify;
      *   los mensajes llegan al panel de Netlify y por email si se configura el aviso).
      * - una URL (Formspree, Getform, un Worker propio…): el formulario se envía ahí.
      * - '': no hay formulario; se muestra el email.
      */
-    form: 'netlify' as 'netlify' | (string & {}),
+    form: 'cloudflare' as 'cloudflare' | 'netlify' | (string & {}),
   },
 
   /** Zona de servicio (se usa en los datos estructurados). */

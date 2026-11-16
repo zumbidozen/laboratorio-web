@@ -3,7 +3,7 @@
  * Bloque de descarga del lead magnet (checklist en PDF a cambio del email).
  * Se usa en las guías, el glosario, el calendario y la calculadora.
  */
-import NetlifyForm from '@/components/NetlifyForm.astro';
+import WebForm from '@/components/WebForm.astro';
 import Icon from '@/components/Icon.astro';
 import DocPreview from '@/components/DocPreview.astro';
 import { checklist } from '@/data/recursos';
@@ -39,7 +39,7 @@ const { origin, large = false } = Astro.props;
     </ul>
   </div>
   <div class="magnet__form">
-    <NetlifyForm
+    <WebForm
       name={checklist.formName}
       submit="Descargar la checklist"
       success={checklist.thanks}
@@ -64,7 +64,7 @@ const { origin, large = false } = Astro.props;
           <option>Otro</option>
         </select>
       </label>
-    </NetlifyForm>
+    </WebForm>
   </div>
 </aside>
 

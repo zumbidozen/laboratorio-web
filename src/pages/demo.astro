@@ -3,7 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
 import PortalMock from '@/components/PortalMock.astro';
 import Icon from '@/components/Icon.astro';
-import NetlifyForm from '@/components/NetlifyForm.astro';
+import WebForm from '@/components/WebForm.astro';
 
 const agenda = [
   'Cómo se crea un pedido y se imprimen las etiquetas QR',
@@ -42,7 +42,7 @@ const agenda = [
       </div>
 
       <div class="panel">
-        <NetlifyForm name="demo" submit="Pedir la demo" mailSubject="Demo del portal">
+        <WebForm name="demo" submit="Pedir la demo" mailSubject="Demo del portal">
           <label class="field">
             <span>Nombre y apellidos</span>
             <input name="nombre" autocomplete="name" required />
@@ -69,7 +69,7 @@ const agenda = [
               <option>Me da igual</option>
             </select>
           </label>
-        </NetlifyForm>
+        </WebForm>
       </div>
     </div>
   </section>

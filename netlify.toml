@@ -6,15 +6,4 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# Caché larga para los recursos con hash de Astro.
-[[headers]]
-  for = "/_astro/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+# Las cabeceras HTTP están en public/_headers (las leen Netlify y Cloudflare).

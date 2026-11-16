@@ -521,7 +521,7 @@ a:hover {
   }
 }
 
-/* Formularios (componente NetlifyForm) */
+/* Formularios (componente WebForm) */
 .form {
   display: grid;
   gap: 1.1rem;

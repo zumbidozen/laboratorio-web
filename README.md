@@ -69,9 +69,9 @@ Hace cuatro cosas: comprueba tipos y contenido, compila, revisa el SEO de cada p
 ## Lista de lanzamiento
 
 - [ ] Razón social y CIF en `src/config/site.ts` (el nombre comercial Ensayum ya está).
-- [ ] Dominio definitivo en `url`.
+- [x] Dominio definitivo en `url` (`https://ensayum.es`; hay que comprarlo y conectarlo: `docs/cloudflare.md`).
 - [ ] Email, teléfono, WhatsApp, código postal y municipio (la calle ya está).
-- [ ] Formulario: con `contact.form: 'netlify'` funciona solo en Netlify (activa el aviso por email en Netlify → Forms). En otro hosting, pon la URL de Formspree o similar.
+- [ ] Formularios: con `contact.form: 'cloudflare'` los recibe el Worker (`worker/index.ts`), que los guarda en D1 y avisa por email. Falta crear la base de datos y poner el buzón de avisos (`docs/cloudflare.md`).
 - [ ] Horario de atención en `contact.hours`.
 - [ ] Textos legales revisados por asesoría.
 - [x] Identidad Ensayum aplicada (logotipo, favicon, colores, Jost). Si cambias el lema, ejecuta `npm run og`.
@@ -80,13 +80,15 @@ Hace cuatro cosas: comprueba tipos y contenido, compila, revisa el SEO de cada p
 
 ## Publicación
 
-Es una web estática: el comando `npm run build` deja todo en `dist/`. Sirve cualquier hosting estático. Recomendado: **Cloudflare Pages** o **Netlify**, conectados a este repositorio, con:
+La web se publica en **Cloudflare** como un Worker con recursos estáticos (`wrangler.jsonc`):
 
-- Comando de compilación: `npm run build`
-- Carpeta de salida: `dist`
-- Versión de Node: 22
+- `npm run build` deja la web en `dist/`, que Cloudflare sirve tal cual.
+- `worker/index.ts` solo recibe los formularios (`POST /api/formulario`).
+- Cabeceras HTTP en `public/_headers`.
 
-Cada push a `main` se publica solo, y cada pull request tiene su vista previa.
+Conectado al repositorio de GitHub, cada push a `main` se publica solo. Puesta en marcha paso a paso (cuenta, dominios, correo, avisos de formularios y base de datos): **`docs/cloudflare.md`**.
+
+Para probarlo en local tal como funcionará en Cloudflare: `npm run build` y después `npx wrangler dev`.
 
 ## Marca
 

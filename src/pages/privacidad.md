@@ -15,6 +15,10 @@ _[Razón social, CIF, domicilio y email de contacto]_
 
 Los datos que nos envías por el formulario o por email (nombre, empresa, email, teléfono y mensaje) para responder a tu solicitud y, si nos lo pides, prepararte una oferta.
 
+## Quién trata los datos por nosotros
+
+La web está alojada en Cloudflare, que recibe los formularios, los guarda y nos los envía por email como encargado del tratamiento. _[TODO asesoría: añadir el proveedor de correo y detallar dónde se guardan los datos y las garantías si salen del Espacio Económico Europeo.]_
+
 ## Base legal
 
 Tu consentimiento al enviar la solicitud y, en su caso, la aplicación de medidas precontractuales.
