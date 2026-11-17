@@ -1,8 +1,10 @@
 /**
  * Worker de Cloudflare de la web.
- * - La web es estática (carpeta dist/): Cloudflare la sirve directamente, sin pasar por aquí.
- * - Este código solo atiende POST /api/formulario: guarda cada envío en la base de datos D1
- *   (binding DB) y avisa por email (binding EMAIL) a la dirección AVISOS_PARA.
+ * - La web es estática (carpeta dist/) y la sirve Cloudflare (binding ASSETS).
+ * - Redirige con un 301 los otros dominios (www.ensayum.es, ensayum.com…) y http al dominio
+ *   principal, que es site.url.
+ * - POST /api/formulario: guarda cada envío en la base de datos D1 (binding DB) y avisa por
+ *   email (binding EMAIL) a la dirección AVISOS_PARA.
  * Configuración en wrangler.jsonc; pasos en docs/cloudflare.md.
  */
 import { site } from '../src/config/site';
@@ -169,9 +171,20 @@ async function recibirFormulario(request: Request, env: Env): Promise<Response> 
   return Response.redirect(exito.toString(), 303);
 }
 
+const principal = new URL(site.url);
+
+/** Dominios de prueba (vista previa de Cloudflare y desarrollo local): no se redirigen. */
+const esPrueba = (host: string) =>
+  host.endsWith('.workers.dev') || host === 'localhost' || host === '127.0.0.1';
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+    const otroDominio = url.hostname !== principal.hostname && !esPrueba(url.hostname);
+    const sinHttps = url.hostname === principal.hostname && url.protocol === 'http:';
+    if (otroDominio || sinHttps) {
+      return Response.redirect(`${principal.origin}${url.pathname}${url.search}`, 301);
+    }
     if (url.pathname === '/api/formulario') {
       if (request.method !== 'POST') {
         return new Response('Método no permitido', { status: 405, headers: { Allow: 'POST' } });

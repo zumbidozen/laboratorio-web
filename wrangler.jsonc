@@ -11,12 +11,18 @@
     "html_handling": "auto-trailing-slash",
     // Rutas que no existen: dist/404.html con estado 404.
     "not_found_handling": "404-page",
-    // Los formularios van siempre al Worker (si no, la capa estática contestaría 405).
-    "run_worker_first": ["/api/*"],
+    // Todo pasa primero por el Worker: redirige los otros dominios y http a https://ensayum.es
+    // y recibe los formularios. El resto lo sirve la web estática.
+    "run_worker_first": true,
   },
-  // Dominios de la web (Cloudflare crea el DNS y el certificado HTTPS). www.ensayum.es y
-  // ensayum.com redirigen a https://ensayum.es con una regla de redirección de cada zona.
-  "routes": [{ "pattern": "ensayum.es", "custom_domain": true }],
+  // Dominios de la web (Cloudflare crea el DNS y el certificado HTTPS). El principal es
+  // site.url (ensayum.es); los demás los redirige worker/index.ts con un 301.
+  "routes": [
+    { "pattern": "ensayum.es", "custom_domain": true },
+    { "pattern": "www.ensayum.es", "custom_domain": true },
+    { "pattern": "ensayum.com", "custom_domain": true },
+    { "pattern": "www.ensayum.com", "custom_domain": true },
+  ],
   // Avisos por email de los formularios (gratis hacia direcciones verificadas de la cuenta).
   "send_email": [{ "name": "EMAIL" }],
   "vars": {
