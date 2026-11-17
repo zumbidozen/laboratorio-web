@@ -22,6 +22,7 @@ const NORMAS = {
   'BOE-A-2022-10297': 'Real Decreto 487/2022 (Legionella)',
   'BOE-A-2023-628': 'Real Decreto 3/2023 (agua de consumo)',
   'BOE-A-2013-10580': 'Real Decreto 742/2013 (piscinas)',
+  'BOE-A-2026-23267': 'Real Decreto 952/2026 (biocidas)',
 };
 
 async function api(id, path) {

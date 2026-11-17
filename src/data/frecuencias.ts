@@ -13,6 +13,7 @@ export const BOE = {
   rd3: 'https://www.boe.es/buscar/act.php?id=BOE-A-2023-628',
   rd742: 'https://www.boe.es/buscar/act.php?id=BOE-A-2013-10580',
   rd742AnexoIII: 'https://www.boe.es/buscar/act.php?id=BOE-A-2013-10580#aniii',
+  rd952: 'https://www.boe.es/buscar/doc.php?id=BOE-A-2026-23267',
   faqSanidad:
     'https://www.sanidad.gob.es/areas/sanidadAmbiental/calidadAguas/legionelosis/docs/preguntasRespuestasLegionella_7082024.pdf',
 } as const;

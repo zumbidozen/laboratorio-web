@@ -66,12 +66,29 @@ export const hitos: Hito[] = [
     who: 'Titulares',
   },
   {
+    date: '2026-11-07',
+    title: 'Derogada la formación de personal del RD 742/2013',
+    text: 'Deja de aplicarse la disposición adicional sobre formación del personal de piscinas. La capacitación de quien aplica biocidas pasa a regularla el RD 952/2026.',
+    source:
+      'RD 952/2026, disposición derogatoria única h) (disposición adicional 3.ª del RD 742/2013)',
+    sourceUrl: BOE.rd952,
+    who: 'Mantenedores',
+  },
+  {
     date: '2027-01-02',
     title: 'Medidas correctoras del Plan Sanitario del Agua',
     text: 'Los edificios prioritarios deben tener aplicadas las medidas correctoras que salieron de su Plan Sanitario del Agua.',
     source: 'RD 3/2023, disposición adicional 9.ª',
     sourceUrl: BOE.rd3,
     who: 'Edificios prioritarios',
+  },
+  {
+    date: '2027-07-01',
+    title: 'Entra en vigor el RD 952/2026 de biocidas',
+    text: 'Nuevo marco del registro, la comercialización y el uso de biocidas y de la capacitación de quien los aplica. Deroga el RD 830/2010 y la Orden SCO/317/2003 de cursos homologados. Quien ya aplica biocidas tiene seis años para obtener la nueva formación o certificados, salvo que su normativa sectorial diga otra cosa.',
+    source: 'RD 952/2026, disposición final tercera y disposición transitoria cuarta',
+    sourceUrl: BOE.rd952,
+    who: 'Mantenedores',
   },
   {
     date: '2028-01-02',

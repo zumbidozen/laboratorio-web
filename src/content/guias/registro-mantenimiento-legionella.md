@@ -3,7 +3,7 @@ title: 'Registro de Legionella: qué anotar y cuánto guardarlo'
 description: 'Qué registros exige el RD 487/2022 en el plan de Legionella: controles, análisis, certificados de limpieza, formación y biocidas, guardados al menos cinco años.'
 summary: 'El RD 487/2022 obliga a registrar cada actividad y control del plan de Legionella con sus resultados, incidencias y medidas, además de las paradas y puestas en marcha. Los registros están en la propia instalación, preferentemente en formato electrónico, y se guardan al menos cinco años.'
 published: 2026-11-05
-updated: 2026-11-05
+updated: 2026-11-17
 services: ['legionella', 'planes-legionella', 'formacion-legionella']
 tags: ['Legionella', 'normativa', 'registro', 'inspección']
 keyPoints:
@@ -23,6 +23,8 @@ sources:
     url: 'https://www.boe.es/diario_boe/txt.php?id=BOE-A-2024-13422'
   - title: 'Preguntas y respuestas sobre el RD 487/2022. Ministerio de Sanidad (agosto de 2024)'
     url: 'https://www.sanidad.gob.es/areas/sanidadAmbiental/calidadAguas/legionelosis/docs/preguntasRespuestasLegionella_7082024.pdf'
+  - title: 'Real Decreto 952/2026, de 4 de noviembre, de biocidas. BOE'
+    url: 'https://www.boe.es/buscar/doc.php?id=BOE-A-2026-23267'
 faq:
   - q: '¿Puedo llevar el registro en papel?'
     a: 'El RD 487/2022 dice que los registros serán preferentemente en soporte informático y que la documentación se guardará preferentemente en formato electrónico. Es una preferencia, no una prohibición del papel.'
@@ -88,6 +90,7 @@ Si la limpieza es un tratamiento de choque por casos o brotes, los resultados de
 
 - **Programa de formación** (art. 18.2): relaciona cada tarea del plan con el nivel de conocimiento necesario y cómo se adquiere. Según la FAQ de Sanidad, no basta con una lista de títulos o certificados.
 - **Personal del programa de tratamiento** (art. 18.5): cualificación profesional SEA492_2 o certificado de profesionalidad equivalente. Los certificados de aprovechamiento anteriores se prorrogaron cinco años (disposición transitoria tercera); según Sanidad, este requisito del artículo 18 se aplica desde el **2 de enero de 2028**.
+- **Quien aplica biocidas:** desde el **1 de julio de 2027** su capacitación la regula el RD 952/2026, que deroga el RD 830/2010 y la Orden SCO/317/2003 de cursos homologados. Quien ya los aplica tiene seis años para obtener la nueva formación o certificados, salvo que su normativa sectorial diga otra cosa. El artículo 18 del RD 487/2022 no cambia.
 - **Operaciones menores** como medir temperatura, biocida o pH: ese personal entra en el plan de formación de la empresa titular o de la empresa de servicios (art. 18.3).
 
 ### Los productos
