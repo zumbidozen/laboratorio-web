@@ -17,10 +17,10 @@ export const site = {
   /** Descriptor de marca (hoja de marca). Se usa en el pie y en llms.txt. */
   descriptor:
     'Laboratorio de ensayos microbiológicos y ambientales. Aguas, alimentación, ambientes interiores y superficies.',
-  /** TODO: razón social exacta cuando se constituya la SL. Vacío = se muestra el nombre comercial. */
-  legalName: '',
-  /** TODO: CIF (o NIF del titular mientras no exista la SL). */
-  taxId: '',
+  /** Razón social (Registro Mercantil de Madrid; BORME de 21/02/2024 y 13/03/2026). */
+  legalName: 'Foncad Group, S.L.',
+  /** CIF de la sociedad. */
+  taxId: 'B70713532',
   /** Inscripción en el Registro Mercantil (tomo, folio, hoja). Vacío = no se muestra. */
   registry: '',
 
@@ -57,11 +57,11 @@ export const site = {
     /** TODO: WhatsApp en formato internacional sin "+" ni espacios (p. ej. 34600000000). Vacío = no se muestra. */
     whatsapp: '',
     address: {
-      street: 'Calle Iglesia, 12',
+      /** Domicilio social según el BORME de 13/03/2026. */
+      street: 'Calle de la Iglesia, 12, local 4',
       /** TODO: código postal. */
       postalCode: '',
-      /** TODO: municipio. */
-      city: '',
+      city: 'Madrid',
       region: 'Comunidad de Madrid',
       country: 'ES',
     },
