@@ -22,23 +22,23 @@ Abre http://localhost:4321. Los cambios se ven al guardar.
 
 ## Dónde se cambia cada cosa
 
-| Quiero cambiar…                                            | Archivo                                                   |
-| ---------------------------------------------------------- | --------------------------------------------------------- |
-| Nombre, dominio, email, teléfono, dirección, menú, botón   | `src/config/site.ts`                                      |
-| Activar la indexación en Google al lanzar                  | `src/config/site.ts` → `indexable: true`                  |
-| Colores, tipografía, espaciados                            | `src/styles/global.css` (bloque `:root`)                  |
-| Un análisis o servicio                                     | `src/content/servicios/<nombre>.md`                       |
-| Un sector (para quién)                                     | `src/content/sectores/<nombre>.md`                        |
-| Una guía o artículo                                        | `src/content/guias/<nombre>.md`                           |
-| Páginas por norma (RD 487/2022, RD 3/2023, piscinas)       | `src/content/normativa.yaml`                              |
-| Frecuencias de análisis (calculadora y tabla resumen)      | `src/data/frecuencias.ts`                                 |
-| Preguntas frecuentes generales                             | `src/content/faq.yaml`                                    |
-| Ventajas, pasos y plazos de la portada y "Cómo trabajamos" | `src/data/home.ts`                                        |
-| Textos legales                                             | `src/pages/aviso-legal.md`, `privacidad.md`, `cookies.md` |
-| Imagen al compartir en redes (una por ficha y norma)       | `npm run og` (ejecútalo al crear o renombrar una ficha)   |
-| Rastreadores de IA permitidos                              | `src/pages/robots.txt.ts`                                 |
-| PDF de informe de ejemplo y cadena de custodia             | `npm run descargables` (los genera desde sus páginas)     |
-| Teléfono, WhatsApp y analítica sin cookies                 | `src/config/site.ts` → `contact` y `analytics`            |
+| Quiero cambiar…                                            | Archivo                                                         |
+| ---------------------------------------------------------- | --------------------------------------------------------------- |
+| Nombre, dominio, email, teléfono, dirección, menú, botón   | `src/config/site.ts`                                            |
+| Activar la indexación en Google al lanzar                  | `src/config/site.ts` → `indexable: true`                        |
+| Colores, tipografía, espaciados                            | `src/styles/global.css` (bloque `:root`)                        |
+| Un análisis o servicio                                     | `src/content/servicios/<nombre>.md`                             |
+| Un sector (para quién)                                     | `src/content/sectores/<nombre>.md`                              |
+| Una guía o artículo                                        | `src/content/guias/<nombre>.md`                                 |
+| Páginas por norma (RD 487/2022, RD 3/2023, piscinas)       | `src/content/normativa.yaml`                                    |
+| Frecuencias de análisis (calculadora y tabla resumen)      | `src/data/frecuencias.ts`                                       |
+| Preguntas frecuentes generales                             | `src/content/faq.yaml`                                          |
+| Ventajas, pasos y plazos de la portada y "Cómo trabajamos" | `src/data/home.ts`                                              |
+| Textos legales                                             | `src/pages/aviso-legal.astro`, `privacidad.astro`, `cookies.md` |
+| Imagen al compartir en redes (una por ficha y norma)       | `npm run og` (ejecútalo al crear o renombrar una ficha)         |
+| Rastreadores de IA permitidos                              | `src/pages/robots.txt.ts`                                       |
+| PDF de informe de ejemplo y cadena de custodia             | `npm run descargables` (los genera desde sus páginas)           |
+| Teléfono, WhatsApp y analítica sin cookies                 | `src/config/site.ts` → `contact` y `analytics`                  |
 
 ### Añadir un servicio nuevo
 
@@ -73,10 +73,10 @@ Hace cuatro cosas: comprueba tipos y contenido, compila, revisa el SEO de cada p
 - [ ] Email, teléfono, WhatsApp, código postal y municipio (la calle ya está).
 - [ ] Formularios: con `contact.form: 'cloudflare'` los recibe el Worker (`worker/index.ts`), que los guarda en D1 y avisa por email. Falta crear la base de datos y poner el buzón de avisos (`docs/cloudflare.md`).
 - [ ] Horario de atención en `contact.hours`.
-- [ ] Textos legales revisados por asesoría.
+- [ ] Textos legales revisados por asesoría (`src/pages/aviso-legal.astro` y `privacidad.astro`; los datos del titular salen de `site.ts`).
 - [x] Identidad Ensayum aplicada (logotipo, favicon, colores, Jost). Si cambias el lema, ejecuta `npm run og`.
 - [ ] Revisión técnica de las guías por el responsable técnico.
-- [ ] `indexable: true` y alta en Google Search Console y Bing Webmaster Tools con el sitemap `https://<dominio>/sitemap-index.xml`.
+- [ ] `indexable: true` (la compilación se para si faltan titular, NIF, email o dirección) y alta en Google Search Console y Bing Webmaster Tools con el sitemap `https://<dominio>/sitemap-index.xml`.
 
 ## Publicación
 

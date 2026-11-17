@@ -1,0 +1,40 @@
+---
+/**
+ * Datos del titular para los textos legales, leídos de src/config/site.ts.
+ * Mientras falte alguno se muestra «pendiente» (y el candado de lanzamiento impide indexar).
+ */
+import { site, addressLine } from '@/config/site';
+
+const pendiente = 'pendiente';
+const rows = [
+  { label: 'Titular', value: site.legalName },
+  { label: 'NIF/CIF', value: site.taxId },
+  {
+    label: 'Domicilio',
+    value: site.contact.address.postalCode && site.contact.address.city ? addressLine() : '',
+  },
+  { label: 'Email', value: site.contact.email.endsWith('@example.com') ? '' : site.contact.email },
+  { label: 'Teléfono', value: site.contact.phoneDisplay || site.contact.phone, optional: true },
+  { label: 'Registro Mercantil', value: site.registry, optional: true },
+];
+---
+
+<ul>
+  {rows
+    .filter((r) => r.value || !r.optional)
+    .map((r) => (
+      <li>
+        {r.label}:{' '}
+        {r.value ? (
+          r.label === 'Email' ? (
+            <a href={`mailto:${r.value}`}>{r.value}</a>
+          ) : (
+            r.value
+          )
+        ) : (
+          <em>{pendiente}</em>
+        )}
+      </li>
+    ))}
+  <li>Nombre comercial: {site.name}</li>
+</ul>

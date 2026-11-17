@@ -45,6 +45,10 @@ const crumbs = breadcrumbs.length ? [{ name: 'Inicio', href: '/' }, ...breadcrum
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#0B3C5D" />
     <meta name="generator" content={Astro.generator} />
+    {site.verification.google && (
+      <meta name="google-site-verification" content={site.verification.google} />
+    )}
+    {site.verification.bing && <meta name="msvalidate.01" content={site.verification.bing} />}
     {site.analytics.plausibleDomain && (
       <script
         defer

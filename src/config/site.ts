@@ -19,8 +19,10 @@ export const site = {
     'Laboratorio de ensayos microbiológicos y ambientales. Aguas, alimentación, ambientes interiores y superficies.',
   /** TODO: razón social exacta cuando se constituya la SL. Vacío = se muestra el nombre comercial. */
   legalName: '',
-  /** TODO: CIF cuando esté la sociedad constituida. */
+  /** TODO: CIF (o NIF del titular mientras no exista la SL). */
   taxId: '',
+  /** Inscripción en el Registro Mercantil (tomo, folio, hoja). Vacío = no se muestra. */
+  registry: '',
 
   /** Dominio definitivo (con https y sin barra final). Se compra aparte: ver docs/cloudflare.md. */
   url: 'https://ensayum.es',
@@ -86,6 +88,15 @@ export const site = {
    */
   analytics: {
     plausibleDomain: '',
+  },
+
+  /**
+   * Verificación de propiedad en buscadores (solo el código del atributo content de la etiqueta
+   * meta que dan). Google Search Console → «Etiqueta HTML»; Bing Webmaster Tools → «Meta tag».
+   */
+  verification: {
+    google: '',
+    bing: '',
   },
 
   /** Perfiles sociales. Vacío = no se muestran. */
@@ -155,4 +166,19 @@ export function addressLine(): string {
 /** Construye una URL absoluta a partir de una ruta del sitio. */
 export function absoluteUrl(path = '/'): string {
   return new URL(path, site.url).toString();
+}
+
+/**
+ * Datos que deben estar completos antes de abrir la web a Google (`indexable: true`).
+ * Si falta alguno, la compilación se para y dice cuál (astro.config.ts).
+ */
+export function pendientesDeLanzamiento(): string[] {
+  const faltan: string[] = [];
+  if (!site.legalName) faltan.push('legalName (titular o razón social)');
+  if (!site.taxId) faltan.push('taxId (NIF o CIF)');
+  if (!site.contact.email || site.contact.email.endsWith('@example.com'))
+    faltan.push('contact.email (email real)');
+  if (!site.contact.address.postalCode) faltan.push('contact.address.postalCode');
+  if (!site.contact.address.city) faltan.push('contact.address.city');
+  return faltan;
 }

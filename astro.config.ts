@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { readdirSync, readFileSync } from 'node:fs';
-import { site } from './src/config/site';
+import { site, pendientesDeLanzamiento } from './src/config/site';
 import { satteri } from '@astrojs/markdown-satteri';
 import glosarioEnlaces from './src/lib/glosario-enlaces.mjs';
 
@@ -23,6 +23,13 @@ function lastmodByPath(): Map<string, string> {
   return map;
 }
 const lastmod = lastmodByPath();
+
+// Candado de lanzamiento: no se abre la web a Google sin titular, NIF, email y dirección.
+if (site.indexable && pendientesDeLanzamiento().length) {
+  throw new Error(
+    `indexable: true, pero faltan datos en src/config/site.ts: ${pendientesDeLanzamiento().join(', ')}.`,
+  );
+}
 
 // https://docs.astro.build/en/reference/configuration-reference/
 export default defineConfig({
