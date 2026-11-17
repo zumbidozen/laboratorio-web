@@ -57,8 +57,8 @@ export const site = {
     /** TODO: WhatsApp en formato internacional sin "+" ni espacios (p. ej. 34600000000). Vacío = no se muestra. */
     whatsapp: '',
     address: {
-      /** Domicilio social según el BORME de 13/03/2026. */
-      street: 'Calle de la Iglesia, 12, local 4',
+      /** Domicilio social (confirmado por el titular). */
+      street: 'Calle de la Iglesia, 12',
       /** TODO: código postal. */
       postalCode: '',
       city: 'Madrid',
