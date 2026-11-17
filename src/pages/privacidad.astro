@@ -1,7 +1,7 @@
 ---
 /**
  * Política de privacidad (RGPD y LOPDGDD). Los datos del responsable salen de src/config/site.ts.
- * TODO asesoría: revisar el texto y añadir el proveedor de correo cuando esté contratado.
+ * TODO asesoría: revisar el texto.
  */
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
@@ -41,6 +41,7 @@ const email = site.contact.email.endsWith('@example.com') ? '' : site.contact.em
     <p>
       La web está alojada en Cloudflare, que recibe los formularios y nos los envía como encargado
       del tratamiento. Los envíos se guardan en una base de datos con ubicación en la Unión Europea.
+      El correo electrónico lo gestiona Zoho, con servidores en la Unión Europea.
     </p>
 
     <h2>Conservación</h2>

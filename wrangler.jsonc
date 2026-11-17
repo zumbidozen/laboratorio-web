@@ -23,13 +23,12 @@
     { "pattern": "ensayum.com", "custom_domain": true },
     { "pattern": "www.ensayum.com", "custom_domain": true },
   ],
-  // Avisos por email de los formularios (gratis hacia direcciones verificadas de la cuenta).
-  "send_email": [{ "name": "EMAIL" }],
+  // Avisos por email de los formularios. Gratis: van a una dirección verificada en Email Routing
+  // de ensayum.com y salen de ese dominio, que no tiene buzones (no toca el correo de ensayum.es).
+  "send_email": [{ "name": "EMAIL", "allowed_destination_addresses": ["info@ensayum.es"] }],
   "vars": {
-    // TODO: buzón que recibe los avisos (verificado en Email Routing → Direcciones de destino).
-    "AVISOS_PARA": "",
-    // TODO: remitente de un dominio dado de alta en Email Sending (p. ej. web@avisos.ensayum.es).
-    "AVISOS_DESDE": "",
+    "AVISOS_PARA": "info@ensayum.es",
+    "AVISOS_DESDE": "web@ensayum.com",
   },
   // Base de datos de envíos (jurisdicción UE). Consulta: D1 → ensayum-formularios → Consola.
   "d1_databases": [

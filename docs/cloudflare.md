@@ -50,15 +50,12 @@ Los pasos marcados con **(tú)** necesitan tu cuenta o un pago. El resto lo hago
 
 ## 6. Avisos de formularios por email
 
-Los avisos salen de `ensayum.com`, que no tiene buzones, para no tocar los registros de correo de `ensayum.es`.
+Los avisos llegan a `info@ensayum.es` y salen de `web@ensayum.com`. Se usa `ensayum.com`, que no tiene buzones, para no tocar los registros de correo de Zoho en `ensayum.es`. Ya está configurado en `wrangler.jsonc`; falta activarlo en Cloudflare (tú):
 
-1. En `ensayum.com`: **Correo electrónico → Email Routing → Activar**. Cloudflare añade sus registros MX y SPF a `ensayum.com`.
-2. **Direcciones de destino → Añadir** → el buzón que recibirá los avisos (por ejemplo `hola@ensayum.es`). Llega un email de verificación: ábrelo y confirma. (tú)
-3. Opcional: una regla para que `hola@ensayum.com` reenvíe a ese buzón.
-4. **Email Service → Email Sending → dar de alta `ensayum.com`**. Cloudflare añade sus registros DNS.
-5. En `wrangler.jsonc` → `vars`: `AVISOS_PARA` = el buzón verificado y `AVISOS_DESDE` = `web@ensayum.com`.
+1. Abre `ensayum.com` → **Correo electrónico → Email Routing → Activar**. Cloudflare añade sus registros a `ensayum.com` (no toca `ensayum.es`).
+2. **Direcciones de destino → Añadir** → `info@ensayum.es`. Llega un email de verificación a ese buzón: ábrelo y confirma.
 
-Enviar a direcciones verificadas de la propia cuenta es gratis en el plan gratuito de Workers. Para mandar emails a cualquier destinatario (por ejemplo, la checklist al cliente) haría falta el plan de pago de Workers.
+Enviar a una dirección verificada de la propia cuenta es gratis. No hace falta el plan de pago ni dar de alta Email Sending. Si el aviso falla, el envío se guarda igualmente en la base de datos.
 
 ## 7. Base de datos de envíos (hecho)
 

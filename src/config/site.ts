@@ -32,7 +32,7 @@ export const site = {
    * false → robots.txt bloquea todo y cada página lleva noindex.
    * Ponlo a true SOLO cuando el dominio, el nombre y los textos legales sean los definitivos.
    */
-  indexable: false,
+  indexable: true,
 
   locale: 'es-ES',
   lang: 'es',
@@ -48,8 +48,8 @@ export const site = {
   tagline: 'Análisis de agua para profesionales, sin papeles ni esperas',
 
   contact: {
-    /** TODO */
-    email: 'hola@example.com',
+    /** Buzón principal (Zoho Mail, servidores en la UE). */
+    email: 'info@ensayum.es',
     /** TODO: formato internacional, sin espacios (se usa en enlaces tel:). */
     phone: '',
     /** Texto del teléfono tal y como se muestra. */
