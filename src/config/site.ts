@@ -59,8 +59,7 @@ export const site = {
     address: {
       /** Domicilio social (confirmado por el titular). */
       street: 'Calle de la Iglesia, 12',
-      /** TODO: código postal. */
-      postalCode: '',
+      postalCode: '28019',
       city: 'Madrid',
       region: 'Comunidad de Madrid',
       country: 'ES',
