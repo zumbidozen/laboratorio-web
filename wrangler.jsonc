@@ -14,6 +14,9 @@
     // Los formularios van siempre al Worker (si no, la capa estática contestaría 405).
     "run_worker_first": ["/api/*"],
   },
+  // Dominios de la web (Cloudflare crea el DNS y el certificado HTTPS). www.ensayum.es y
+  // ensayum.com redirigen a https://ensayum.es con una regla de redirección de cada zona.
+  "routes": [{ "pattern": "ensayum.es", "custom_domain": true }],
   // Avisos por email de los formularios (gratis hacia direcciones verificadas de la cuenta).
   "send_email": [{ "name": "EMAIL" }],
   "vars": {
