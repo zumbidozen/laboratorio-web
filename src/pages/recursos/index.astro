@@ -11,14 +11,14 @@ import { recursos, descargasLibres } from '@/data/recursos';
 <BaseLayout
   hideStickyCta
   title="Recursos descargables: checklists y plantillas"
-  description="Checklists y plantillas en PDF para cumplir la normativa de Legionella y de piscinas: registro de mantenimiento, carpeta de inspección y calendarios."
+  description="Checklists y plantillas en PDF para cumplir la normativa de Legionella, agua de consumo y piscinas: registros, carpeta de inspección y calendarios."
   breadcrumbs={[{ name: 'Recursos', href: '/recursos/' }]}
 >
   <PageHeader
     eyebrow="Recursos"
     icon="clipboard"
     title="Recursos descargables"
-    summary="Checklists y plantillas en PDF para llevar al día los controles que pide la normativa de Legionella y de piscinas. Gratis, para imprimir y usar en cada instalación."
+    summary="Checklists y plantillas en PDF para llevar al día los controles que pide la normativa de Legionella, agua de consumo y piscinas. Gratis, para imprimir y usar en cada instalación."
   />
   <section class="section">
     <div class="container">
@@ -46,7 +46,7 @@ import { recursos, descargasLibres } from '@/data/recursos';
       </div>
       <div class="grid">
         {descargasLibres.map((d) => (
-          <Card href={d.href} title={d.title} text={d.text} icon={d.icon} cta="Ver y descargar" />
+          <Card href={d.href} title={d.title} text={d.text} icon={d.icon} cta={d.cta} />
         ))}
       </div>
     </div>

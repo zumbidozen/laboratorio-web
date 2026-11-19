@@ -8,10 +8,10 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Logo from '@/components/Logo.astro';
 import { site, absoluteUrl } from '@/config/site';
-import type { Recurso } from '@/data/recursos';
 
 export interface Props {
-  recurso: Recurso;
+  /** El recurso o la hoja: de aquí salen el título y la descripción. */
+  recurso: { title: string; description: string };
   /** Antetítulo de la cabecera, p. ej. «Plantilla · Legionella». */
   label: string;
   /** Línea de fecha y fuentes de la cabecera. */

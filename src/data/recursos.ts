@@ -149,12 +149,38 @@ export const checklistPiscinas: Recurso = {
   ...rutas('checklist-piscinas-madrid', 'checklist-piscinas-madrid-ensayum.pdf'),
 };
 
+export const edificiosPrioritarios: Recurso = {
+  id: 'checklist-edificios-prioritarios',
+  title: 'Checklist de edificios prioritarios del RD 3/2023',
+  short: 'Checklist de edificios prioritarios',
+  icon: 'building',
+  description:
+    'Descarga gratis la checklist de edificios prioritarios del RD 3/2023: si te aplica, control en grifo con Legionella, análisis al año, SINAC y fechas clave.',
+  summary:
+    'Cómo saber si tu edificio es prioritario según el RD 3/2023 y qué te toca: control en grifo con Legionella, Plan Sanitario del Agua y notificación en SINAC.',
+  pitch:
+    'Las obligaciones de hospitales, residencias, hoteles y otros grandes edificios con el agua de consumo, en dos páginas: umbrales, parámetros, número de análisis, plazos de SINAC y fechas. Con calendario de muestreo.',
+  bullets: [
+    'Qué edificios son prioritarios y a partir de qué tamaño',
+    'Parámetros del control en grifo y análisis al año según tus puntos de agua',
+    'Plazos para notificar en SINAC, con y sin incumplimiento',
+    'Plan Sanitario del Agua y fechas clave',
+    'Calendario para cuadrarlo con la Legionella del RD 487/2022',
+  ],
+  submit: 'Descargar la checklist',
+  pages: 2,
+  guias: ['edificios-prioritarios-rd-3-2023', 'control-en-grifo-rd-3-2023'],
+  next: { label: 'Calcula tus muestras al año', href: '/calculadora/' },
+  ...rutas('checklist-edificios-prioritarios', 'checklist-edificios-prioritarios-ensayum.pdf'),
+};
+
 /** Todos los recursos con formulario, en el orden en que se muestran en /recursos/. */
 export const recursos: readonly Recurso[] = [
   checklist,
   registroLegionella,
   carpetaInspeccion,
   checklistPiscinas,
+  edificiosPrioritarios,
 ];
 
 /** Recurso por id; si no existe, la checklist. */
@@ -165,18 +191,54 @@ export const recursoPorId = (id?: string): Recurso =>
 export const recursoDeGuia = (guiaId: string): Recurso =>
   recursos.find((r) => r.guias.includes(guiaId)) ?? checklist;
 
-/** Documentos de trabajo que se descargan sin formulario. */
+/**
+ * Hojas de una página que se descargan sin formulario. Su documento está en
+ * `src/pages/recursos/<id>/documento.astro` y `npm run descargables` genera el PDF.
+ */
+export const hojasLibres = [
+  {
+    id: 'protocolo-positivo-legionella',
+    title: 'Protocolo ante un positivo de Legionella',
+    description:
+      'Hoja en PDF con los pasos ante un positivo de Legionella según el RD 487/2022: niveles de actuación, medidas, nuevo análisis y registro.',
+    text: 'Los seis pasos y los niveles de actuación del anexo VIII en una hoja, para tenerla en la sala técnica.',
+    icon: 'bell',
+    printPath: '/recursos/protocolo-positivo-legionella/documento/',
+    pdf: '/descargas/protocolo-positivo-legionella-ensayum.pdf',
+  },
+  {
+    id: 'calendario-normativo',
+    title: 'Calendario normativo de aguas hasta 2030',
+    description:
+      'Calendario en PDF con las fechas clave de la normativa de Legionella, agua de consumo y biocidas hasta 2030, cada una con su fuente en el BOE.',
+    text: 'Las fechas de Legionella, agua de consumo y biocidas hasta 2030, con su fuente, para imprimir.',
+    icon: 'clock',
+    printPath: '/recursos/calendario-normativo/documento/',
+    pdf: '/descargas/calendario-normativo-ensayum.pdf',
+  },
+] as const;
+
+/** Lo que se descarga sin formulario, para el índice /recursos/. */
 export const descargasLibres = [
+  ...hojasLibres.map((h) => ({
+    title: h.title,
+    text: h.text,
+    href: h.pdf,
+    icon: h.icon,
+    cta: 'Descargar el PDF',
+  })),
   {
     title: 'Informe de ejemplo',
     text: 'Un informe de Legionella en co-marca, con cada campo explicado. Los datos son ficticios.',
     href: '/informe-de-ejemplo/',
     icon: 'file',
+    cta: 'Ver y descargar',
   },
   {
     title: 'Hoja de cadena de custodia',
     text: 'La hoja que acompaña a las muestras enviadas sin pedido en el portal, con los campos de Legionella.',
     href: '/cadena-de-custodia/',
     icon: 'truck',
+    cta: 'Ver y descargar',
   },
-] as const;
+];

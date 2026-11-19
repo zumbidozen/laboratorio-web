@@ -62,6 +62,8 @@ Si la muestra es positiva para _L. pneumophila_, el serogrupado ayuda a valorar 
 
 Resultados, medidas aplicadas, fechas y responsables quedan en el registro de la instalación. Es lo primero que pide una inspección.
 
+Para tenerlo a mano en la sala técnica, descarga el [protocolo ante un positivo en una hoja (PDF)](/descargas/protocolo-positivo-legionella-ensayum.pdf).
+
 ## Cómo te ayudamos
 
 - Aviso de posible positivo en 5 días o menos, antes de confirmar.

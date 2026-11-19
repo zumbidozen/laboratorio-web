@@ -1,0 +1,66 @@
+---
+/**
+ * Calendario normativo en una hoja (fuente del PDF, sin formulario).
+ * Las fechas salen de `src/data/calendario.ts`, igual que /calendario-normativo/.
+ */
+import DocLayout from '@/layouts/DocLayout.astro';
+import { hojasLibres } from '@/data/recursos';
+import { hitos } from '@/data/calendario';
+import { formatDate } from '@/lib/content';
+
+const hoja = hojasLibres.find((h) => h.id === 'calendario-normativo')!;
+---
+
+<DocLayout
+  recurso={hoja}
+  label="Calendario · Normativa de aguas"
+  meta="Actualizado en noviembre de 2026 · Fuentes: BOE y Ministerio de Sanidad"
+  disclaimer="Documento de divulgación. No sustituye al texto oficial."
+>
+  <p class="doc__intro">
+    Fechas de la normativa de Legionella, agua de consumo y biocidas, verificadas en los textos
+    consolidados del BOE y en la FAQ del Ministerio de Sanidad.
+  </p>
+  <section class="flow">
+    <table class="hitos">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Qué cambia</th>
+          <th>Afecta a</th>
+          <th>Fuente</th>
+        </tr>
+      </thead>
+      <tbody>
+        {hitos.map((h) => (
+          <tr>
+            <td class="nowrap">{formatDate(new Date(h.date + 'T00:00:00'))}</td>
+            <td>
+              <strong>{h.title}</strong>
+              <br />
+              <span class="small">{h.text}</span>
+            </td>
+            <td>{h.who}</td>
+            <td class="small">{h.source}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <p class="small">
+      Para el fin del periodo transitorio de la toma de Legionella, el BOE dice «hasta el 1 de enero
+      de 2030» y la tabla de fechas de Sanidad indica el 2 de enero de 2030.
+    </p>
+  </section>
+</DocLayout>
+
+<style is:global>
+  .doc .hitos strong {
+    font-weight: 500;
+  }
+  .doc .hitos td:nth-child(3) {
+    width: 13%;
+  }
+  .doc .hitos td:nth-child(4) {
+    width: 20%;
+  }
+</style>

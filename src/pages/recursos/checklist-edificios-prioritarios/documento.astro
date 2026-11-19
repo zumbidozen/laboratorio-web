@@ -1,0 +1,245 @@
+---
+/**
+ * Checklist de edificios prioritarios del RD 3/2023 (fuente del PDF).
+ * Contenido: guías «Edificios prioritarios del RD 3/2023» y «Control en grifo del RD 3/2023».
+ */
+import DocLayout from '@/layouts/DocLayout.astro';
+import { edificiosPrioritarios as recurso } from '@/data/recursos';
+
+const filas = (n: number) => Array.from({ length: n });
+const meses = ['E', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
+---
+
+<DocLayout
+  recurso={recurso}
+  label="Checklist · Agua de consumo"
+  meta="Actualizada en noviembre de 2026 · Fuente: BOE"
+  disclaimer="Documento de divulgación. No sustituye al texto oficial ni al Plan Sanitario del Agua de cada edificio."
+>
+  <p class="doc__intro">
+    Obligaciones del titular de un edificio prioritario con el agua de consumo según el RD 3/2023.
+    Si tienes dudas sobre si tu edificio lo es, compruébalo con la autoridad sanitaria.
+  </p>
+
+  <section>
+    <h2>
+      1. ¿Es un edificio prioritario? <span class="ref">Anexo VIII, tabla 20</span>
+    </h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="tick" />
+          <th>Tipo de edificio</th>
+          <th>A partir de</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="tick" />
+          <td>Hospitales y clínicas</td>
+          <td>200 camas, o con unidades de cuidados aumentados</td>
+        </tr>
+        <tr>
+          <td class="tick" />
+          <td>Residencias</td>
+          <td>200 camas</td>
+        </tr>
+        <tr>
+          <td class="tick" />
+          <td>Hoteles y similares</td>
+          <td>500 plazas</td>
+        </tr>
+        <tr>
+          <td class="tick" />
+          <td>Centros de enseñanza</td>
+          <td>1.000 plazas, o con internado de más de 200 camas</td>
+        </tr>
+        <tr>
+          <td class="tick" />
+          <td>Instalaciones deportivas cubiertas</td>
+          <td>3.000 m²</td>
+        </tr>
+        <tr>
+          <td class="tick" />
+          <td>Centros penitenciarios</td>
+          <td>1.000 plazas</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>2. Lo que debe estar hecho</h2>
+    <ul class="boxes">
+      <li>Edificio registrado en SINAC (desde el 2 de julio de 2024).</li>
+      <li>
+        Plan Sanitario del Agua documentado, basado en la evaluación del riesgo de la instalación
+        interior (desde el 2 de enero de 2025; disposición adicional 9.ª).
+      </li>
+      <li>
+        Medidas correctoras del Plan Sanitario del Agua aplicadas antes del 2 de enero de 2027.
+      </li>
+      <li>
+        Puntos de acceso al agua del edificio contados: de ellos depende el número de análisis.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>
+      3. Control en grifo: qué se analiza <span class="ref">Anexo II</span>
+    </h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Grupo</th>
+          <th>Parámetros</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Microbiología</td>
+          <td>Escherichia coli, recuento de colonias a 22 °C</td>
+        </tr>
+        <tr>
+          <td>Organolépticos y físico-químicos</td>
+          <td>Color, turbidez, pH, conductividad, cloro libre residual</td>
+        </tr>
+        <tr>
+          <td>Metales</td>
+          <td>Plomo</td>
+        </tr>
+        <tr>
+          <td>Edificios prioritarios</td>
+          <td>Además, Legionella spp.</td>
+        </tr>
+        <tr>
+          <td>Unidades de cuidados aumentados (hospitales)</td>
+          <td>Además, Pseudomonas aeruginosa y temperatura del agua fría y caliente</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="small">
+      Valor paramétrico de Legionella en grifo: 100 UFC/L. En los grifos asistenciales de las
+      unidades de cuidados aumentados: no detectable.
+    </p>
+  </section>
+
+  <section>
+    <h2>
+      4. Cuántos análisis al año <span class="ref">Anexo II, tabla 13</span>
+    </h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="tick" />
+          <th>Puntos de acceso al agua</th>
+          <th>Análisis al año</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="tick" />
+          <td>Menos de 50</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td class="tick" />
+          <td>De 50 a 100</td>
+          <td>4</td>
+        </tr>
+        <tr>
+          <td class="tick" />
+          <td>De 100 a 200</td>
+          <td>6</td>
+        </tr>
+        <tr>
+          <td class="tick" />
+          <td>Más de 200</td>
+          <td>6 por los primeros 200 y 1 más por cada 100 o fracción</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="page-break">
+    <h2>5. Con cada resultado</h2>
+    <ul class="boxes">
+      <li>
+        Resultados de Legionella notificados en SINAC en 10 días laborables desde la elaboración del
+        informe.
+      </li>
+      <li>Si hay incumplimiento: notificación en 4 días laborables y medidas correctoras.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>6. Además, la Legionella del RD 487/2022</h2>
+    <ul class="boxes">
+      <li>
+        Como cualquier edificio con agua caliente sanitaria: control de Legionella cada trimestre,
+        en el depósito, el acumulador, el retorno y los puntos terminales.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>7. Calendario de muestreo anual</h2>
+    <p class="small">
+      Una fila por edificio y tipo de control (grifo del RD 3/2023 o Legionella del RD 487/2022).
+      Marca el mes de cada toma.
+    </p>
+    <table class="cal fill">
+      <thead>
+        <tr>
+          <th>Edificio</th>
+          <th class="tipo">Control</th>
+          {meses.map((m) => (
+            <th>{m}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {filas(13).map(() => (
+          <tr>
+            <td />
+            <td />
+            {meses.map(() => (
+              <td />
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <h2>Notificaciones en SINAC</h2>
+    <table class="fill">
+      <thead>
+        <tr>
+          <th>Fecha del informe</th>
+          <th>Edificio</th>
+          <th>¿Incumplimiento?</th>
+          <th>Plazo (10 o 4 días laborables)</th>
+          <th>Fecha de notificación</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filas(6).map(() => (
+          <tr>
+            <td />
+            <td />
+            <td />
+            <td />
+            <td />
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+</DocLayout>
+
+<style is:global>
+  .doc .cal th.tipo {
+    width: 16% !important;
+    text-align: left !important;
+  }
+</style>

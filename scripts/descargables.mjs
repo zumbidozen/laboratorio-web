@@ -11,7 +11,7 @@ import { createServer } from 'node:http';
 import { readFile, mkdir, stat } from 'node:fs/promises';
 import { extname, join } from 'node:path';
 import { chromium } from 'playwright';
-import { recursos } from '../src/data/recursos.ts';
+import { recursos, hojasLibres } from '../src/data/recursos.ts';
 
 const root = new URL('../', import.meta.url).pathname;
 const dist = join(root, 'dist');
@@ -40,6 +40,7 @@ const jobs = [
   ['/informe-de-ejemplo/', 'informe-ejemplo-ensayum.pdf'],
   ['/cadena-de-custodia/', 'cadena-de-custodia-ensayum.pdf'],
   ...recursos.map((r) => [r.printPath, r.pdf.split('/').pop(), r]),
+  ...hojasLibres.map((h) => [h.printPath, h.pdf.split('/').pop()]),
 ];
 await mkdir(join(root, 'public/descargas'), { recursive: true });
 const browser = await chromium.launch();
