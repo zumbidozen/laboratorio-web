@@ -1,0 +1,252 @@
+---
+/**
+ * Documento imprimible de un recurso descargable (fuente de su PDF).
+ * `npm run descargables` lo convierte en PDF. No se indexa.
+ * Cada `<section class="page-break">` empieza página nueva.
+ * Los colores van fijos: el PDF es siempre en claro y con los colores de la marca.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Logo from '@/components/Logo.astro';
+import { site, absoluteUrl } from '@/config/site';
+import type { Recurso } from '@/data/recursos';
+
+export interface Props {
+  recurso: Recurso;
+  /** Antetítulo de la cabecera, p. ej. «Plantilla · Legionella». */
+  label: string;
+  /** Línea de fecha y fuentes de la cabecera. */
+  meta: string;
+  /** Aviso del pie. */
+  disclaimer?: string;
+}
+const {
+  recurso,
+  label,
+  meta,
+  disclaimer = 'Documento de divulgación. No sustituye al texto oficial ni al plan de cada instalación.',
+} = Astro.props;
+---
+
+<BaseLayout hideStickyCta title={recurso.title} description={recurso.description} noindex>
+  <article class="doc">
+    <header class="doc__head">
+      <Logo height={22} />
+      <div>
+        <p class="doc__label">{label}</p>
+        <p class="doc__meta">{meta}</p>
+      </div>
+    </header>
+    <h1>{recurso.title}</h1>
+    <slot />
+    <footer class="doc__foot">
+      <p>
+        {site.name} · {site.descriptor} · {site.contact.email} ·{' '}
+        {absoluteUrl('/').replace(/\/$/, '')}
+      </p>
+      <p>{disclaimer}</p>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style is:global>
+  .doc {
+    max-width: 52rem;
+    margin: var(--space-5) auto;
+    padding: 2rem;
+    background: #fff;
+    color: #0b3c5d;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    --color-logo: #0b3c5d;
+  }
+  .doc__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.8rem;
+    border-bottom: 2px solid #0b3c5d;
+  }
+  .doc__head > div {
+    text-align: right;
+  }
+  .doc__label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #0e7068;
+  }
+  .doc__meta {
+    font-size: 0.72rem;
+    color: #4a5e6d;
+  }
+  .doc h1 {
+    font-size: 1.7rem;
+    font-weight: 400;
+    margin-top: 1rem;
+    color: #0b3c5d;
+  }
+  .doc__intro {
+    margin-top: 0.4rem;
+    color: #4a5e6d;
+  }
+  .doc h2 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 1.1rem 0 0.4rem;
+    color: #0b3c5d;
+  }
+  .doc h2 .ref {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #0e7068;
+    white-space: nowrap;
+  }
+  .doc .boxes {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.25rem;
+  }
+  .doc .boxes li {
+    position: relative;
+    padding-left: 1.4rem;
+  }
+  .doc .boxes li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.25em;
+    width: 0.8rem;
+    height: 0.8rem;
+    border: 1.5px solid #0b3c5d;
+    border-radius: 2px;
+  }
+  .doc .steps {
+    padding-left: 1.3rem;
+    display: grid;
+    gap: 0.25rem;
+  }
+  .doc table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.3rem 0;
+  }
+  .doc th,
+  .doc td {
+    border: 1px solid #dde6ec;
+    padding: 0.3rem 0.45rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  .doc th {
+    background: #f3f6f8;
+    font-weight: 500;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  /* Tablas para rellenar a mano: filas vacías con altura de escritura. */
+  .doc .fill td {
+    height: 1.75rem;
+  }
+  .doc .fill--tight td {
+    height: 1.32rem;
+    padding-block: 0.1rem;
+  }
+  .doc .fill--tall td {
+    height: 2.5rem;
+  }
+  .doc .fill .num {
+    width: 2.2rem;
+    text-align: center;
+    vertical-align: middle;
+    color: #4a5e6d;
+    font-size: 0.75rem;
+  }
+  /* Ficha de datos: etiqueta a la izquierda y hueco para escribir. */
+  .doc .form th {
+    width: 24%;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.78rem;
+    vertical-align: middle;
+  }
+  .doc .form td {
+    width: 26%;
+    height: 1.7rem;
+  }
+  /* Columna de casilla en las listas de comprobación en tabla. */
+  .doc .tick {
+    width: 2rem;
+  }
+  .doc .tick::before {
+    content: '';
+    display: block;
+    width: 0.8rem;
+    height: 0.8rem;
+    margin: 0.15rem auto 0;
+    border: 1.5px solid #0b3c5d;
+    border-radius: 2px;
+  }
+  .doc th.tick::before {
+    display: none;
+  }
+  .doc .small {
+    font-size: 0.75rem;
+    color: #4a5e6d;
+  }
+  .doc .nowrap {
+    white-space: nowrap;
+  }
+  .doc .cal th:not(:first-child) {
+    text-align: center;
+    width: 5.5%;
+  }
+  .doc .sign {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+  .doc .sign p {
+    margin-top: 2.6rem;
+    padding-top: 0.2rem;
+    border-top: 1px solid #0b3c5d;
+    font-size: 0.75rem;
+    color: #4a5e6d;
+  }
+  .doc__foot {
+    margin-top: 1.2rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid #dde6ec;
+    font-size: 0.7rem;
+    color: #4a5e6d;
+  }
+  @media print {
+    .header,
+    .footer,
+    .whatsapp {
+      display: none !important;
+    }
+    .doc {
+      margin: 0;
+      padding: 0;
+      max-width: none;
+    }
+    .doc .page-break {
+      break-before: page;
+    }
+    .doc section,
+    .doc tr {
+      break-inside: avoid;
+    }
+    .doc .page-break,
+    .doc .flow {
+      break-inside: auto;
+    }
+    @page {
+      size: A4;
+      margin: 12mm;
+    }
+  }
+</style>

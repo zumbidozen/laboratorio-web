@@ -1,36 +1,41 @@
 ---
 /**
- * Bloque de descarga del lead magnet (checklist en PDF a cambio del email).
- * Se usa en las guías, el glosario, el calendario y la calculadora.
+ * Bloque de descarga de un recurso (PDF a cambio del email).
+ * Se usa en las guías, el glosario, el calendario, la calculadora y /recursos/.
+ * Sin `recurso`, ofrece la checklist de Legionella.
  */
 import WebForm from '@/components/WebForm.astro';
 import Icon from '@/components/Icon.astro';
 import DocPreview from '@/components/DocPreview.astro';
-import { checklist } from '@/data/recursos';
+import { recursoPorId } from '@/data/recursos';
 
 export interface Props {
+  /** Id del recurso de `src/data/recursos.ts`. */
+  recurso?: string;
   /** Dónde se muestra (se guarda con el envío para saber qué página convierte). */
   origin: string;
   /** Vista previa más grande (página del recurso). */
   large?: boolean;
 }
-const { origin, large = false } = Astro.props;
+const { recurso, origin, large = false } = Astro.props;
+const r = recursoPorId(recurso);
+const headingId = `magnet-${r.id}-${origin}`;
 ---
 
 <aside
   data-pagefind-ignore
   class:list={['magnet', { 'magnet--large': large }]}
-  aria-labelledby={`magnet-${origin}`}
+  aria-labelledby={headingId}
 >
   <div class="magnet__visual">
-    <DocPreview size={large ? 'lg' : 'md'} />
+    <DocPreview recurso={r.id} size={large ? 'lg' : 'md'} />
   </div>
   <div class="magnet__copy">
     <p class="eyebrow">Descarga gratuita · PDF</p>
-    <h2 id={`magnet-${origin}`}>{checklist.title}</h2>
-    <p>{checklist.pitch}</p>
+    <h2 id={headingId}>{r.title}</h2>
+    <p>{r.pitch}</p>
     <ul class="checklist">
-      {checklist.bullets.map((b) => (
+      {r.bullets.map((b) => (
         <li>
           <Icon name="check" />
           <span>{b}</span>
@@ -39,13 +44,7 @@ const { origin, large = false } = Astro.props;
     </ul>
   </div>
   <div class="magnet__form">
-    <WebForm
-      name={checklist.formName}
-      submit="Descargar la checklist"
-      success={checklist.thanks}
-      mailSubject={checklist.title}
-      compact
-    >
+    <WebForm name={r.formName} submit={r.submit} success={r.thanks} mailSubject={r.title} compact>
       <input type="hidden" name="origen" value={origin} />
       <label class="field">
         <span>Email profesional</span>
@@ -61,6 +60,7 @@ const { origin, large = false } = Astro.props;
           <option>Empresa de mantenimiento o de control de Legionella</option>
           <option>Responsable de un edificio o instalación</option>
           <option>Gestor de piscinas</option>
+          <option>Administrador de fincas o comunidad de propietarios</option>
           <option>Otro</option>
         </select>
       </label>

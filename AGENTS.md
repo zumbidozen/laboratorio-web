@@ -8,7 +8,7 @@ Web estática en Astro de un laboratorio de análisis de aguas en Madrid que ven
 - `npm run verify`: tipos + compilación + revisión SEO + formato. Ejecútalo antes de dar un cambio por terminado; debe acabar sin errores.
 - `npm run format`: aplica Prettier.
 - `npm run og`: regenera las imágenes para redes (general y una por guía, servicio, sector y norma). Ejecútalo al crear o renombrar cualquiera de ellos.
-- `npm run descargables`: regenera los PDF y las vistas previas de la checklist.
+- `npm run descargables`: regenera los PDF descargables y sus vistas previas (necesita Playwright).
 - `npm run vigilar-boe`: comprueba si el BOE ha cambiado las normas citadas (también corre cada lunes en GitHub y abre un aviso). Tras revisar las guías, `npm run vigilar-boe -- --guardar` actualiza la referencia.
 
 ## Dónde va cada cambio
@@ -16,6 +16,7 @@ Web estática en Astro de un laboratorio de análisis de aguas en Madrid que ven
 - Datos globales (nombre, dominio, contacto, menú, indexación, acreditación): solo `src/config/site.ts`. Nunca escribas el nombre, el email o el dominio a mano en una página o componente: léelos de `site`.
 - Contenido: `src/content/{servicios,sectores,guias}/*.md`, `src/content/faq.yaml`, `src/content/planes.yaml` y `src/content/normativa.yaml` (una página por norma que reúne sus guías por etiqueta, sus fechas y sus tablas). Los esquemas están en `src/content.config.ts`; si añades un campo, añádelo allí.
 - Textos de bloques de la portada y de "Cómo trabajamos": `src/data/home.ts`.
+- Recursos descargables (PDF a cambio del email): una entrada en `src/data/recursos.ts` y su documento en `src/pages/recursos/<id>/documento.astro` con `DocLayout`. La página del recurso, la de gracias, el índice `/recursos/` y el bloque `LeadMagnet` salen solos; `guias` decide en qué guías se ofrece. Después, `npm run descargables`.
 - Frecuencias de análisis (calculadora, `/frecuencias-de-analisis/` y páginas por norma): solo `src/data/frecuencias.ts`; se pintan con `FrequencyTables`.
 - Ideas clave de una guía (`keyPoints`): cada una tiene su ancla `#dato-…`; termínala con `[n]` para mostrar al lado la fuente n de `sources`.
 - Estilos: variables en `:root` de `src/styles/global.css`. Los componentes usan esas variables; no metas colores sueltos.

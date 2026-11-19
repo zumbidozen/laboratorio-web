@@ -1,0 +1,241 @@
+---
+/**
+ * Checklist de temporada de piscinas en Madrid (fuente del PDF).
+ * Contenido: guías «Piscinas en Madrid: Decreto 99/2024» y «Pseudomonas aeruginosa en piscinas».
+ */
+import DocLayout from '@/layouts/DocLayout.astro';
+import { checklistPiscinas as recurso } from '@/data/recursos';
+
+const filas = (n: number) => Array.from({ length: n });
+const meses = ['E', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
+---
+
+<DocLayout
+  recurso={recurso}
+  label="Checklist · Piscinas"
+  meta="Actualizada en noviembre de 2026 · Fuentes: BOE, BOCM y Comunidad de Madrid"
+  disclaimer="Documento de divulgación. No sustituye al texto oficial ni al protocolo de autocontrol de cada piscina."
+>
+  <p class="doc__intro">
+    Controles del agua del vaso que piden el RD 742/2013 y el Decreto 99/2024 de la Comunidad de
+    Madrid a las piscinas de uso público. El protocolo de autocontrol de cada piscina o la autoridad
+    sanitaria pueden pedir más.
+  </p>
+
+  <section>
+    <h2>1. ¿Qué controles te tocan?</h2>
+    <ul class="boxes">
+      <li>
+        Piscinas de uso público y de comunidades de propietarios de más de 30 viviendas: control
+        inicial, de rutina y periódico.
+      </li>
+      <li>
+        Comunidades de hasta 30 viviendas: exentas de estos controles en Madrid, salvo que la
+        autoridad competente los pida (Decreto 99/2024, art. 16.3). Su agua debe cumplir igualmente
+        el anexo I (RD 742/2013, arts. 3.2 y 10).
+      </li>
+      <li>
+        Vasos climatizados con aerosolización (spas e hidromasajes): además, Legionella. Si es una
+        instalación del RD 487/2022, cada mes.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2. Antes de abrir</h2>
+    <ul class="boxes">
+      <li>
+        Control inicial en laboratorio en la quincena anterior a la apertura (RD 742/2013, art.
+        11.2.a), con los resultados disponibles antes de abrir (Decreto 99/2024, art. 16).
+      </li>
+      <li>
+        Filtros revisados antes de la temporada, con renovación del lecho filtrante si hace falta, y
+        con sistema para medir la diferencia de presión entre entrada y salida (Decreto 99/2024,
+        art. 11.5).
+      </li>
+      <li>
+        El protocolo de autocontrol describe las medidas correctoras ante incumplimientos y ante
+        situaciones de cierre del vaso (guía de autocontrol de la Comunidad de Madrid).
+      </li>
+      <li>
+        Datos de la temporada anterior notificados en SILOE antes del 30 de abril, con los días de
+        incumplimiento de cada vaso (RD 742/2013, art. 15 y anexo IV).
+      </li>
+      <li>Calendario con todas las tomas de la temporada cerrado con el laboratorio (página 3).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3. Cada día: control de rutina, in situ</h2>
+    <ul class="boxes">
+      <li>En Madrid, al menos dos veces al día.</li>
+      <li>
+        Se mide pH, desinfectante, turbidez, transparencia, temperatura y tiempo de recirculación.
+      </li>
+      <li>
+        El agua del vaso tiene siempre desinfectante residual (art. 10.1): cloro libre entre 0,5 y
+        2,0 mg/L, o bromo total entre 2 y 5 mg/L (anexo I).
+      </li>
+      <li>Hidromasaje: hasta 36 °C; por encima de 40 °C se cierra el vaso (anexo I).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. Cada mes: control periódico, en laboratorio</h2>
+    <ul class="boxes">
+      <li>Al menos una vez al mes, con los mismos parámetros que el control inicial.</li>
+      <li>pH y turbidez.</li>
+      <li>Desinfectante: cloro libre y combinado, o bromo.</li>
+      <li>Ácido isocianúrico, si se usan derivados del ácido cianúrico.</li>
+      <li>Escherichia coli y Pseudomonas aeruginosa.</li>
+      <li>En la toma se anotan también la temperatura del agua y la transparencia.</li>
+    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>Parámetro</th>
+          <th>Valor paramétrico (anexo I)</th>
+          <th>Cuándo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Escherichia coli</td>
+          <td>0 UFC o NMP en 100 mL</td>
+          <td>Siempre</td>
+        </tr>
+        <tr>
+          <td>Pseudomonas aeruginosa</td>
+          <td>0 UFC o NMP en 100 mL</td>
+          <td>Siempre</td>
+        </tr>
+        <tr>
+          <td>Legionella spp.</td>
+          <td>Menos de 100 UFC/L</td>
+          <td>Solo vasos climatizados con aerosolización</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="small">
+      El Decreto 99/2024 ya no exige Staphylococcus aureus. Tras dos años de autocontrol con
+      resultados conformes, el RD 742/2013 permite pedir que se reduzca el control periódico.
+    </p>
+  </section>
+
+  <section>
+    <h2>
+      5. Si un resultado incumple <span class="ref">RD 742/2013, art. 12</span>
+    </h2>
+    <ol class="steps">
+      <li>Cerrar el vaso hasta que se normalicen los valores (art. 12.3 y anexo I).</li>
+      <li>
+        Investigar de inmediato el motivo y aplicar medidas correctoras y, en su caso, preventivas
+        (art. 12.1).
+      </li>
+      <li>
+        Informar a los usuarios, en un lugar visible, del incumplimiento, de las medidas y de las
+        recomendaciones sanitarias si hay riesgo (art. 14; Decreto 99/2024, art. 28).
+      </li>
+      <li>Informar a la autoridad competente si así lo dispone (art. 12.1).</li>
+      <li>
+        Comprobar que la causa se ha corregido (art. 12.2). El vaso sigue cerrado hasta que los
+        valores se normalicen, así que hay que repetir el análisis.
+      </li>
+      <li>
+        Registrarlo en el protocolo de autocontrol con las medidas adoptadas (art. 4.3; Decreto
+        99/2024, art. 18.2).
+      </li>
+    </ol>
+    <p class="small">
+      Si el vaso pasa más de dos semanas cerrado, antes de reabrir toca un control inicial completo
+      (art. 11.2.a). Los tratamientos en el propio vaso se hacen con el vaso cerrado, sin bañistas y
+      respetando un plazo de seguridad (art. 6.3).
+    </p>
+  </section>
+
+  <section>
+    <h2>6. Durante la temporada y al cerrar</h2>
+    <ul class="boxes">
+      <li>
+        Situaciones de incidencia del anexo V (ahogamientos, lesiones, intoxicaciones por productos
+        químicos y otras): comunicación a Salud Pública de la Comunidad de Madrid en 5 días (Decreto
+        99/2024, art. 27). Un resultado analítico que incumple no es una incidencia.
+      </li>
+      <li>
+        Días con incumplimiento de cada vaso anotados, para notificarlos en SILOE antes del 30 de
+        abril siguiente.
+      </li>
+    </ul>
+  </section>
+
+  <section class="page-break">
+    <h2>7. Calendario de la temporada</h2>
+    <p class="small">
+      Una fila por vaso. Anota la fecha del control inicial y marca el mes de cada control
+      periódico.
+    </p>
+    <table class="cal fill">
+      <thead>
+        <tr>
+          <th>Piscina y vaso</th>
+          <th class="ini">Control inicial</th>
+          {meses.map((m) => (
+            <th>{m}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {filas(12).map(() => (
+          <tr>
+            <td />
+            <td />
+            {meses.map(() => (
+              <td />
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>8. Registro de incumplimientos</h2>
+    <p class="small">
+      Con los campos que propone la guía de autocontrol de la Comunidad de Madrid.
+    </p>
+    <table class="fill inc">
+      <thead>
+        <tr>
+          <th>Fecha y hora</th>
+          <th>Vaso</th>
+          <th>Descripción del incumplimiento</th>
+          <th>Medidas adoptadas</th>
+          <th>Fecha y hora de subsanación</th>
+          <th>Responsable</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filas(6).map(() => (
+          <tr>
+            <td />
+            <td />
+            <td />
+            <td />
+            <td />
+            <td />
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+</DocLayout>
+
+<style is:global>
+  .doc .cal th.ini {
+    width: 16% !important;
+    text-align: left !important;
+  }
+  .doc .inc td {
+    height: 3.6rem;
+  }
+</style>

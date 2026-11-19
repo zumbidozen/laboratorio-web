@@ -1,46 +1,61 @@
 ---
 /**
- * Vista previa del PDF de la checklist: páginas apiladas como un documento real.
- * Las imágenes las genera `npm run descargables` a partir del propio documento.
+ * Vista previa del PDF de un recurso: páginas apiladas como un documento real.
+ * Las imágenes (`src/assets/recursos/<id>-1.png`…) las genera `npm run descargables`
+ * a partir del propio documento.
  */
+import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
-import p1 from '@/assets/recursos/checklist-1.png';
-import p2 from '@/assets/recursos/checklist-2.png';
-import p3 from '@/assets/recursos/checklist-3.png';
+import { recursoPorId } from '@/data/recursos';
 
 export interface Props {
+  /** Id del recurso de `src/data/recursos.ts` (por defecto, la checklist). */
+  recurso?: string;
   /** Tamaño: 'md' para el bloque de las guías, 'lg' para la página del recurso. */
   size?: 'md' | 'lg';
 }
-const { size = 'md' } = Astro.props;
+const { recurso, size = 'md' } = Astro.props;
+const r = recursoPorId(recurso);
+const todas = import.meta.glob<{ default: ImageMetadata }>('../assets/recursos/*.png', {
+  eager: true,
+});
+const pagina = (n: number) => todas[`../assets/recursos/${r.id}-${n}.png`]?.default;
+const p1 = pagina(1);
+const p2 = pagina(2);
+const p3 = pagina(3);
+// Un recurso nuevo no tiene vista previa hasta que se ejecuta `npm run descargables`.
+if (!p1) console.warn(`Falta la vista previa de «${r.id}»: ejecuta npm run descargables`);
 const widths = size === 'lg' ? [280, 420, 560] : [220, 330, 440];
 const sizes = size === 'lg' ? '(min-width: 900px) 360px, 70vw' : '(min-width: 900px) 260px, 60vw';
 ---
 
-<figure class:list={['preview', `preview--${size}`]}>
-  <div class="preview__stack" aria-hidden="true">
-    <div class="sheet sheet--back">
-      <Image src={p3} alt="" widths={widths} sizes={sizes} loading="lazy" />
+{p1 && (
+  <figure class:list={['preview', `preview--${size}`]}>
+    <div class="preview__stack" aria-hidden="true">
+      {p3 && (
+        <div class="sheet sheet--back">
+          <Image src={p3} alt="" widths={widths} sizes={sizes} loading="lazy" />
+        </div>
+      )}
+      {p2 && (
+        <div class="sheet sheet--mid">
+          <Image src={p2} alt="" widths={widths} sizes={sizes} loading="lazy" />
+        </div>
+      )}
+      <div class="sheet sheet--front">
+        <Image
+          src={p1}
+          alt={`Portada del PDF: ${r.title}`}
+          widths={widths}
+          sizes={sizes}
+          loading="lazy"
+        />
+      </div>
+      <span class="preview__badge">PDF · {r.pages} páginas</span>
     </div>
-    <div class="sheet sheet--mid">
-      <Image src={p2} alt="" widths={widths} sizes={sizes} loading="lazy" />
-    </div>
-    <div class="sheet sheet--front">
-      <Image
-        src={p1}
-        alt="Portada de la checklist de cumplimiento de Legionella 2027"
-        widths={widths}
-        sizes={sizes}
-        loading="lazy"
-      />
-    </div>
-    <span class="preview__badge">PDF · 3 páginas</span>
-  </div>
-  <figcaption class="visually-hidden">
-    Vista previa de la checklist: obligaciones del RD 487/2022 y del RD 3/2023 y plantilla de
-    calendario de muestreo.
-  </figcaption>
-</figure>
+    <figcaption class="visually-hidden">Vista previa del PDF. {r.pitch}</figcaption>
+  </figure>
+)}
 
 <style>
   .preview {

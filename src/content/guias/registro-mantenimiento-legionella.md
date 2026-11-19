@@ -122,7 +122,7 @@ El artículo 19 califica como **infracciones graves**, entre otras:
 - La omisión de datos, la ocultación de informes o no poner a disposición de la autoridad la información que exige el real decreto.
 - Incumplir las obligaciones de formación del personal.
 
-¿Quieres repasarlo punto por punto? Descarga la [checklist de cumplimiento de Legionella](/recursos/checklist-legionella/).
+¿Quieres repasarlo documento a documento? Descarga la [carpeta de inspección de Legionella](/recursos/carpeta-inspeccion-legionella/) y la [plantilla de registro](/recursos/registro-legionella/) para rellenar.
 
 ## Cómo te ayudamos
 

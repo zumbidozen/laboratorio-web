@@ -56,4 +56,4 @@ En los vasos climatizados con aerosolización se controla además Legionella, co
 
 ## Cómo organizar la temporada
 
-Si gestionas varias piscinas, cierra antes de mayo un calendario con todas las tomas: control inicial en la quincena previa a la apertura y un control al mes. Para saber cuántos controles suman tus vasos, usa la [calculadora](/calculadora/). Así reservamos capacidad para el pico de verano y recibes una sola factura al mes.
+Si gestionas varias piscinas, cierra antes de mayo un calendario con todas las tomas: control inicial en la quincena previa a la apertura y un control al mes. Para saber cuántos controles suman tus vasos, usa la [calculadora](/calculadora/). La [checklist de temporada de piscinas](/recursos/checklist-piscinas-madrid/) trae un calendario para rellenar. Así reservamos capacidad para el pico de verano y recibes una sola factura al mes.

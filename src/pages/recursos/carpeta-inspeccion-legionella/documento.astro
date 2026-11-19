@@ -1,0 +1,274 @@
+---
+/**
+ * Carpeta de inspección de Legionella: lista de documentos (fuente del PDF).
+ * Contenido: guía «Registro de Legionella: qué anotar y cuánto guardarlo».
+ */
+import DocLayout from '@/layouts/DocLayout.astro';
+import { carpetaInspeccion as recurso } from '@/data/recursos';
+
+/** [documento, referencia] por bloque de la carpeta. */
+const bloques: { titulo: string; docs: [string, string][] }[] = [
+  {
+    titulo: '1. El plan',
+    docs: [
+      [
+        'Diagnóstico inicial y descripción de la instalación: datos técnicos, de funcionamiento, diseño y ubicación',
+        'Art. 8.2.a',
+      ],
+      [
+        'Plano o esquema de cada instalación con el circuito hidráulico, actualizado con cada modificación y su fecha',
+        'Art. 8.2.a',
+      ],
+      [
+        'Puntos de toma de muestra y de posible emisión de aerosoles, señalados en el plano',
+        'Art. 8.2.a',
+      ],
+      ['Programa de mantenimiento y revisión', 'Art. 8.2.b'],
+      ['Programa de tratamiento, con la limpieza y desinfección', 'Art. 8.2.b'],
+      ['Programa de muestreo y análisis', 'Art. 8.2.b'],
+      ['Programa de formación del personal', 'Art. 8.2.b'],
+    ],
+  },
+  {
+    titulo: '2. Los controles del día a día',
+    docs: [
+      [
+        'Registro de cada control con su resultado: temperaturas, desinfectante, pH, purgas, revisión de depósitos y de puntos terminales',
+        'Anexos IV y V',
+      ],
+      ['Incidencias y medidas adoptadas en cada control', 'Art. 8.2.c'],
+      [
+        'Componentes deteriorados: fecha en que se detectó, fecha de reparación o sustitución y quién la hizo',
+        'Anexo IV',
+      ],
+      ['Fechas de paradas y puestas en marcha técnicas, con su motivo', 'Art. 8.2.c'],
+      [
+        'Declaración responsable del responsable técnico, del titular o de su representante legal',
+        'Art. 8.2.c',
+      ],
+    ],
+  },
+  {
+    titulo: '3. Los análisis',
+    docs: [
+      ['Registro de cada toma de muestras con todos sus datos', 'Anexo VI, parte G'],
+      [
+        'Informes del laboratorio, con el cultivo de Legionella por método acreditado según UNE-EN ISO/IEC 17025',
+        'Art. 12.1',
+      ],
+      ['Los informes indican la incertidumbre y el límite de detección', 'Anexo VII, parte C'],
+      [
+        'Trazabilidad de cada muestra: lo planificado, el transporte, el documento de toma, el resultado y las medidas correctoras',
+        'Art. 11.3',
+      ],
+      ['Positivos: medidas aplicadas y resultado del nuevo análisis', 'Anexo VIII'],
+    ],
+  },
+  {
+    titulo: '4. Las limpiezas y desinfecciones',
+    docs: [
+      [
+        'Registro o certificado de cada limpieza y desinfección según el modelo oficial, la haga personal propio o una empresa',
+        'Anexo X',
+      ],
+      [
+        'Firmas de quien hace el tratamiento, del responsable técnico y del titular o responsable de la instalación',
+        'Anexo X',
+      ],
+      [
+        'Agua sanitaria con tratamiento químico: anexo con temperatura y desinfectante en los puntos terminales más alejados y temperatura de los acumuladores, con la hora de cada medida',
+        'Anexo X (RD 614/2024)',
+      ],
+      ['Tratamientos de choque por casos o brotes: resultados de cada medición', 'Anexo IX'],
+    ],
+  },
+  {
+    titulo: '5. El personal',
+    docs: [
+      [
+        'Programa de formación que relaciona cada tarea con el nivel de conocimiento necesario y cómo se adquiere (no basta una lista de títulos)',
+        'Art. 18.2',
+      ],
+      [
+        'Personal del programa de tratamiento: cualificación SEA492_2 o certificado de profesionalidad equivalente (según Sanidad, exigible desde el 2 de enero de 2028)',
+        'Art. 18.5',
+      ],
+      [
+        'Quien aplica biocidas: capacitación según el RD 952/2026 desde el 1 de julio de 2027',
+        'RD 952/2026',
+      ],
+      [
+        'Personal de operaciones menores (medir temperatura, biocida o pH), incluido en el plan de formación',
+        'Art. 18.3',
+      ],
+    ],
+  },
+  {
+    titulo: '6. Los productos y equipos',
+    docs: [
+      [
+        'Biocidas autorizados y registrados o notificados, con nombre comercial y número de registro',
+        'Art. 16.1',
+      ],
+      [
+        'Fichas de datos técnicos y de seguridad de los demás productos de limpieza y tratamiento',
+        'Anexo X',
+      ],
+      [
+        'Sistemas físicos de desinfección: declaración responsable de seguridad del fabricante y documentación de eficacia',
+        'Art. 17.1',
+      ],
+      ['Neutralizante disponible en la instalación para quien tome las muestras', 'Art. 14.2'],
+      ['Kits de análisis in situ conformes con UNE-ISO 17381:2012', 'Anexo VII, parte D'],
+      ['Equipos de medida dentro de su periodo de calibración', 'Anexo VI, parte C'],
+    ],
+  },
+  {
+    titulo: '7. Contratos y notificaciones',
+    docs: [
+      [
+        'Contrato con la empresa de servicios, con las tareas contratadas descritas por escrito y el responsable técnico identificado si es externo',
+        'Art. 5.4 y 5.7',
+      ],
+      [
+        'Torres y condensadores evaporativos: notificación de puesta en funcionamiento en un mes (y de la baja)',
+        'Art. 5.3 y anexo II',
+      ],
+      [
+        'Instalaciones nuevas o remodeladas: declaración responsable de los requisitos de diseño',
+        'Art. 6.1 y anexo III',
+      ],
+      [
+        'Edificios prioritarios: resultados de Legionella del agua sanitaria notificados en SINAC',
+        'Art. 11.7',
+      ],
+    ],
+  },
+];
+---
+
+<DocLayout
+  recurso={recurso}
+  label="Lista de documentos · Legionella"
+  meta="Actualizada en noviembre de 2026 · Fuentes: BOE y Ministerio de Sanidad"
+>
+  <p class="doc__intro">
+    Los documentos del plan de prevención y control (PPCL) que exige el RD 487/2022, modificado por
+    el RD 614/2024. Repasa la carpeta de cada instalación: marca lo que está y anota dónde se guarda
+    o qué falta. Con un plan sanitario (PSL), la autoridad revisa su auditoría.
+  </p>
+
+  <section>
+    <h2>Antes de empezar</h2>
+    <table class="form">
+      <tbody>
+        <tr>
+          <th>Instalación</th>
+          <td />
+          <th>Titular</th>
+          <td />
+        </tr>
+        <tr>
+          <th>Revisada por</th>
+          <td />
+          <th>Fecha de la revisión</th>
+          <td />
+        </tr>
+      </tbody>
+    </table>
+    <ul class="boxes">
+      <li>
+        La documentación está en la propia instalación, a disposición del personal de mantenimiento,
+        de las empresas contratadas y de la autoridad sanitaria (art. 8.4).
+      </li>
+      <li>
+        Cada documento se guarda al menos cinco años desde que se genera (art. 8.5); según Sanidad,
+        también los datos de las lecturas en continuo.
+      </li>
+    </ul>
+  </section>
+
+  <section class="flow">
+    <table class="docs">
+      <thead>
+        <tr>
+          <th class="tick" />
+          <th>Documento</th>
+          <th class="refcol">Dónde lo dice</th>
+          <th class="where">Dónde está o qué falta</th>
+        </tr>
+      </thead>
+      {bloques.map((b) => (
+        <tbody>
+          <tr class="group">
+            <td colspan="4">
+              <h2>{b.titulo}</h2>
+            </td>
+          </tr>
+          {b.docs.map(([doc, ref]) => (
+            <tr>
+              <td class="tick" />
+              <td>{doc}</td>
+              <td class="small">{ref}</td>
+              <td />
+            </tr>
+          ))}
+        </tbody>
+      ))}
+    </table>
+  </section>
+
+  <section>
+    <h2>
+      Qué puede hacer la autoridad sanitaria en la inspección <span class="ref">Art. 10.2</span>
+    </h2>
+    <ul class="steps">
+      <li>Revisar la documentación del PPCL o la auditoría del plan sanitario (PSL).</li>
+      <li>Inspeccionar la instalación, controlar parámetros y tomar muestras según el anexo VI.</li>
+      <li>Dictar medidas para corregir o reducir el riesgo.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>
+      Qué es infracción grave <span class="ref">Art. 19</span>
+    </h2>
+    <ul class="steps">
+      <li>
+        La falta de un sistema de control, de alguno de los elementos del plan o de los registros
+        preceptivos.
+      </li>
+      <li>
+        La omisión de datos, la ocultación de informes o no poner a disposición de la autoridad la
+        información que exige el real decreto.
+      </li>
+      <li>Incumplir las obligaciones de formación del personal.</li>
+    </ul>
+    <p class="small">
+      El artículo 19 recoge más supuestos; estos son los que afectan a la documentación.
+    </p>
+  </section>
+</DocLayout>
+
+<style is:global>
+  .doc .docs .refcol {
+    width: 16%;
+  }
+  .doc .docs .where {
+    width: 21%;
+  }
+  .doc .docs {
+    margin-top: 1rem;
+  }
+  .doc .docs .group td {
+    padding: 0.45rem 0.45rem 0.3rem;
+    background: #f3f6f8;
+    break-after: avoid;
+  }
+  .doc .docs .group h2 {
+    margin: 0;
+  }
+  .doc .steps {
+    list-style: disc;
+  }
+</style>

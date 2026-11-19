@@ -141,7 +141,7 @@ export const resourcesNav = [
   { label: 'Frecuencias de análisis', href: '/frecuencias-de-analisis/' },
   { label: 'Calendario normativo', href: '/calendario-normativo/' },
   { label: 'Glosario', href: '/glosario/' },
-  { label: 'Checklist de Legionella (PDF)', href: '/recursos/checklist-legionella/' },
+  { label: 'Recursos descargables (PDF)', href: '/recursos/' },
   { label: 'Preguntas frecuentes', href: '/preguntas-frecuentes/' },
 ] as const;
 

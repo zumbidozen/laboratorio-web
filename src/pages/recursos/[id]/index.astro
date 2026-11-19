@@ -1,35 +1,48 @@
 ---
+/** Página de cada recurso descargable (formulario a cambio del PDF). */
+import type { GetStaticPaths } from 'astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
 import LeadMagnet from '@/components/LeadMagnet.astro';
 import Icon from '@/components/Icon.astro';
-import { checklist } from '@/data/recursos';
+import { recursos } from '@/data/recursos';
+
+export const getStaticPaths = (() =>
+  recursos.map((recurso) => ({
+    params: { id: recurso.id },
+    props: { recurso },
+  }))) satisfies GetStaticPaths;
+
+const { recurso } = Astro.props;
 ---
 
 <BaseLayout
   hideStickyCta
-  title={`${checklist.short} (PDF gratis)`}
-  description="Descarga gratis la checklist de cumplimiento de Legionella: frecuencias del RD 487/2022, toma de muestras, niveles de actuación y fechas hasta 2030."
+  title={`${recurso.short} (PDF gratis)`}
+  description={recurso.description}
   breadcrumbs={[
-    { name: 'Recursos', href: checklist.landing },
-    { name: checklist.short, href: checklist.landing },
+    { name: 'Recursos', href: '/recursos/' },
+    { name: recurso.short, href: recurso.landing },
   ]}
 >
   <PageHeader
     eyebrow="Recurso gratuito"
-    icon="clipboard"
-    title={checklist.title}
-    summary="Todo lo que exige la norma de Legionella en dos páginas, para tenerlo a mano en cada visita y planificar el año sin dejarte ningún muestreo."
+    icon={recurso.icon}
+    title={recurso.title}
+    summary={recurso.summary}
   />
   <section class="section">
     <div class="container stack">
-      <LeadMagnet origin="landing" large />
+      <LeadMagnet recurso={recurso.id} origin="landing" large />
       <p class="note">
         <Icon name="shield" />
         <span>
           Usamos tu email solo para enviarte este recurso y responderte si nos escribes. Más
           información en la <a href="/privacidad/">política de privacidad</a>.
         </span>
+      </p>
+      <p>
+        <a href="/recursos/">Ver todos los recursos descargables</a>
       </p>
     </div>
   </section>

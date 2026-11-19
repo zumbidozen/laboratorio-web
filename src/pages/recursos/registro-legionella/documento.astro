@@ -1,0 +1,410 @@
+---
+/**
+ * Plantilla de registro de mantenimiento de Legionella (fuente del PDF).
+ * Contenido: guías «Registro de Legionella», «Temperaturas del ACS» y «Torres de refrigeración».
+ */
+import DocLayout from '@/layouts/DocLayout.astro';
+import { registroLegionella as recurso } from '@/data/recursos';
+
+const filas = (n: number) => Array.from({ length: n });
+const dias = Array.from({ length: 31 }, (_, i) => i + 1);
+const toma = [
+  ['Establecimiento', 'Tipo de instalación'],
+  ['Punto de muestreo', 'Motivo del muestreo'],
+  ['Día y hora de la toma', 'Quién toma la muestra'],
+  ['Código de la muestra', 'Tipo (agua o biocapa)'],
+  ['Neutralizante usado', 'Volumen'],
+  ['Análisis pedidos', 'Remitente'],
+  ['Transportista', 'Fecha de entrega al transportista'],
+  ['Temperatura in situ', 'Biocida y concentración in situ'],
+  ['N.º de informe del laboratorio', 'Resultado'],
+];
+---
+
+<DocLayout
+  recurso={recurso}
+  label="Plantilla · Legionella"
+  meta="Actualizada en noviembre de 2026 · Fuentes: BOE y Ministerio de Sanidad"
+  disclaimer="Plantilla orientativa. Adáptala al plan de cada instalación; no sustituye al texto oficial ni al modelo del anexo X."
+>
+  <p class="doc__intro">
+    El RD 487/2022 obliga a registrar cada actividad y control del plan de Legionella con su
+    resultado, las incidencias y las medidas adoptadas (art. 8.2.c). Estas hojas recogen los datos
+    que pide la norma. Imprime de cada una las copias que necesites.
+  </p>
+
+  <section>
+    <h2>Cómo llevar el registro</h2>
+    <ul class="boxes">
+      <li>
+        Los registros están en la propia instalación, a disposición del personal de mantenimiento,
+        de las empresas contratadas y de la autoridad sanitaria (art. 8.4).
+      </li>
+      <li>
+        Cada documento se guarda al menos cinco años desde que se genera (art. 8.5). La norma
+        prefiere el formato electrónico, pero no prohíbe el papel.
+      </li>
+      <li>
+        Llevan una declaración responsable del responsable técnico, del titular o de su
+        representante legal (art. 8.2.c).
+      </li>
+      <li>
+        El titular sigue siendo responsable aunque contrate el mantenimiento (art. 5.10); las tareas
+        contratadas se describen por escrito (art. 5.4).
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Datos de la instalación</h2>
+    <table class="form">
+      <tbody>
+        <tr>
+          <th>Titular</th>
+          <td />
+          <th>Establecimiento</th>
+          <td />
+        </tr>
+        <tr>
+          <th>Dirección</th>
+          <td />
+          <th>Tipo de instalación</th>
+          <td />
+        </tr>
+        <tr>
+          <th>Responsable técnico</th>
+          <td />
+          <th>Empresa de servicios</th>
+          <td />
+        </tr>
+        <tr>
+          <th>Periodo del registro</th>
+          <td />
+          <th>Laboratorio</th>
+          <td />
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>
+      Qué se mide y cada cuánto <span class="ref">Anexos IV y V</span>
+    </h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Instalación</th>
+          <th>Qué se mide</th>
+          <th>Frecuencia</th>
+          <th>Valor exigido</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="4">Agua sanitaria</td>
+          <td>Temperatura de los depósitos finales de acumulación</td>
+          <td>Diaria</td>
+          <td>60 °C o más</td>
+        </tr>
+        <tr>
+          <td>Temperatura del circuito de retorno</td>
+          <td>Diaria</td>
+          <td>50 °C o más</td>
+        </tr>
+        <tr>
+          <td>Temperatura del depósito de agua fría</td>
+          <td>Semanal</td>
+          <td>Lo más baja posible; menos de 20 °C</td>
+        </tr>
+        <tr>
+          <td>Temperatura en grifos y duchas, por rotación</td>
+          <td>Mensual</td>
+          <td>50 °C o más, estable antes del minuto</td>
+        </tr>
+        <tr>
+          <td rowspan="2">Torres de refrigeración</td>
+          <td>pH, temperatura y biocida</td>
+          <td>Diaria</td>
+          <td>Los que fije el plan</td>
+        </tr>
+        <tr>
+          <td>Turbidez</td>
+          <td>Semanal</td>
+          <td>La que fije el plan</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="small">
+      Por encima de 25 °C en el depósito de agua fría hay que evaluar el riesgo (anexo IV, parte
+      B.3). Los análisis de laboratorio (Legionella, aerobios, hierro y conductividad) siguen la
+      tabla 3 del anexo V.
+    </p>
+  </section>
+
+  <section class="page-break">
+    <h2>
+      Hoja 1 · Control diario de temperaturas del agua caliente <span class="ref">Anexo IV</span>
+    </h2>
+    <p class="small">
+      Mes y año: ______________________ · Instalación: ______________________________________
+    </p>
+    <table class="fill fill--tight">
+      <thead>
+        <tr>
+          <th class="num">Día</th>
+          <th>Acumulador (60 °C o más)</th>
+          <th>Retorno (50 °C o más)</th>
+          <th>Incidencia y medida adoptada</th>
+          <th>Responsable</th>
+        </tr>
+      </thead>
+      <tbody>
+        {dias.map((d) => (
+          <tr>
+            <td class="num">{d}</td>
+            <td />
+            <td />
+            <td />
+            <td />
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="page-break">
+    <h2>
+      Hoja 2 · Depósito de agua fría, control semanal <span class="ref">Anexo IV, B.3</span>
+    </h2>
+    <table class="fill">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Temperatura</th>
+          <th>Incidencia y medida adoptada</th>
+          <th>Responsable</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filas(6).map(() => (
+          <tr>
+            <td />
+            <td />
+            <td />
+            <td />
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>
+      Hoja 3 · Grifos y duchas, control mensual por rotación <span class="ref">Anexo IV, B.2</span>
+    </h2>
+    <p class="small">Cada mes, puntos distintos, hasta revisarlos todos en el año.</p>
+    <table class="fill">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Punto (planta, estancia, grifo o ducha)</th>
+          <th>Temperatura</th>
+          <th>Incidencia y medida</th>
+          <th>Responsable</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filas(9).map(() => (
+          <tr>
+            <td />
+            <td />
+            <td />
+            <td />
+            <td />
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>
+      Hoja 4 · Torres de refrigeración, control diario <span class="ref">Anexo V, tabla 3</span>
+    </h2>
+    <p class="small">La turbidez se anota una vez por semana.</p>
+    <table class="fill">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>pH</th>
+          <th>Temperatura</th>
+          <th>Biocida</th>
+          <th>Turbidez</th>
+          <th>Incidencia y medida</th>
+          <th>Responsable</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filas(9).map(() => (
+          <tr>
+            <td />
+            <td />
+            <td />
+            <td />
+            <td />
+            <td />
+            <td />
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="page-break">
+    <h2>
+      Hoja 5 · Registro de la toma de muestras <span class="ref">Anexo VI, parte G</span>
+    </h2>
+    <p class="small">
+      Una ficha por muestra. Cada muestra debe poder relacionarse con lo planificado, el transporte,
+      el documento de toma, el resultado y las medidas correctoras (art. 11.3).
+    </p>
+    {filas(2).map(() => (
+      <table class="form toma">
+        <tbody>
+          {toma.map(([a, b]) => (
+            <tr>
+              <th>{a}</th>
+              <td />
+              <th>{b}</th>
+              <td />
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    ))}
+  </section>
+
+  <section>
+    <h2>
+      Hoja 6 · Positivos de Legionella <span class="ref">Anexo VIII</span>
+    </h2>
+    <table class="fill fill--tall">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Punto</th>
+          <th>Resultado (UFC/L)</th>
+          <th>Medidas del anexo VIII aplicadas</th>
+          <th>Fecha del nuevo análisis</th>
+          <th>Resultado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filas(4).map(() => (
+          <tr>
+            <td />
+            <td />
+            <td />
+            <td />
+            <td />
+            <td />
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <p class="small">
+      Nueva determinación de Legionella entre 15 y 30 días después de la limpieza y desinfección.
+    </p>
+  </section>
+
+  <section class="page-break">
+    <h2>
+      Hoja 7 · Componentes deteriorados, paradas y puestas en marcha{' '}
+      <span class="ref">Anexo IV y art. 8.2.c</span>
+    </h2>
+    <table class="fill fill--tall">
+      <thead>
+        <tr>
+          <th>Componente deteriorado</th>
+          <th>Fecha en que se detectó</th>
+          <th>Fecha de reparación o sustitución</th>
+          <th>Quién la hizo</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filas(5).map(() => (
+          <tr>
+            <td />
+            <td />
+            <td />
+            <td />
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <table class="fill fill--tall">
+      <thead>
+        <tr>
+          <th>Fecha de la parada técnica</th>
+          <th>Motivo</th>
+          <th>Fecha de la puesta en marcha</th>
+          <th>Responsable</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filas(5).map(() => (
+          <tr>
+            <td />
+            <td />
+            <td />
+            <td />
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>
+      Hoja 8 · Índice de limpiezas y desinfecciones <span class="ref">Anexo X</span>
+    </h2>
+    <p class="small">
+      Cada limpieza y desinfección genera un registro o certificado según el modelo del anexo X,
+      tanto si la hace personal propio como una empresa. Esta hoja es solo el índice: archiva cada
+      certificado junto a ella.
+    </p>
+    <table class="fill fill--tall">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Instalación y circuito</th>
+          <th>Motivo</th>
+          <th>Quién hizo el tratamiento</th>
+          <th>Certificado archivado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filas(5).map(() => (
+          <tr>
+            <td />
+            <td />
+            <td />
+            <td />
+            <td class="tick" />
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <div class="sign">
+      <p>Fecha</p>
+      <p>Firma del responsable técnico, del titular o de su representante legal</p>
+    </div>
+  </section>
+</DocLayout>
+
+<style is:global>
+  .doc .toma {
+    margin-bottom: 0.9rem;
+  }
+</style>

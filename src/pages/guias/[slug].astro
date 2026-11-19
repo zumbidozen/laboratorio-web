@@ -18,6 +18,7 @@ import {
   ogImageFor,
 } from '@/lib/content';
 import { article, faqPage } from '@/lib/schema';
+import { recursoDeGuia } from '@/data/recursos';
 
 export const getStaticPaths = (async () => {
   const guias = await getGuias();
@@ -156,7 +157,7 @@ const ogImage = ogImageFor('guias', entry.id);
 
   <section class="section section--tight">
     <div class="container">
-      <LeadMagnet origin={`guia-${entry.id}`} />
+      <LeadMagnet recurso={recursoDeGuia(entry.id).id} origin={`guia-${entry.id}`} />
     </div>
   </section>
 
