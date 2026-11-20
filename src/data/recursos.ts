@@ -106,7 +106,7 @@ export const carpetaInspeccion: Recurso = {
   summary:
     'La lista de documentos que puede pedirte la autoridad sanitaria en una inspección de Legionella, para repasar la carpeta de cada instalación antes de que llegue.',
   pitch:
-    'Los documentos del plan de Legionella que puede revisar la autoridad sanitaria, uno a uno y con su artículo del RD 487/2022. Repasa la carpeta de cada instalación y anota qué falta y dónde está.',
+    'Los documentos del plan de Legionella que puede revisar la autoridad sanitaria, uno a uno y con su referencia en la norma. Repasa la carpeta de cada instalación y anota qué falta y dónde está.',
   bullets: [
     'El plan: diagnóstico, plano actualizado y los cuatro programas',
     'Registros de controles, tomas de muestras e informes de laboratorio',
@@ -192,7 +192,7 @@ export const recursoDeGuia = (guiaId: string): Recurso =>
   recursos.find((r) => r.guias.includes(guiaId)) ?? checklist;
 
 /**
- * Hojas de una página que se descargan sin formulario. Su documento está en
+ * Hojas breves que se descargan sin formulario. Su documento está en
  * `src/pages/recursos/<id>/documento.astro` y `npm run descargables` genera el PDF.
  */
 export const hojasLibres = [
